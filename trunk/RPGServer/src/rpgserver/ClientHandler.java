@@ -30,13 +30,32 @@ public class ClientHandler implements Runnable {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(sckClient.getInputStream()));
 
+            PrintWriter out = new PrintWriter(sckClient.getOutputStream(), true);
+
+            NetworkStreamParser netIn = new  NetworkStreamParser(in);
+
+            NetworkStreamWriter netOut = new NetworkStreamWriter(out);
+
+
             while (true) {
-
-                while (!in.ready()) {}
-
-                char opcode[] = new char[2];
-                in.read(opcode,0,2);
                 
+                char[] message = netIn.getNextMessage();
+
+                int op = 255 * message[0] + message[1];
+
+                switch(op) {
+
+                    case 'P'*255 + 'G':
+
+                        netOut.sendPingReply();
+
+                        break;
+
+                    default:
+
+                        break;
+
+                }
             }
 
 
