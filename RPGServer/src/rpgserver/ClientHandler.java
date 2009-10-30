@@ -25,21 +25,29 @@ public class ClientHandler implements Runnable {
     }
 
     public void run() {
-        
+
+        BufferedReader in;
+        PrintWriter out;
+
         try {
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(sckClient.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(sckClient.getInputStream()));
 
-            PrintWriter out = new PrintWriter(sckClient.getOutputStream(), true);
+            out = new PrintWriter(sckClient.getOutputStream(), true);
 
             NetworkStreamParser netIn = new  NetworkStreamParser(in);
 
             NetworkStreamWriter netOut = new NetworkStreamWriter(out);
 
+            System.out.println("Client Connected from: " + sckClient.getInetAddress());
 
-            while (true) {
+            while (!sckClient.isInputShutdown()) {
                 
-                char[] message = netIn.getNextMessage();
+                char[] message = null;
+                message = netIn.getNextMessage();
+
+                if (message == null) return;
+
 
                 int op = 255 * message[0] + message[1];
 
@@ -62,7 +70,17 @@ public class ClientHandler implements Runnable {
 
         } catch (Exception e) {
 
-            System.out.println("Server Error.");
+            System.out.println("Server Error." +  e);
+            
+
+        }
+
+        try {
+
+            sckClient.close();
+            System.out.println("Client connection closed.");
+
+        } catch (Exception e) {
 
         }
 

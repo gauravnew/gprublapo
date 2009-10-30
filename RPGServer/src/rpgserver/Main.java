@@ -27,12 +27,16 @@ public class Main {
 
             //Open a network socket at port 1234 and wait for incoming connections.
             ServerSocket srvr = new ServerSocket(1234);
-
-            //Accept incoming connections.
-            Socket client = srvr.accept();
-
-            ClientHandler cHandler = new ClientHandler(client, semaphore);
-            new Thread(cHandler).start();
+            while (true) {
+                //Accept incoming connections.
+                Socket client = srvr.accept();
+                
+                if (client != null) {
+                    ClientHandler cHandler = new ClientHandler(client, semaphore);
+                    new Thread(cHandler).start();
+                }
+                
+            }
 
         } catch (Exception e) {
             

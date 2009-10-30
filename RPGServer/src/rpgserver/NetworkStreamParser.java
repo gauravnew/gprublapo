@@ -39,6 +39,8 @@ public class NetworkStreamParser {
 
                 default:
 
+                    System.out.println("Server Error : Unidentified Network OPCODE.");
+                    
                     return null;
                     
             }
