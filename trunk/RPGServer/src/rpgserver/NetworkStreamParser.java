@@ -1,55 +1,50 @@
 /*
- * This class parses packets recieved from the client.
+ * Filename : NetworkStreamParser.java
+ * Description : This class parses packets recieved
+ * from the client.
  */
 
 package rpgserver;
 
 import java.io.*;
+import java.util.concurrent.*;
+import java.util.*;
 
 /**
- *
+ * NetworkStreamParser class
  * @author gm
  */
 public class NetworkStreamParser {
 
-    private BufferedReader netIn;
+    private Scanner netIn;
+    private Semaphore semaphore;
 
-    public NetworkStreamParser(BufferedReader in) {
+    public NetworkStreamParser(Scanner in, Semaphore s) {
 
+        semaphore = s;
         netIn = in;
         
     }
 
-    public char [] getNextMessage() {
+    public int getNextMessageOPCode() {
 
         try {
 
-            while (!netIn.ready()) {}
+            if (netIn.hasNextShort()) {
 
-            char opcode[] = new char[2];
-            netIn.read(opcode,0,2);
+                short opcode = 0;
+                opcode = netIn.nextShort();
 
-            int op = 255 * opcode[0] + opcode[1];
-
-            switch(op) {
-
-                case 'P'*255 + 'G':
-                    
-                    return opcode;
-
-                default:
-
-                    System.out.println("Server Error : Unidentified Network OPCODE.");
-                    
-                    return null;
-                    
+                return opcode;
+            } else {
+                return 0;
             }
 
         } catch (Exception e) {
 
-            System.out.println("Server Error.");
+            System.out.println("Internal Server Error.");
 
-            return null;
+            return 0;
 
         }
         

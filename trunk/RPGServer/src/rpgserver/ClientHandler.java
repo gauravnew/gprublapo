@@ -1,6 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : ClientHandler.java
+ * Description : Handles an individual client in
+ * an independent thread.
  */
 
 package rpgserver;
@@ -8,9 +9,10 @@ package rpgserver;
 import java.net.*;
 import java.util.concurrent.*;
 import java.io.*;
+import java.util.*;
 
 /**
- *
+ * ClientHandler class
  * @author gm
  */
 public class ClientHandler implements Runnable {
@@ -26,42 +28,41 @@ public class ClientHandler implements Runnable {
 
     public void run() {
 
-        BufferedReader in;
+        Scanner in;
         PrintWriter out;
 
         try {
 
-            in = new BufferedReader(new InputStreamReader(sckClient.getInputStream()));
+            sckClient.setKeepAlive(true);
+            
+            in = new Scanner(new InputStreamReader(sckClient.getInputStream()));
 
             out = new PrintWriter(sckClient.getOutputStream(), true);
 
-            NetworkStreamParser netIn = new  NetworkStreamParser(in);
+            NetworkStreamParser netIn = new  NetworkStreamParser(in, semaphore);
 
             NetworkStreamWriter netOut = new NetworkStreamWriter(out);
 
             System.out.println("Client Connected from: " + sckClient.getInetAddress());
 
-            while (!sckClient.isInputShutdown()) {
-                
-                char[] message = null;
-                message = netIn.getNextMessage();
+            while (!sckClient.isClosed()) {
+                int opcode = 0;
+                opcode = netIn.getNextMessageOPCode();
 
-                if (message == null) return;
+                if (opcode == 0) continue;
 
-
-                int op = 255 * message[0] + message[1];
-
-                switch(op) {
+                switch(opcode) {
 
                     case 'P'*255 + 'G':
 
+                        System.out.println("Ping recieved.");
                         netOut.sendPingReply();
 
                         break;
 
                     default:
 
-                        break;
+                        return;
 
                 }
             }

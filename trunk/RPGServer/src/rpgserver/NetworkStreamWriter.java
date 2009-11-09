@@ -1,17 +1,18 @@
+/*
+ * Filename : NetworkStreamWriter.java
+ * Description : This class is to send messages
+ * from the server to the client. Each possible message
+ * has its own function call.
+ */
+
 package rpgserver;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.io.*;
 
 /**
  *
  * @author gm
  */
-
-import java.io.*;
-
 
 public class NetworkStreamWriter {
     private PrintWriter netOut;
@@ -23,7 +24,8 @@ public class NetworkStreamWriter {
     }
 
     public void sendPingReply() {
-        netOut.println("PG");
+        netOut.print("PG");
+        netOut.flush();
     }
 
 }

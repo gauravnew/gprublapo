@@ -1,6 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : Main.java
+ * Description : Program entrypoint for the Boston
+ * University Game Server running on port 1234.
  */
 
 package rpgserver;
@@ -10,7 +11,7 @@ import java.util.concurrent.*;
 
 
 /**
- *
+ * Program Entry Point
  * @author gm
  */
 public class Main {
