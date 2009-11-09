@@ -1,0 +1,12 @@
+Network Protocol File:
+======================
+
+TEMPLATE:
+---------
+(DIRECTION)[OPCODE]([LENGTH...])([...]...VARIABLES)  //Description
+
+PACKETS:
+--------
+
+[C->S]["PG"]	//Ping Request from client.
+[S->C]["PG"]	//Ping Reply from Server.

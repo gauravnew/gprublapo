@@ -1,0 +1,77 @@
+Main===============================================================================
+Main(String [] args)
+
+	public datamember Semaphore================================================
+
+	Point2D====================================================================
+	datamember float x
+	datamember float y
+	float getDistance(Point2D other)
+	bool equals(Point2D other)
+	void moveTo(float speed, Point2D towards)
+
+	NonPlayerCharacterEngine===================================================
+	implements Runnable
+	void run()
+	bool loadNPCsFromFile(String filename)
+
+	GlobalGameLogic============================================================
+	Thread Synchronized access only
+	dispatchGlobalMessage(char [])
+	getPlayerNetworkWriter(int ActorID)
+	bool checkWinningCondition()
+	...
+
+	GlobalGameDB===============================================================
+	Thread Synchronized access only
+	int createNewActor(NetworkStreamWriter out)
+	bool deleteActor(int ActorID)
+	Point2D getActorPosition(int ActorID)
+	float getActorSpeed(int ActorID)
+	int getActorStatusFlags(int ActorID)
+	int getActorType(int ActorID)
+	void setActorPosition(int ActorID, Point2D)
+	void setActorSpeed(int ActorID, float speed)
+	void setActorStatusFlag(int ActorID, int flag, bool state)
+	void setActorType(int ActorID, int type)	
+	int [] getAllPlayerCharacters()
+		
+		Actor==============================================================
+		datamember int ActorID
+		datamember int type
+		datamember Point2D position
+		datamember Point2D moveto
+		datamember int status
+		datamember float speed
+		
+		Player=============================================================
+		derrives Actor
+		datamember NetworkStreamWriter out;
+		
+
+		NonPlayerCharacter=================================================
+		derrives Actor
+
+	ClientHandler==============================================================
+	implements Runnable
+	void run()
+	
+		NetworkStreamParser================================================
+		Thread Synchronized access only
+		int getNextMessageOPCode()
+		int getInt()
+		float getFloat()
+		char [] readString(int len)
+		short getShort()
+		...
+
+		NetworkStreamWriter================================================
+		Thread Synchronized access only
+		sendRawMessage(char[] message)
+		sendPingReply()
+		sendPortReply(int PORT)
+		sendMaptoClient()
+		sendSetActorPosition(int ActorID, float x, float y)
+		...
+		
+	
