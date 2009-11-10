@@ -18,42 +18,32 @@ import java.util.concurrent.*;
 public class NetworkStreamWriter {
 
     //Network Output stream for a client.
-    private PrintWriter netOut;
-    //Local thread access manager.
-    private Semaphore semaphore;
+    private DataOutputStream netOut;
 
     //Constructor.
-    public NetworkStreamWriter(PrintWriter out) {
+    public NetworkStreamWriter(DataOutputStream out) {
 
         netOut = out;
-        semaphore = new Semaphore(1,true);
 
     }
 
     //Send ping reply packet to client.
     //[S->C]["PG"] (docs/Network Protocol.txt)
-    public void sendPingReply() {
+    public synchronized void sendPingReply() {
 
         try {
 
-            //Enter critical section.
-            semaphore.acquire();
 
             //Write to buffer.
-            netOut.print("PG");
+            netOut.writeShort('P'*256+'G');
 
             //Flush buffer.
             netOut.flush();
-
-            //Leave critical section.
-            semaphore.release();
             
         } catch (Exception e) {
 
             //Error
             System.out.println("Server Error.");
-            //Leave critical section.
-            semaphore.release();
 
         }
     }

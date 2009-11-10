@@ -8,6 +8,8 @@ package rpgserver;
 
 import java.util.concurrent.*;
 import java.util.*;
+import java.util.regex.*;
+import java.io.*;
 
 /**
  * NetworkStreamParser class
@@ -16,51 +18,38 @@ import java.util.*;
 public class NetworkStreamParser {
 
     //Network Input stream from a client.
-    private Scanner netIn;
-    //Local Thread access manager.
-    private Semaphore semaphore;
+    private DataInputStream netIn;
 
     //Constructor.
-    public NetworkStreamParser(Scanner in) {
+    public NetworkStreamParser(DataInputStream in) {
 
-        semaphore = new Semaphore(1,true);
         netIn = in;
         
     }
 
     //Get next 2 byte packet OPCode from the network stream.
-    public int getNextMessageOPCode() {
+    public synchronized int getNextMessageOPCode() {
 
         try {
+                //Is opcode available.
+                if (netIn.available() >= 2) {
 
-            //Enter critical section.
-            semaphore.acquire();
+                    short opcode = 0;
+                    //Get opcode.
+                    opcode = netIn.readShort();
 
-            //Is opcode available.
-            if (netIn.hasNextShort()) {
+                    return opcode;
+                } else {
 
-                short opcode = 0;
-                //Get opcode.
-                opcode = netIn.nextShort();
+                    return 0;
 
-                //Leave critical section.
-                semaphore.release();
-
-                return opcode;
-            } else {
-
-                //Leave critical section.
-                semaphore.release();
-                return 0;
-
-            }
+                }
 
 
         } catch (Exception e) {
 
             System.out.println("Internal Server Error.");
-            //Leave critical section.
-            semaphore.release();
+
             //Return.
             return 0;
 
