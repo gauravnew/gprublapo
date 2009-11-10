@@ -29,20 +29,21 @@ public class ClientHandler implements Runnable {
     public void run() {
 
         //Network input stream.
-        Scanner in;
+        DataInputStream in;
         //Network output stream.
-        PrintWriter out;
+        DataOutputStream out;
 
         try {
 
             //Set TCP::SO_KEEPALIVE flag to true.
             sckClient.setKeepAlive(true);
+            sckClient.setSoTimeout(5);
 
             //Get input stream.
-            in = new Scanner(new InputStreamReader(sckClient.getInputStream()));
+            in = new DataInputStream(sckClient.getInputStream());
 
             //Get output stream.
-            out = new PrintWriter(sckClient.getOutputStream(), true);
+            out = new DataOutputStream(sckClient.getOutputStream());
 
             //Instanciate NetworkStreamParser to manage network input.
             NetworkStreamParser netIn = new  NetworkStreamParser(in);
@@ -62,14 +63,14 @@ public class ClientHandler implements Runnable {
 
                 //If OPCode is zero then no packets have been recieved.
                 //(Non-blocking)
-                if (opcode == 0) continue;
+                if (opcode != 0)
 
                 //Different tasks to do for different types of packets.
                 switch(opcode) {
 
                     //The ping packet has been recieved.
                     //[C->S]["PG"] (docs/Network Protocol.txt)
-                    case 'P'*255 + 'G':
+                    case 'P'*256 + 'G':
 
                         System.out.println("Ping recieved.");
                         //Send ping reply packet to client.
@@ -104,6 +105,7 @@ public class ClientHandler implements Runnable {
             System.out.println("Client connection closed.");
 
         } catch (Exception e) {
+            
             return;
         }
 
