@@ -7,7 +7,6 @@
 package rpgserver;
 
 import java.net.*;
-import java.util.concurrent.*;
 
 
 /**
@@ -16,13 +15,10 @@ import java.util.concurrent.*;
  */
 public class Main {
 
-    public static Semaphore semaphore;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-        semaphore = new Semaphore(1, true);
 
         try {
 
@@ -33,7 +29,7 @@ public class Main {
                 Socket client = srvr.accept();
                 
                 if (client != null) {
-                    ClientHandler cHandler = new ClientHandler(client, semaphore);
+                    ClientHandler cHandler = new ClientHandler(client);
                     new Thread(cHandler).start();
                 }
                 

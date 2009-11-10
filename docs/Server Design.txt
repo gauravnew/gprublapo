@@ -8,7 +8,7 @@ Main(String [] args)
 	datamember float y
 	float getDistance(Point2D other)
 	bool equals(Point2D other)
-	void moveTo(float speed, Point2D towards)
+	void moveTo(float distance, Point2D towards)
 
 	NonPlayerCharacterEngine===================================================
 	implements Runnable
@@ -17,14 +17,20 @@ Main(String [] args)
 
 	GlobalGameLogic============================================================
 	Thread Synchronized access only
+	datamember char [][] map;
+	datamember int mapWidth;
+	datamember int mapHeight;
 	dispatchGlobalMessage(char [])
 	getPlayerNetworkWriter(int ActorID)
 	bool checkWinningCondition()
+	bool loadMapFromFile(String file)
+	Point2D [] getAIFindPath(Point2D start, Point2D end)
 	...
 
 	GlobalGameDB===============================================================
 	Thread Synchronized access only
-	int createNewActor(NetworkStreamWriter out)
+	int createNewPlayerCharacter(NetworkStreamWriter out)
+	int createNewNonPlayerCharacter()
 	bool deleteActor(int ActorID)
 	Point2D getActorPosition(int ActorID)
 	float getActorSpeed(int ActorID)
@@ -43,8 +49,9 @@ Main(String [] args)
 		datamember Point2D moveto
 		datamember int status
 		datamember float speed
+		datamamber long lastMoveTime
 		
-		Player=============================================================
+		PlayerCharacter====================================================
 		derrives Actor
 		datamember NetworkStreamWriter out;
 		
