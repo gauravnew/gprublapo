@@ -27,15 +27,15 @@ public class GlobalGameDatabase {
     //TODO: Complete!
     //This function creates a 'PlayerCharacter' object.
     //Sets its actorID to the next available actorID.
-    //Sets the network output stream of the 'PlayerCharacter'
+    //Sets the client of the 'PlayerCharacter'
     //Puts the 'PlayerCharacter' in the HashTable 'DB'
     //Returns the actorID of the new actor.
-    public synchronized int createNewPlayerCharacter(NetworkStreamWriter out) throws InterruptedException {
+    public synchronized int createNewPlayerCharacter(ClientHandler c) throws InterruptedException {
 
 
         PlayerCharacter p = new PlayerCharacter();
         p.actorID = nextActorID++;
-        p.out = out;
+        p.client = c;
         DB.put(p.actorID,p);
 
         return p.actorID.intValue();
