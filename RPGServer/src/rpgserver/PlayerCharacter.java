@@ -11,6 +11,6 @@ package rpgserver;
  */
 public class PlayerCharacter extends Actor {
 
-    NetworkStreamWriter out;
+    ClientHandler client;
     
 }
