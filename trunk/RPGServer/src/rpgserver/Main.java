@@ -15,10 +15,12 @@ import java.net.*;
  */
 public class Main {
 
+    static GlobalGameDatabase cDBEngine;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
 
         try {
 
@@ -29,7 +31,10 @@ public class Main {
                 Socket client = srvr.accept();
                 
                 if (client != null) {
-                    ClientHandler cHandler = new ClientHandler(client);
+                    ClientHandler cHandler = new ClientHandler(client,cDBEngine);
+                    int id = cDBEngine.createNewPlayerCharacter(cHandler);
+                    cHandler.setActorID(id);
+                    
                     new Thread(cHandler).start();
                 }
                 

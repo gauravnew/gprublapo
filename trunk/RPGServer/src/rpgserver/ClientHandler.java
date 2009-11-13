@@ -17,12 +17,21 @@ import java.util.*;
  */
 public class ClientHandler implements Runnable {
 
-    //The socket that this client is using.
+    //Locals.
     private Socket sckClient;
+    private Integer myActorID;
+    
+    //Globals
+    private GlobalGameDatabase cDBEngine;
 
     //Constructor.
-    public ClientHandler(Socket c) {
+    public ClientHandler(Socket c, GlobalGameDatabase dB) {
         sckClient = c;
+        cDBEngine = dB;
+    }
+
+    public void setActorID(int actid) {
+        myActorID = actid;
     }
 
     //Class entry-point.
@@ -84,6 +93,7 @@ public class ClientHandler implements Runnable {
                         //Unknown packet, disconnect and return.
                         sckClient.close();
                         System.out.println("Client connection closed.");
+                        cDBEngine.deleteActor(myActorID);
                         return;
 
                 }
@@ -108,6 +118,8 @@ public class ClientHandler implements Runnable {
             
             return;
         }
+
+        cDBEngine.deleteActor(myActorID);
 
     }
 }
