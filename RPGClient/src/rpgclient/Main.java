@@ -16,9 +16,27 @@ import java.awt.event.*;
 public class Main extends Frame {
 
     private static XCanvas canvas;
-    private static CoreGameLogic coreLogic;
+    public static CoreGameLogic coreLogic = null;
+    public static NetworkEngine netEngine = null;
     public static final int width = 800;
     public static final int height = 600;
+
+    public static synchronized XCanvas getCanvas() {
+        return canvas;
+    }
+
+    public static synchronized CoreGameLogic getGameLogic() {
+        return coreLogic;
+    }
+
+    public static synchronized NetworkEngine getNetworkEngine() {
+        return netEngine;
+    }
+
+    public static synchronized void setNetworkEngine(NetworkEngine n) {
+        if (netEngine == null)
+            netEngine = n;
+    }
 
 
     public Main() {
@@ -55,17 +73,13 @@ public class Main extends Frame {
 
     public static void addPanel(Panel p) {
         canvas.add(p);
+        p.repaint();
+        canvas.repaint();
     }
 
     public static void removePanel(Panel p) {
         canvas.remove(p);
-    }
-
-    public static void renderLoop(Graphics g) {
-        if (coreLogic.state == coreLogic.state.LOGIN_STATE) {
-            coreLogic.login.render(g);
-        }
-        
+        canvas.repaint();
     }
 
 }

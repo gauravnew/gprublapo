@@ -43,6 +43,6 @@ public class XCanvas extends Panel {
 
     @Override
     public void paint(Graphics g) {
-        Main.renderLoop(g);
+        Main.coreLogic.renderLoop(g);
     }
 }
