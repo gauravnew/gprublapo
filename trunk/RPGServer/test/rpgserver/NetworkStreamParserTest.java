@@ -45,8 +45,8 @@ public class NetworkStreamParserTest {
         System.out.println("getNextMessage");
         NetworkStreamParser instance = null;
         char[] expResult = null;
-        char[] result = instance.getNextMessage();
-        assertEquals(expResult, result);
+        //char[] result = instance.getNextMessage();
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
