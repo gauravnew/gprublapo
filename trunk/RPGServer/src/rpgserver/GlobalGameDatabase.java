@@ -30,8 +30,7 @@ public class GlobalGameDatabase {
     //Sets the client of the 'PlayerCharacter'
     //Puts the 'PlayerCharacter' in the HashTable 'DB'
     //Returns the actorID of the new actor.
-    public synchronized int createNewPlayerCharacter(ClientHandler c) throws InterruptedException {
-
+    public synchronized int createNewPlayerCharacter(ClientHandler c) {
 
         PlayerCharacter p = new PlayerCharacter();
         p.actorID = nextActorID++;
@@ -146,6 +145,13 @@ public class GlobalGameDatabase {
     //This is basically an array of all the 'keys' in the hashtable.
     public synchronized int [] getAllPlayerCharacters() {
         return null;
+    }
+
+    //TODO:
+    //sets the name of the actor with the
+    //given actorID.
+    public synchronized void setActorName(Integer ActorID, String name) {
+
     }
     
 }

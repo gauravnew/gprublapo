@@ -35,18 +35,22 @@ public class LoadingScreen {
 
     public synchronized void inc() {
         percentage++;
+        Main.getCanvas().repaint();
     }
 
     public synchronized void dec() {
         percentage--;
+        Main.getCanvas().repaint();
     }
 
     public synchronized void incBy(int val) {
         percentage+=val;
+        Main.getCanvas().repaint();
     }
 
     public synchronized void reset() {
         percentage = 0;
+        Main.getCanvas().repaint();
     }
 
     private synchronized float getPercent() {

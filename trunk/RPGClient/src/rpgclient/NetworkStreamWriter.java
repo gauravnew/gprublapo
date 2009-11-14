@@ -30,7 +30,20 @@ public class NetworkStreamWriter {
     //Send login packet.
     //[C->S]["LG"][Name - 24 bytes] (docs/Network Protocol.txt)
     public synchronized void sendLoginPacket(String name) {
+        try {
+            byte [] b = new byte[24];
 
+            for( int i = 0 ; i < name.getBytes().length ; i ++ ) {
+                b[i] = name.getBytes()[i];
+            }
+
+            netOut.writeShort('L'*256 + 'G');
+            netOut.write(b, 0, 24);
+            netOut.flush();
+
+        } catch (Exception e) {
+            System.out.println("Server Error.");
+        }
     }
 
     //Send ping reply packet to client.
@@ -53,5 +66,6 @@ public class NetworkStreamWriter {
 
         }
     }
+
 
 }
