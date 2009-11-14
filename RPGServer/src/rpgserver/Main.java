@@ -21,21 +21,24 @@ public class Main {
      */
     public static void main(String[] args) {
 
+        cDBEngine = new GlobalGameDatabase();
 
         try {
 
             //Open a network socket at port 1234 and wait for incoming connections.
             ServerSocket srvr = new ServerSocket(1234);
+            System.out.println("Server started. Listening on port 1234");
             while (true) {
                 //Accept incoming connections.
                 Socket client = srvr.accept();
+                System.out.println("Client connection accepted");
                 
                 if (client != null) {
                     ClientHandler cHandler = new ClientHandler(client,cDBEngine);
                     int id = cDBEngine.createNewPlayerCharacter(cHandler);
                     cHandler.setActorID(id);
                     
-                    new Thread(cHandler).start();
+                    (new Thread(cHandler)).start();
                 }
                 
             }

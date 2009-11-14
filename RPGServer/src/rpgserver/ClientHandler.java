@@ -46,7 +46,6 @@ public class ClientHandler implements Runnable {
 
             //Set TCP::SO_KEEPALIVE flag to true.
             sckClient.setKeepAlive(true);
-            sckClient.setSoTimeout(5);
 
             //Get input stream.
             in = new DataInputStream(sckClient.getInputStream());
@@ -64,7 +63,7 @@ public class ClientHandler implements Runnable {
             System.out.println("Client Connected from: " + sckClient.getInetAddress());
 
             //Client's loop until connection is closed.
-            while (!sckClient.isClosed()) {
+            while (true) {
 
                 //Get OPCode for the next packet from NetworkStreamParser.
                 int opcode = 0;
@@ -81,11 +80,19 @@ public class ClientHandler implements Runnable {
                     //[C->S]["PG"] (docs/Network Protocol.txt)
                     case 'P'*256 + 'G':
 
-                        System.out.println("Ping recieved.");
+                        System.out.println("NETWORK::Ping recieved.");
                         //Send ping reply packet to client.
                         //[S->C]["PG"] (docs/Network Protocol.txt)
                         netOut.sendPingReply();
 
+                        break;
+
+                    case 'L'*256 + 'G':
+
+                        System.out.println("NETWORK::Login Recieved.");
+                        cDBEngine.setActorName(myActorID, netIn.getNamefromLogin());
+                        netOut.sendMapImage(new File("data/map.png"));
+                        netOut.sendMapData(new File("data/map.txt"));
                         break;
 
                     default:
@@ -104,22 +111,10 @@ public class ClientHandler implements Runnable {
         } catch (Exception e) {
 
             //An error has been encountered.
-            System.out.println("Server Error." +  e);
-
-        }
-
-        try {
-
-            //Exit Thread.
-            sckClient.close();
-            System.out.println("Client connection closed.");
-
-        } catch (Exception e) {
-            
+            System.out.println("Error, closing client thread." +  e);
             return;
-        }
 
-        cDBEngine.deleteActor(myActorID);
+        }
 
     }
 }

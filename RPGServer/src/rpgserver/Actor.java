@@ -21,6 +21,7 @@ public class Actor {
     public int status;
     public float speed;
     public long lastmovetime;
+    public String name;
 
     public Actor() {
 
@@ -31,6 +32,7 @@ public class Actor {
         status = 0;
         speed = 0;
         lastmovetime = 0;
+        name = "default";
         
     }
     

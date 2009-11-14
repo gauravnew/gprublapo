@@ -31,6 +31,10 @@ public class LoginScreen {
         return ip.getText();
     }
 
+    public String getName() {
+        return user.getText();
+    }
+
 
     LoginScreen() {
         try {
@@ -125,7 +129,7 @@ class ButtonListener implements ActionListener {
         
             NetworkEngine net = new NetworkEngine();
             Main.setNetworkEngine(net);
-            net.setServerIP(Main.getGameLogic().login.getIP());
+            net.setLogin(Main.getGameLogic().login.getIP(),Main.getGameLogic().login.getName());
             (new Thread(net)).start();
         //}
     }

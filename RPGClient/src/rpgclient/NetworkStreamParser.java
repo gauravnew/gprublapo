@@ -1,10 +1,11 @@
+package rpgclient;
+
 /*
  * Filename : NetworkStreamParser.java
  * Description : This class parses packets recieved
- * from the client.
+ * from the server.
  */
 
-package rpgserver;
 
 import java.util.concurrent.*;
 import java.util.*;
@@ -24,7 +25,7 @@ public class NetworkStreamParser {
     public NetworkStreamParser(DataInputStream in) {
 
         netIn = in;
-        
+
     }
 
     //Get next 2 byte packet OPCode from the network stream.
@@ -39,23 +40,56 @@ public class NetworkStreamParser {
         return opcode;
 
         } catch (IOException e) {
-            
+
             return -1;
 
         }
-        
+
     }
 
-    public synchronized String getNamefromLogin() {
-        byte [] b = new byte[24];
+    public synchronized void getMapImage() {
         try {
-            netIn.read(b);
+
+            int len = 0;
+
+            len = netIn.readInt();
+
+            byte [] file = new byte [len];
+
+            netIn.readFully(file);
+
+            DataOutputStream x = (new DataOutputStream(new FileOutputStream(new File("data/map.png"))));
+            x.write(file);
+            x.close();
+
         } catch (IOException e) {
-            return "Exception";
+
+            ;
+
         }
-        
-        return new String(b);
     }
 
-    
+    public synchronized void getMapData() {
+        try {
+
+            int len = 0;
+
+            len = netIn.readInt();
+
+            byte [] file = new byte [len];
+
+            netIn.readFully(file);
+
+            DataOutputStream x = (new DataOutputStream(new FileOutputStream(new File("data/map.txt"))));
+            x.write(file);
+            x.close();
+
+        } catch (IOException e) {
+
+            ;
+
+        }
+    }
+
+
 }

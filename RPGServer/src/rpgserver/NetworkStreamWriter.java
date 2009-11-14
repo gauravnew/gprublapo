@@ -43,9 +43,43 @@ public class NetworkStreamWriter {
         } catch (Exception e) {
 
             //Error
-            System.out.println("Server Error.");
+            System.out.println("NetworkStreamWriter : sendPingReply : Server Error.");
 
         }
+    }
+
+    public synchronized void sendMapImage(File f) {
+        try {
+
+            int flen = (int)f.length();
+            byte [] file = new byte[flen];
+            (new DataInputStream(new FileInputStream(f))).readFully(file);
+            netOut.writeShort('M' * 256 + 'I');
+            netOut.writeInt(flen);
+            netOut.write(file);
+            netOut.flush();
+            
+        } catch (Exception e) {
+            System.out.println("NetworkStreamWriter : sendMapImage : Server Error.");
+        }
+
+    }
+
+    public synchronized void sendMapData(File f) {
+        try {
+
+            int flen = (int)f.length();
+            byte [] file = new byte[flen];
+            (new DataInputStream(new FileInputStream(f))).readFully(file);
+            netOut.writeShort('M' * 256 + 'D');
+            netOut.writeInt(flen);
+            netOut.write(file);
+            netOut.flush();
+
+        } catch (Exception e) {
+            System.out.println("NetworkStreamWriter : sendMapData : Server Error.");
+        }
+
     }
 
 }
