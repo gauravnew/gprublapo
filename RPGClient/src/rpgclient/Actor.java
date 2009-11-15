@@ -129,6 +129,8 @@ public class Actor implements Comparable {
             g.drawImage(sprite[direction].getDefaultFrame(), (int)x, (int)y, null);
         else
             g.drawImage(sprite[direction].animate(d), (int)x, (int)y, null);
+
+        g.drawString(name, (int)x, (int)y+37);
         
     }
 

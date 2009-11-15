@@ -63,7 +63,8 @@ public class Main extends Frame {
 
         show();
 
-        new Thread(new Refresh()).start();
+         while (true)
+             canvas.repaint();
 
     }
     /**
@@ -84,11 +85,4 @@ public class Main extends Frame {
         canvas.repaint();
     }
 
-}
-
-class Refresh implements Runnable {
-    public void run() {
-        while (true)
-        Main.getCanvas().repaint();
-    }
 }
