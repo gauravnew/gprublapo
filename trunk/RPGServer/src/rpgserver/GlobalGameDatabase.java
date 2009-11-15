@@ -46,7 +46,7 @@ public class GlobalGameDatabase {
     //Sets its actorID to the next available actorID.
     //Puts the 'NonPlayerCharacter' in the HashTable 'DB'
     //Returns the actorID of the new actor.
-    public synchronized int createNewNonPlayerCharacter() {
+    public synchronized int createNewNonPlayerCharacter(int type) {
 
         return 0;
         

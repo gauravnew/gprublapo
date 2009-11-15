@@ -62,6 +62,7 @@ public class CoreGameLogic {
             map = new GameMap();
             actors = new ActorEngine();
             ui = new UIEngine();
+            ui.setPlayerName(main_actor_name);
             actors.setMainActor(actors.addActor(new Actor(0,0,getMainActorName())));
             actors.getActor(0).position = new Point2D(30,20);
             actors.getActor(0).moveto = new Point2D(30,20);

@@ -70,6 +70,7 @@ public class NetworkStreamParser {
     }
 
     public synchronized void getMapData() {
+
         try {
 
             int len = 0;

@@ -19,6 +19,11 @@ import javax.swing.*;
 public class UIEngine {
 
     private BufferedImage topBar = null;
+    private String playerName = null;
+
+    public void setPlayerName(String name) {
+        playerName = name;
+    }
 
     UIEngine() {
         try {
@@ -29,7 +34,11 @@ public class UIEngine {
     }
 
     public void render(Graphics g) {
+        g.setColor(Color.white);
+        g.fillRect(90, 60, 112, 20);
         g.drawImage(topBar, 10, 10, null);
+        g.setColor(Color.black);
+        g.drawString(playerName, 95, 41);
     }
 
 }
