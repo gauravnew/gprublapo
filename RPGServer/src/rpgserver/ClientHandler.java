@@ -92,7 +92,7 @@ public class ClientHandler implements Runnable {
                         System.out.println("NETWORK::Login Recieved.");
                         cDBEngine.setActorName(myActorID, netIn.getNamefromLogin());
                         netOut.sendMapImage(new File("data/map.png"));
-                        netOut.sendMapData(new File("data/map.txt"));
+                        netOut.sendMapData(new File("data/map_dat.png"));
                         break;
 
                     case 'M'*256 + 'V':

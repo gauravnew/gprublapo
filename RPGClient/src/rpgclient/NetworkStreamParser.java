@@ -80,7 +80,7 @@ public class NetworkStreamParser {
 
             netIn.readFully(file);
 
-            DataOutputStream x = (new DataOutputStream(new FileOutputStream(new File("data/map.txt"))));
+            DataOutputStream x = (new DataOutputStream(new FileOutputStream(new File("data/map_dat.png"))));
             x.write(file);
             x.close();
 

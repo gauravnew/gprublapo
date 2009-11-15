@@ -19,15 +19,16 @@ import javax.swing.*;
 public class GameMap {
 
     private BufferedImage mapImage = null;
+    private BufferedImage mapData = null;
     private boolean hidden = false;
     private Point2D location;
 
     GameMap() {
-
         try {
 
             location = new Point2D(25,20);
             mapImage = ImageIO.read(new File("data/map.png"));
+            mapData = ImageIO.read(new File("data/map_dat.png"));
             
         } catch (Exception e) {
 
@@ -49,6 +50,19 @@ public class GameMap {
         int x = (int)(16*location.getX());
         int y = (int)(16*location.getY());
         return new Point2D((-x) + (Main.width/2) - 8, (-y) + (Main.height/2) - 8);
+    }
+
+    public int getCellType(Point2D p) {
+        int c = mapData.getRGB((int)(p.getX()*16+8), (int)(p.getY()*16+8));
+
+        switch (c) {
+            case 0xFFFFFFFF:
+                return 1;
+            case 0xFF000000:
+                return 0;
+            default:
+                return 0;
+        }
     }
 
     public void render(Graphics g) {

@@ -22,6 +22,7 @@ public class CoreGameLogic {
     LoginScreen login;
     LoadingScreen loading;
     GameMap map;
+    UIEngine ui;
     ActorEngine actors;
 
     public ActorEngine getActorEngine() {
@@ -60,7 +61,10 @@ public class CoreGameLogic {
         if (state == GAME_STATE.INGAME_STATE && map == null) {
             map = new GameMap();
             actors = new ActorEngine();
+            ui = new UIEngine();
             actors.setMainActor(actors.addActor(new Actor(0,0,getMainActorName())));
+            actors.getActor(0).position = new Point2D(30,20);
+            actors.getActor(0).moveto = new Point2D(30,20);
         }
     }
 
@@ -74,25 +78,25 @@ public class CoreGameLogic {
             case KeyEvent.VK_UP:
                 p = new Point2D(a.position);
                 p.setY(p.getY() - 1.0f);
-                if (!a.isMoving())
+                if (!a.isMoving() && map.getCellType(p) != 0)
                     Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
                 break;
             case KeyEvent.VK_DOWN:
                 p = new Point2D(a.position);
                 p.setY(p.getY() + 1.0f);
-                if (!a.isMoving())
+                if (!a.isMoving() && map.getCellType(p) != 0)
                     Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
                 break;
             case KeyEvent.VK_LEFT:
                 p = new Point2D(a.position);
                 p.setX(p.getX() - 1.0f);
-                if (!a.isMoving())
+                if (!a.isMoving() && map.getCellType(p) != 0)
                     Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
                 break;
             case KeyEvent.VK_RIGHT:
                 p = new Point2D(a.position);
                 p.setX(p.getX() + 1.0f);
-                if (!a.isMoving())
+                if (!a.isMoving() && map.getCellType(p) != 0)
                     Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
                 break;
 
@@ -126,9 +130,11 @@ public class CoreGameLogic {
             map.setLookAt(actors.getActor(actors.getMainActor()).position);
             map.render(g);
             actors.renderAll(g, map.getLookAt());
+            ui.render(g);
             processInput();
         }
 
     }
 
 }
+
