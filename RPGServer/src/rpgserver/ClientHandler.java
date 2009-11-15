@@ -95,6 +95,13 @@ public class ClientHandler implements Runnable {
                         netOut.sendMapData(new File("data/map.txt"));
                         break;
 
+                    case 'M'*256 + 'V':
+                        System.out.println("NETWORK::Player Move");
+                        Point2D p = netIn.getActorMove();
+                        cDBEngine.setActorPosition(myActorID, p);
+                        netOut.sendActorMove(0, p);
+                        break;
+
                     default:
 
                         //Unknown packet, disconnect and return.

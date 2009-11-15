@@ -129,7 +129,8 @@ class ButtonListener implements ActionListener {
         
             NetworkEngine net = new NetworkEngine();
             Main.setNetworkEngine(net);
-            net.setLogin(Main.getGameLogic().login.getIP(),Main.getGameLogic().login.getName());
+            Main.coreLogic.setMainActorName(Main.getGameLogic().login.getName());
+            net.setServerIP(Main.getGameLogic().login.getIP());
             (new Thread(net)).start();
         //}
     }
