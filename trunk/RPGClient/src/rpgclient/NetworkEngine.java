@@ -17,15 +17,9 @@ public class NetworkEngine implements Runnable {
     private NetworkStreamParser in;
     private String ServerIP;
     private Socket sckServer;
-    private String username;
 
-    NetworkEngine() {
-        ;
-    }
-
-    public void setLogin(String ip, String name) {
+    public void setServerIP(String ip) {
         ServerIP = ip;
-        username = name;
     }
 
     public NetworkStreamWriter getNetworkOutput() {
@@ -69,7 +63,7 @@ public class NetworkEngine implements Runnable {
 
             Main.coreLogic.getLoadingScreen().incBy(20);
 
-            out.sendLoginPacket(username);
+            out.sendLoginPacket(Main.getGameLogic().getMainActorName());
 
             while(true) {
 
@@ -101,6 +95,14 @@ public class NetworkEngine implements Runnable {
                             Main.coreLogic.setState(GAME_STATE.INGAME_STATE);
                             break;
 
+                        case 'M'*256 + 'V':
+
+                            System.out.println("NETWORK::Move Packet.");
+                            Integer id = new Integer(0);
+                            Point2D target = in.getActorMove(id);
+                            Main.getGameLogic().getActorEngine().getActor(id.intValue()).moveto = target;
+                            break;
+                            
                         default:
 
                             //Unknown packet, disconnect and return.

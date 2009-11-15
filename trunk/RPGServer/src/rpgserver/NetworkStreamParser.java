@@ -57,5 +57,19 @@ public class NetworkStreamParser {
         return new String(b);
     }
 
+    public synchronized Point2D getActorMove() {
+
+        try {
+
+            float x = netIn.readFloat();
+            float y = netIn.readFloat();
+            return new Point2D (x,y);
+
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
     
 }

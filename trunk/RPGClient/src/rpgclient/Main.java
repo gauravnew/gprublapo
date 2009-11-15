@@ -62,7 +62,9 @@ public class Main extends Frame {
         coreLogic = new CoreGameLogic();
 
         show();
-        
+
+        new Thread(new Refresh()).start();
+
     }
     /**
      * @param args the command line arguments
@@ -82,4 +84,11 @@ public class Main extends Frame {
         canvas.repaint();
     }
 
+}
+
+class Refresh implements Runnable {
+    public void run() {
+        while (true)
+        Main.getCanvas().repaint();
+    }
 }

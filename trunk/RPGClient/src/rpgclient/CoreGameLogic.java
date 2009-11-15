@@ -16,10 +16,25 @@ enum GAME_STATE {
  * @author Gaurav
  */
 public class CoreGameLogic {
+
+    String main_actor_name;
     GAME_STATE state;
     LoginScreen login;
     LoadingScreen loading;
     GameMap map;
+    ActorEngine actors;
+
+    public ActorEngine getActorEngine() {
+        return actors;
+    }
+
+    public String getMainActorName() {
+        return main_actor_name;
+    }
+
+    public void setMainActorName(String name) {
+        main_actor_name = name;
+    }
 
     CoreGameLogic() {
         login = new LoginScreen();
@@ -44,8 +59,44 @@ public class CoreGameLogic {
         }
         if (state == GAME_STATE.INGAME_STATE && map == null) {
             map = new GameMap();
+            actors = new ActorEngine();
+            actors.setMainActor(actors.addActor(new Actor(0,0,getMainActorName())));
         }
-        Main.getCanvas().repaint();
+    }
+
+    public void processInput() {
+        KeyEvent k = Main.getCanvas().getKey();
+        if (k == null) return;
+        int key = k.getKeyCode();
+        Point2D p;
+        Actor a = actors.getActor(actors.getMainActor());
+        switch (key) {
+            case KeyEvent.VK_UP:
+                p = new Point2D(a.position);
+                p.setY(p.getY() - 1.0f);
+                if (!a.isMoving())
+                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
+                break;
+            case KeyEvent.VK_DOWN:
+                p = new Point2D(a.position);
+                p.setY(p.getY() + 1.0f);
+                if (!a.isMoving())
+                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
+                break;
+            case KeyEvent.VK_LEFT:
+                p = new Point2D(a.position);
+                p.setX(p.getX() - 1.0f);
+                if (!a.isMoving())
+                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
+                break;
+            case KeyEvent.VK_RIGHT:
+                p = new Point2D(a.position);
+                p.setX(p.getX() + 1.0f);
+                if (!a.isMoving())
+                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
+                break;
+
+        }
     }
 
     public void renderLoop(Graphics g) {
@@ -53,6 +104,7 @@ public class CoreGameLogic {
         if (checkState(GAME_STATE.LOGIN_STATE)) {
             
             loading = null;
+            map = null;
             login.render(g);
 
         } else if (checkState(state.LOADING_STATE)) {
@@ -70,8 +122,11 @@ public class CoreGameLogic {
                 login.finalize();
                 login = null;
             }
-            
+
+            map.setLookAt(actors.getActor(actors.getMainActor()).position);
             map.render(g);
+            actors.renderAll(g, map.getLookAt());
+            processInput();
         }
 
     }

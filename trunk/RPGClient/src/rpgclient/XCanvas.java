@@ -14,7 +14,18 @@ import java.awt.event.*;
  */
 public class XCanvas extends Panel {
 
-    public MouseEvent mouse;
+    private MouseEvent mouse;
+    private KeyEvent key;
+
+    public synchronized void setKey(KeyEvent evt) {
+        key = evt;
+    }
+
+    public synchronized KeyEvent getKey() {
+        KeyEvent k = key;
+        key = null;
+        return k;
+    }
 
     public synchronized void setMouse(MouseEvent evt) {
         mouse = evt;
@@ -33,7 +44,13 @@ public class XCanvas extends Panel {
             }
 
         });
-        repaint();
+        addKeyListener(new KeyAdapter() {
+
+           @Override
+           public void keyPressed(KeyEvent ke) {
+               setKey(ke);
+           }
+        });
     }
 
     @Override

@@ -67,5 +67,21 @@ public class NetworkStreamWriter {
         }
     }
 
+    public synchronized void sendActorMove(Point2D target) {
+        try {
+
+            netOut.writeShort('M'*256 + 'V');
+            netOut.writeFloat(target.getX());
+            netOut.writeFloat(target.getY());
+            
+            netOut.flush();
+
+        } catch(Exception e) {
+
+            System.out.println("Server Error.");
+
+        }
+    }
+
 
 }
