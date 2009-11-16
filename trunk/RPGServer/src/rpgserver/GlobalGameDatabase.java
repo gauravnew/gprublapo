@@ -41,23 +41,34 @@ public class GlobalGameDatabase {
 
     }
 
-    //TODO:
+    //TODO: Complete? (by Anastasia Vashkevich -- 11/16/09 5PM)
     //This function creates a 'NonPlayerCharacter' object.
     //Sets its actorID to the next available actorID.
     //Puts the 'NonPlayerCharacter' in the HashTable 'DB'
     //Returns the actorID of the new actor.
     public synchronized int createNewNonPlayerCharacter(int type) {
 
-        return 0;
+        NonPlayerCharacter np = new NonPlayerCharacter();
+        np.actorID = nextActorID++;
+        np.client = c;
+        DB.put(np.actorID, np);
+
+        return np.actorID.intValue();
         
     }
 
-    //TODO:
+    //TODO: Complete? (by Anastasia Vashkevich -- 11/15/09 5PM)
     //This function removes an actor with the
     //given actorID from the HashTable 'DB'
     //return true always.
     public synchronized boolean deleteActor(Integer ActorID) {
-
+    	
+    	//if the actor exists in the hashtable
+    	if(contains(ActorID)){
+    		DB.remove(ActorID); //remove the key and the correspoding value(actor) from the hashtable
+    		return true;
+    	}
+    	
         return false;
         
     }
@@ -66,7 +77,8 @@ public class GlobalGameDatabase {
     //This function returns the position of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized Point2D getActorPosition(Integer ActorID) {
-        return null;
+        
+    	return null;
     }
 
     //TODO:
