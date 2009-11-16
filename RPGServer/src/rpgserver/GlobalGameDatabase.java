@@ -73,26 +73,34 @@ public class GlobalGameDatabase {
         
     }
 
-    //TODO:
+    //TODO: Complete? (by Anastasia Vashkevich -- 11/15/09 6:30PM)
     //This function returns the position of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized Point2D getActorPosition(Integer ActorID) {
         
-    	return null;
+    	Actor a = DB.get(ActorID); //get the actor with the ActorID  from the hashtable
+    	
+    	return a.position; //return the actor's position
     }
 
-    //TODO:
+    //TODO: Complete? (by Anastasia Vashkevich -- 11/15/09 6:30PM)
     //This function returns the moveto of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized Point2D getActorMoveTo(Integer ActorID) {
-        return null;
+    	
+    	Actor a = DB.get(ActorID); //get the actor with the ActorID  from the hashtable
+
+    	return a.moveTo;
     }
 
-    //TODO:
+    //TODO: Complete? (by Anastasia Vashkevich -- 11/15/09 6:30PM)
     //This function returns the speed of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized float getActorSpeed(Integer ActorID) {
-        return 0;
+    	
+    	Actor a = DB.get(ActorID); //get the actor with the ActorID  from the hashtable
+
+    	return a.speed;
     }
 
     //TODO:
@@ -108,7 +116,9 @@ public class GlobalGameDatabase {
     //This function returns the type of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized float getActorType(Integer ActorID) {
-        return 0;
+        Actor a = DB.get(ActorID);
+        int stat = a.status
+    	return 0;
     }
 
     //TODO:
