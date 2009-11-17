@@ -1,0 +1,47 @@
+#This page contains a general overview of the design of the game client. 
+
+= Introduction =
+
+The client is based on a task based modularized design. There are multiple classes in each section and each of them performs functions which are called by other classes. 
+
+There are three independent subsets of the Client code:
+
+  * Networking
+  * Graphics
+  * GameLogic
+
+The Main module contains references to each of these subsets and manages their interaction.
+
+= Details =
+
+The following section gives details of the functioning of each of the above mentioned subsets at a deeper level.
+
+== Networking ==
+
+This sub-section of the code logically contains the following files: 
+
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/NetworkEngine.java NetworkEngine.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/NetworkStreamParser.java NetworkStreamParser.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/NetworkStreamWriter.java NetworkStreamWriter.java]
+
+The network engine object extends Runnable which means that it is an independent thread.
+
+The NetworkEngine object is responsible for interacting with the server on the clients behalf. The NetworkEngine has instances of NetworkStreamWriter and NetworkStreamParser which are the classes which actually understand the network protocol and the NetworkEngine just interfaces with them, performing different functions depending on network events that occur. 
+
+== Graphics ==
+
+This sub-section of the code logically contains the following files: 
+
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/XCanvas.java XCanvas.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/UIEngine.java UIEngine.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/LoginScreen.java LoginScreen.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/LoadingScreen.java LoadingScreen.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/GameMap.java GameMap.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/AnimatedSprite.java AnimatedSprite.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/Actor.java Actor.java]
+
+== GameLogic ==
+
+This sub-section of the code logically contains the following files: 
+
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGClient/src/rpgclient/CoreGameLogic.java CoreGameLogic.java]
