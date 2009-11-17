@@ -23,16 +23,15 @@ BINARY(N): N Byte Binary String.
 
 {{{
 
-[C->S]["PG"]	//Ping Request from client.
+[C->S]["PG"]	                                //Ping Request from client.
 
-[S->C]["PG"]	//Ping Reply from Server.
+[S->C]["PG"]	                                //Ping Reply from Server.
 
 [S->C]["MI"][INT Length][BINARY(Length) Data]   //Map Image file of given length. (.png)
 
 [S->C]["MD"][INT Length][BINARY(Length) Data]   //Map Data file of given length. (.png)
 
-[S->C]["MV"][INT actorID][FLOAT x][FLOAT y]     //Move actor with given ID to location 
-(x,y)
+[S->C]["MV"][INT actorID][FLOAT x][FLOAT y]     //Move actor with given ID to location (x,y)
 
 [C->S]["LG"][BINARY(24) Name]                   //Name of the client logging in.
 
