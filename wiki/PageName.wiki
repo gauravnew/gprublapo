@@ -1,0 +1,26 @@
+#This page contains documentation for the game server.
+
+= Introduction =
+
+The server is based on a level by level design. there are multiple classes in each level and each of them performs functions which are called by classes at higher levels. 
+
+There are three independent subsets of the server code:
+
+  * Networking
+  * Database
+  * GameLogic
+
+The GameLogic, Database and networking objects are at the same level and call functions withing each other to perform different tasks.
+
+
+= Details =
+
+The following section gives details about the different parts of the Server and how they relate to the actual server code.
+
+== Networking ==
+
+This sub-section of the code logically contains the following files:
+
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGServer/src/rpgserver/ClientHandler.java ClientHandler.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGServer/src/rpgserver/NetworkStreamParser.java NetworkStreamParser.java]
+  * [http://code.google.com/p/gprublapo/source/browse/trunk/RPGServer/src/rpgserver/NetworkStreamWriter.java NetworkStreamWriter.java]
