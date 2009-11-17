@@ -7,7 +7,6 @@
 package rpgserver;
 
 /**
- *
  * @author Gaurav
  */
 public class NonPlayerCharacter extends Actor {
