@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- *
  * @author Gaurav
  */
 public class GlobalGameDatabase {
