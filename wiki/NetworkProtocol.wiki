@@ -6,7 +6,11 @@ This page contains a general overview of the client-server communications protoc
 
 The following format is followed throughout :
 
+{{{
+
 (DIRECTION)[OPCODE]([LENGTH...])([...]...VARIABLES)  //Description
+
+}}}
 
 = Data Types Specification =
 
@@ -16,6 +20,8 @@ FLOAT: 4 Byte Single Precision IEEE Floating Point Number.
 BINARY(N): N Byte Binary String.
 
 = Protocol Specification =
+
+{{{
 
 [C->S]["PG"]	//Ping Request from client.
 
@@ -31,3 +37,5 @@ BINARY(N): N Byte Binary String.
 [C->S]["LG"][BINARY(24) Name]                   //Name of the client logging in.
 
 [C->S]["MV"][FLOAT x][FLOAT y]                  //Request a move to the given location.
+
+}}}
