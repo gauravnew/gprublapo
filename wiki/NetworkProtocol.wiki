@@ -14,10 +14,17 @@ The following format is followed throughout :
 
 = Data Types Specification =
 
+{{{
+
 INT: 4 Byte Integer.
+
 SHORT: 2 Byte Integer.
+
 FLOAT: 4 Byte Single Precision IEEE Floating Point Number.
+
 BINARY(N): N Byte Binary String.
+
+}}}
 
 = Protocol Specification =
 
