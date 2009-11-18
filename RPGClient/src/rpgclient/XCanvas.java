@@ -23,7 +23,6 @@ public class XCanvas extends Panel {
 
     public synchronized KeyEvent getKey() {
         KeyEvent k = key;
-        key = null;
         return k;
     }
 
@@ -44,14 +43,23 @@ public class XCanvas extends Panel {
             }
 
         });
-        addKeyListener(new KeyAdapter() {
+
+         addKeyListener(new KeyAdapter() {
 
            @Override
            public void keyPressed(KeyEvent ke) {
                setKey(ke);
            }
+
+           @Override
+           public void keyReleased(KeyEvent ke) {
+               setKey(null);
+           }
         });
+
     }
+
+
 
     @Override
     public void update(Graphics g) {
@@ -63,3 +71,5 @@ public class XCanvas extends Panel {
         Main.coreLogic.renderLoop(g);
     }
 }
+
+
