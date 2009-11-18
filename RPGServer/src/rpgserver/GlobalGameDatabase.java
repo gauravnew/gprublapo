@@ -47,7 +47,7 @@ public class GlobalGameDatabase {
     //Returns the actorID of the new actor.
     public synchronized int createNewNonPlayerCharacter(int type) {
 
-        NonPlayerCharacter np = new NonPlayerCharacter();
+        NonPlayerCharacter np = new NonPlayerCharacter(type);
         np.actorID = nextActorID++;
         DB.put(np.actorID, np);
 
