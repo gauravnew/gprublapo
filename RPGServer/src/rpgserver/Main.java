@@ -16,6 +16,7 @@ import java.net.*;
 public class Main {
 
     static GlobalGameDatabase cDBEngine;
+    static GlobalGameLogic cGameLogic;
     /**
      * @param args the command line arguments
      */
