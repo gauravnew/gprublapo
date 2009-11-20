@@ -54,6 +54,15 @@ public class GlobalGameDatabase {
         return np.actorID.intValue();
         
     }
+    public synchronized int createNewNonPlayerCharacter(int type, Point2D mapPos) {
+
+        NonPlayerCharacter np = new NonPlayerCharacter(type, mapPos);
+        np.actorID = nextActorID++;
+        DB.put(np.actorID, np);
+
+        return np.actorID.intValue();
+        
+    }
 
     //TODO: Complete? (by Anastasia Vashkevich -- 11/15/09 5PM)
     //This function removes an actor with the
