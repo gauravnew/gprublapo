@@ -12,5 +12,4 @@ package rpgserver;
 public class PlayerCharacter extends Actor {
 
     ClientHandler client;
-    
 }
