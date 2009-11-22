@@ -48,6 +48,8 @@ public class NetworkStreamWriter {
         }
     }
 
+	//Send data based upon data type
+	//[S.N.012]
     public synchronized void sendMapImage(File f) {
         try {
 
@@ -64,7 +66,7 @@ public class NetworkStreamWriter {
         }
 
     }
-
+	//[S.N.013]
     public synchronized void sendMapData(File f) {
         try {
 

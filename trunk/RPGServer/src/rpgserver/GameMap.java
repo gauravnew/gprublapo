@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : GameMap.java
+ * Description : Stores data about the game map.
  */
 
 package rpgserver;
@@ -22,6 +22,7 @@ public class GameMap {
     private int width = 0;
     private int height = 0;
 
+	//Constructor - read map data from file and establish variables.
     GameMap() {
         try {
 
@@ -36,7 +37,8 @@ public class GameMap {
         }
 
     }
-
+	
+	//Return the type of the point on the map, based upon its color.
     public int getCellType(Point2D p) {
         int c = mapData.getRGB((int)(p.getX()*16+8), (int)(p.getY()*16+8));
 
@@ -49,7 +51,8 @@ public class GameMap {
                 return 0;
         }
     }
-
+	
+	//Generate a random point on the map that is "walkable"
     public Point2D getRandomMapPoint() {
 
         Point2D p;
