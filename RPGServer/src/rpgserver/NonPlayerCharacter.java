@@ -13,7 +13,7 @@ public class NonPlayerCharacter extends Actor {
 
 	//non player characters that move or have a random location
 	public NonPlayerCharacter(int type) {
-		if(type<1 && type>4){
+		if(type<1 || type>4){
 			System.out.println("invalid type");
 		}else{
 			//random position for any type
@@ -48,7 +48,7 @@ public class NonPlayerCharacter extends Actor {
 	//non player characters that are part of the map(classrooms, food buildings...)
 	public NonPlayerCharacter(int type, Point2D mapPos){
 
-		if(type<4 && type>24){
+		if(type<4 || type>24){
 			System.out.println("invalid type");
 		}else{
 			position = new Point2D();
@@ -58,67 +58,67 @@ public class NonPlayerCharacter extends Actor {
 	        position.setPosition(x, y);
 	        
 			if(type == 4){
-				//H1N1 - type 1	
+				//Cranberry Farms - type 4	
 		        name = "Cranberry Farms";
 			}else if(type == 5){
-				//Professors - type 2
+				//Einstein's Bagels - type 5
 		        name = "Einstein's Bagels";
 			}else if(type == 6){
-				//Man hole - type 2
+				//Jamba Juice - type 6
 		        name = "Jamba Juice";
 			}else if(type == 7){
-				//Man hole - type 2
+				//Man hole - type 7
 		        name = "Loose Leafs";
 			}else if(type == 8){
-				//Man hole - type 2
+				//Loose Leafs - type 8
 		        name = "Subway";
 			}else if(type == 9){
-				//Man hole - type 2
+				//Panda Express - type 9
 		        name = "Panda Express";
 			}else if(type == 10){
-				//Man hole - type 2
+				//Papa John's - type 10
 		        name = "Papa John's";
 			}else if(type == 11){
-				//Man hole - type 2
+				//Starbucks - type 11
 		        name = "Starbucks";
 			}else if(type == 12){
-				//Man hole - type 2
+				//Dunkin Donuts - type 12
 		        name = "Dunkin Donuts";
 			}else if(type == 13){
-				//Man hole - type 2
+				//Store 24 - type 13
 		        name = "Store 24";
 			}else if(type == 14){
-				//Man hole - type 2
+				//BU FitRec - type 14
 		        name = "BU FitRec";
 			}else if(type == 15){
-				//Man hole - type 2
+				//Student Health Services - type 15
 		        name = "Student Health Services";
 			}else if(type == 16){
-				//Man hole - type 2
+				//CS101 - type 16
 		        name = "CS101";
 			}else if(type == 17){
-				//Man hole - type 2
+				//CS103 - type 17
 		        name = "CS103";
 			}else if(type == 18){
-				//Man hole - type 2
+				//CS105 - type 18
 		        name = "CS105";
 			}else if(type == 19){
-				//Man hole - type 2
+				//CS107 - type 19
 		        name = "CS107";
 			}else if(type == 20){
-				//Man hole - type 2
+				//CS108 - type 20
 		        name = "CS108";
 			}else if(type == 21){
-				//Man hole - type 2
+				//CS211 - type 21
 		        name = "CS211";
 			}else if(type == 22){
-				//Man hole - type 2
+				//CS212 - type 22
 		        name = "CS212";
 			}else if(type == 23){
-				//Man hole - type 2
+				//CS411 - type 23
 		        name = "CS411";
 			}else if(type == 24){
-				//Man hole - type 2
+				//CS511 - type 24
 		        name = "CS511";
 			}
 			
