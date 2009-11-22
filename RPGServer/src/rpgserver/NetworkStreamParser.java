@@ -45,7 +45,9 @@ public class NetworkStreamParser {
         }
         
     }
-
+	
+	//Get data from network stream by data type
+	
     public synchronized String getNamefromLogin() {
         byte [] b = new byte[24];
         try {

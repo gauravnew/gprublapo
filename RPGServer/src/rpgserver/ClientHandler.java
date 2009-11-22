@@ -90,7 +90,7 @@ public class ClientHandler implements Runnable {
 
                         break;
 
-                    case 'L'*256 + 'G':
+                    case 'L'*256 + 'G':		//[S.N.011]
 
                         System.out.println("NETWORK::Login Recieved.");
                         cDBEngine.setActorName(myActorID, netIn.getNamefromLogin());
