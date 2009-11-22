@@ -1,6 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : CoreGameLogic.java
+ * Desciption : Data to represent the game AND
+ *				Functions to handle all game events.
  */
 
 package rpgclient;
@@ -17,6 +18,7 @@ enum GAME_STATE {
  */
 public class CoreGameLogic {
 
+	//Data and data access functions
     String main_actor_name;
     GAME_STATE state;
     LoginScreen login;
@@ -50,6 +52,7 @@ public class CoreGameLogic {
         return (state == s);
     }
     
+	//Function to set the state and trigger propper affects when state changes
     public synchronized void setState(GAME_STATE s) {
         state = s;
         if (state == GAME_STATE.LOGIN_STATE && login == null) {
@@ -69,6 +72,7 @@ public class CoreGameLogic {
         }
     }
 	//[C.N.021]
+	//Function to process keyboard input
     public void processInput() {
         KeyEvent k = Main.getCanvas().getKey();
         if (k == null) return;
@@ -104,6 +108,7 @@ public class CoreGameLogic {
         }
     }
 
+	//Function to render graphics.  Calls render funcion according to current GAME_STATE
     public void renderLoop(Graphics g) {
 
         if (checkState(GAME_STATE.LOGIN_STATE)) {

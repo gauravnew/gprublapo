@@ -1,6 +1,8 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : LoginScreen.java
+ * Description : Class that creates the login screen and
+ *  then initates the network connection once vaild
+ *  information has been provided by the user.
  */
 
 package rpgclient;
@@ -120,6 +122,7 @@ public class LoginScreen {
 
 }
 
+//Function for when login button is pushed (This is the only button action available)
 class ButtonListener implements ActionListener {
     ButtonListener() {
     }

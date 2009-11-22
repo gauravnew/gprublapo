@@ -42,6 +42,7 @@ public class Actor implements Comparable {
 
     AnimatedSprite [] sprite;
 
+	//Generic constructor
     public Actor() {
 
         actorID = 0;
@@ -64,6 +65,7 @@ public class Actor implements Comparable {
 
     }
 
+	//Explicit constructor
     public Actor(int ID, int nType, String sName) {
 
         actorID = ID;
@@ -100,6 +102,7 @@ public class Actor implements Comparable {
         return lastmovetime != 0;
     }
 	//[C.G.021]
+	//Function to draw an actor on top of the map
     public void render(Graphics g, Point2D center) {
 
         float d = position.getDistance(moveto);

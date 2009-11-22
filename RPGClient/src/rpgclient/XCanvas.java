@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : UIEngine.java
+ * Description : Setup the canvas functions to listen for input and update screen
  */
 
 package rpgclient;
@@ -14,6 +14,7 @@ import java.awt.event.*;
  */
 public class XCanvas extends Panel {
 
+	//Data and data accessing functions
     private MouseEvent mouse;
     private KeyEvent key;
 
@@ -34,6 +35,7 @@ public class XCanvas extends Panel {
         return mouse;
     }
 
+	//Constructor, setup a mouse and keybord listner
     XCanvas() {
         addMouseListener(new MouseAdapter() {
 
@@ -60,7 +62,7 @@ public class XCanvas extends Panel {
     }
 
 
-
+	//Functions to update the screen
     @Override
     public void update(Graphics g) {
         paint(g);
