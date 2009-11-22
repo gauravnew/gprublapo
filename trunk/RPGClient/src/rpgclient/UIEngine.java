@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : UIEngine.java
+ * Description : Generates the user interface window
  */
 
 package rpgclient;

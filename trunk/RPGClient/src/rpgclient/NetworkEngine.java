@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : NetworkEngine.java
+ * Description : Controls reading and writing data to the network interface.
  */
 
 package rpgclient;
@@ -26,6 +26,7 @@ public class NetworkEngine implements Runnable {
         return out;
     }
 
+	//Function to establish connection
     private boolean connectToServer() {
 
         try {
@@ -50,12 +51,13 @@ public class NetworkEngine implements Runnable {
     }
 
     @Override
-    public void run() {
+    //Runnable thread
+	public void run() {
 
         if (!connectToServer()) return;
 
         try {
-
+			//Estabilsh 2 way network communication
             out = new NetworkStreamWriter(new DataOutputStream(sckServer.getOutputStream()));
             in = new NetworkStreamParser(new DataInputStream(sckServer.getInputStream()));
         
@@ -69,25 +71,26 @@ public class NetworkEngine implements Runnable {
 
                 int opcode;
 
+				//read next message and process by opcode
                 opcode = in.getNextMessageOPCode();
 
                 if (opcode != 0) {
 					//[C.N.011]
 					switch(opcode) {
-                        
+                        //case ping
                         case 'P'*256 + 'G':
 
                             System.out.println("NETWORK::Ping reply recieved.");
 
                             break;
-
+						//case Map Image
                         case 'M'*256 + 'I':
 
                             System.out.println("NETWORK::Downloading Map Image.");
                             in.getMapImage();		//[C.N.013]
                             Main.coreLogic.getLoadingScreen().incBy(50);
                             break;
-
+						//case Map Data
                         case 'M'*256 + 'D':
 
                             System.out.println("NETWORK::Downloading Map Data.");
@@ -95,7 +98,7 @@ public class NetworkEngine implements Runnable {
                             Main.coreLogic.getLoadingScreen().incBy(30);
                             Main.coreLogic.setState(GAME_STATE.INGAME_STATE);
                             break;
-
+						//Case Move Actor
                         case 'M'*256 + 'V':
 
                             System.out.println("NETWORK::Move Packet.");

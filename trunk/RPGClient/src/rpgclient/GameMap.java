@@ -1,6 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : GameMap.java
+ * Description : Stores information regarding the game map
+ *  and establishes functions for accesing said information.
  */
 
 package rpgclient;

@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : AnimatedSprite.java
+ * Description : Maintain data for animated sprites
  */
 
 package rpgclient;

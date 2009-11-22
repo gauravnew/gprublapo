@@ -1,6 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : ActorEngine.java
+ * Description : Maintains a list of all actors and
+ *   establishes functions to manage them.
  */
 
 package rpgclient;

@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Filename : LoadingScreen.java
+ * Description : Class to generate a screen with a loading progress bar.
  */
 
 package rpgclient;
