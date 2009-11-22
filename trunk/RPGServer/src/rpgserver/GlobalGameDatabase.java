@@ -22,6 +22,11 @@ public class GlobalGameDatabase {
         DB = new Hashtable();
         nextActorID = 0xFFFF;
     }
+    
+    //this function get a set of the database's keys
+    public synchronized Set getHashtableKeys(){
+    	return DB.keySet();
+    }
 
     //TODO: Complete!
     //This function creates a 'PlayerCharacter' object.
@@ -71,11 +76,16 @@ public class GlobalGameDatabase {
     public synchronized boolean deleteActor(Integer ActorID) {
     	
     	//if the actor exists in the hashtable
-    	if(DB.contains(ActorID)){
-    		DB.remove(ActorID); //remove the key and the correspoding value(actor) from the hashtable
+    	if(DB.containsKey(ActorID)){
+    		System.out.println("Size before delete: " + DB.size());
+    		System.out.println("The DB contains the key " + ActorID);
+    		DB.remove(ActorID); //remove the key and the corresponding value(actor) from the hashtable
+    		System.out.println("Size after delete: " + DB.size());
+    		System.out.println("The DB still contains the key? " + DB.containsKey(ActorID));
     		return true;
     	}
     	
+    	System.out.println("The DB contains the key? " + DB.containsKey(ActorID));
         return false;
         
     }
@@ -180,10 +190,15 @@ public class GlobalGameDatabase {
     //This function returns an array of the actorID's of all the
     //actors in the HashTable
     //This is basically an array of all the 'keys' in the hashtable.
-    public synchronized int [] getAllPlayerCharacters() {
-    	Set keySet = DB.keySet();
-    	Object keyArray = keySet.toArray();
-    	return (int []) keyArray; 
+    public synchronized Integer[] getAllPlayerCharacters() {
+    	Integer lastKey = nextActorID;
+    	Integer[] keyArray = new Integer[lastKey];
+    	
+    	for(int i = 0; i< lastKey; i++){
+    		keyArray[i] = lastKey;
+    		lastKey--;
+    	}
+    	return keyArray; 
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
