@@ -68,7 +68,7 @@ public class CoreGameLogic {
             actors.getActor(0).moveto = new Point2D(30,20);
         }
     }
-
+	//[C.N.021]
     public void processInput() {
         KeyEvent k = Main.getCanvas().getKey();
         if (k == null) return;
@@ -80,25 +80,25 @@ public class CoreGameLogic {
                 p = new Point2D(a.position);
                 p.setY(p.getY() - 1.0f);
                 if (!a.isMoving() && map.getCellType(p) != 0)
-                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
+                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);	//[C.N.022]
                 break;
             case KeyEvent.VK_DOWN:
                 p = new Point2D(a.position);
                 p.setY(p.getY() + 1.0f);
                 if (!a.isMoving() && map.getCellType(p) != 0)
-                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
+                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);	//[C.N.022]
                 break;
             case KeyEvent.VK_LEFT:
                 p = new Point2D(a.position);
                 p.setX(p.getX() - 1.0f);
                 if (!a.isMoving() && map.getCellType(p) != 0)
-                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
+                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);	//[C.N.022]
                 break;
             case KeyEvent.VK_RIGHT:
                 p = new Point2D(a.position);
                 p.setX(p.getX() + 1.0f);
                 if (!a.isMoving() && map.getCellType(p) != 0)
-                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);
+                    Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);	//[C.N.022]
                 break;
 
         }
@@ -132,7 +132,7 @@ public class CoreGameLogic {
             map.render(g);
             actors.renderAll(g, map.getLookAt());
             ui.render(g);
-            processInput();
+            processInput();	//[C.N.021]
         }
 
     }

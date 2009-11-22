@@ -62,7 +62,7 @@ public class NetworkEngine implements Runnable {
             Main.coreLogic.setState(GAME_STATE.LOADING_STATE);
 
             Main.coreLogic.getLoadingScreen().incBy(20);
-
+			//[C.N.002]
             out.sendLoginPacket(Main.getGameLogic().getMainActorName());
 
             while(true) {
@@ -72,7 +72,8 @@ public class NetworkEngine implements Runnable {
                 opcode = in.getNextMessageOPCode();
 
                 if (opcode != 0) {
-                    switch(opcode) {
+					//[C.N.011]
+					switch(opcode) {
                         
                         case 'P'*256 + 'G':
 
@@ -83,14 +84,14 @@ public class NetworkEngine implements Runnable {
                         case 'M'*256 + 'I':
 
                             System.out.println("NETWORK::Downloading Map Image.");
-                            in.getMapImage();
+                            in.getMapImage();		//[C.N.013]
                             Main.coreLogic.getLoadingScreen().incBy(50);
                             break;
 
                         case 'M'*256 + 'D':
 
                             System.out.println("NETWORK::Downloading Map Data.");
-                            in.getMapData();
+                            in.getMapData();		//[C.N.012]
                             Main.coreLogic.getLoadingScreen().incBy(30);
                             Main.coreLogic.setState(GAME_STATE.INGAME_STATE);
                             break;

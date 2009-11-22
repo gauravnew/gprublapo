@@ -99,7 +99,7 @@ public class Actor implements Comparable {
     public boolean isMoving() {
         return lastmovetime != 0;
     }
-
+	//[C.G.021]
     public void render(Graphics g, Point2D center) {
 
         float d = position.getDistance(moveto);
