@@ -62,7 +62,7 @@ public class Main extends Frame {
         coreLogic = new CoreGameLogic();
 
         show();
-
+		//[C.G.012]
          while (true)
              canvas.repaint();
 

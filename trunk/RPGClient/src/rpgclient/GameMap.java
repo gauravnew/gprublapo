@@ -64,7 +64,7 @@ public class GameMap {
                 return 0;
         }
     }
-
+	//[C.G.001]
     public void render(Graphics g) {
         if (!hidden) {
             g.setColor(Color.black);

@@ -32,7 +32,7 @@ public class UIEngine {
             System.out.println("UIENGINE::Failed to load.");
         }
     }
-
+	//[C.G.002]
     public void render(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(90, 60, 112, 20);

@@ -46,7 +46,7 @@ public class NetworkStreamParser {
         }
 
     }
-
+	//[C.N.013]
     public synchronized void getMapImage() {
         try {
 
@@ -68,7 +68,7 @@ public class NetworkStreamParser {
 
         }
     }
-
+	//[C.N.012]
     public synchronized void getMapData() {
 
         try {

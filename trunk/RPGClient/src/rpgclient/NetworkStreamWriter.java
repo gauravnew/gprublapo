@@ -66,7 +66,7 @@ public class NetworkStreamWriter {
 
         }
     }
-
+	//[C.N.022]
     public synchronized void sendActorMove(Point2D target) {
         try {
 
