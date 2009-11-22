@@ -29,6 +29,14 @@ public class Main {
             //Open a network socket at port 1234 and wait for incoming connections.
             ServerSocket srvr = new ServerSocket(1234);
             System.out.println("Server started. Listening on port 1234");
+
+/**
+   *TODO:  
+   * 	Modifiy infinite loop to only loop for 30 seconds after the last client connects.
+   *	Store the time remaining in  global variable that all clients will have access to.
+   *	**ClientHandler should also be updated to push this countdown after the game maps are sent.
+   *
+   */
             while (true) {
                 //Accept incoming connections.
                 Socket client = srvr.accept();

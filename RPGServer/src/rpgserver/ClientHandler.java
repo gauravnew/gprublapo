@@ -3,7 +3,10 @@
  * Description : Handles an individual client in
  * an independent thread.
  */
-
+/** TODO
+   *	Modify infinite loop (ln 69) to only allow moves once game has started AND
+   *	Until then, send the remaining ("countdown") time to the client.
+   */
 package rpgserver;
 
 import java.net.*;
