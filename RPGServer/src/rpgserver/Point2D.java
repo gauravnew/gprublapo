@@ -79,11 +79,6 @@ public class Point2D {
         return (float)Math.sqrt((p.x-x)*(p.x-x) + (p.y-y)*(p.y-y));
 
     }
-    
-    public Point2D getRandomPos(){
-    	Point2D randPoint = new Point2D();
-    	return randPoint;
-    }
 
     public void moveTo(float distance, Point2D towards) {
         //TODO: Implement this function.
