@@ -6,6 +6,13 @@ package rpgclient;
  * from the server.
  */
 
+ /**
+  *  TODO:
+  *	Add function getHealth()
+  *	Add function getGameOverState()
+  *	Add function readActorInfo(Integer id)
+  */ 
+ 
 
 import java.util.concurrent.*;
 import java.util.*;

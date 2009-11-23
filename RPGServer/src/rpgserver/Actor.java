@@ -5,6 +5,12 @@
  * from real players to H1N1 to classrooms.
  */
 
+/**
+  *  TODO
+  *	Create updatePosition() function which updates the actor's position based upon current
+  *	position, moveto position and time elapsed.  (See client Actor class render function). 
+  *	This should verify that the point it is about to move to is a valid map point.
+  */
 
 package rpgserver;
 
