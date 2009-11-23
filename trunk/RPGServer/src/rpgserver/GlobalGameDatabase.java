@@ -76,16 +76,18 @@ public class GlobalGameDatabase {
     public synchronized boolean deleteActor(Integer ActorID) {
     	
     	//if the actor exists in the hashtable
+    	//System.out.println("The DB contains the object with the key? " + DB.contains(ActorID));
     	if(DB.containsKey(ActorID)){
-    		System.out.println("Size before delete: " + DB.size());
+    		//System.out.println("Size before delete: " + DB.size());
     		System.out.println("The DB contains the key " + ActorID);
     		DB.remove(ActorID); //remove the key and the corresponding value(actor) from the hashtable
-    		System.out.println("Size after delete: " + DB.size());
+    		//System.out.println("Size after delete: " + DB.size());
     		System.out.println("The DB still contains the key? " + DB.containsKey(ActorID));
     		return true;
     	}
     	
     	System.out.println("The DB contains the key? " + DB.containsKey(ActorID));
+    	System.out.println("The DB contains the object with the key?? " + DB.contains(ActorID));
         return false;
         
     }
@@ -191,14 +193,27 @@ public class GlobalGameDatabase {
     //actors in the HashTable
     //This is basically an array of all the 'keys' in the hashtable.
     public synchronized Integer[] getAllPlayerCharacters() {
-    	Integer lastKey = nextActorID;
-    	Integer[] keyArray = new Integer[lastKey];
+    	Integer lastKey = nextActorID-1; //the last key that was input into the hashtable
+    	Integer[] keyArray = new Integer[DB.size()]; // the array of keys that are present in the hashtable
     	
-    	for(int i = 0; i< lastKey; i++){
-    		keyArray[i] = lastKey;
-    		lastKey--;
+    	int indx = DB.size()-1; //size of the hashtable
+    	//counter that goes through all possible keys that might have went into the hashtable at somepoint
+    	//and since than might have been deleted
+    	int counter = nextActorID-1;  
+    	
+    	//this while loop will test the current presence of all possible keys that were in the hashtable at some point
+    	while(counter>=0xFFFF){
+ //   		System.out.println("Testing if the DB contains key: " + lastKey);
+    		if(DB.containsKey(lastKey)){ //if the hashtable has the key...
+    			keyArray[indx] = lastKey; //assign the key
+ //   			System.out.println("The DB contains the key: " + lastKey + " that was placed into keyArray[" + indx+"]");
+    			indx--; //next index going in reverse
+    		}
+    		lastKey--; //next key
+    		counter--; //counter
     	}
-    	return keyArray; 
+    	
+    	return keyArray; //return the array that contains all the current keys present in the hashtable
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
