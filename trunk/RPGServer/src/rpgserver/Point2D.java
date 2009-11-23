@@ -5,6 +5,11 @@
  * operations on them.
  */
 
+/**
+  *  TODO
+  *	Implemnt function moveTo.  (Copy from client side)
+  */  
+
 package rpgserver;
 
 /**

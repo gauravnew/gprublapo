@@ -7,6 +7,13 @@
 
 package rpgserver;
 
+/**
+   *  TODO:  
+   *	Add functions sendHealth(int health)
+   *	Add function sendEndGame(boolean win)
+   *	Add function sendNewActorData(Integer id)
+   */
+
 import java.io.*;
 import java.util.concurrent.*;
 

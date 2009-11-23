@@ -4,8 +4,14 @@
  * an independent thread.
  */
 /** TODO
-   *	Modify infinite loop (ln 69) to only allow moves once game has started AND
-   *	Until then, send the remaining ("countdown") time to the client.
+   *	Modify infinite loop (ln 70) to only allow moves once game has started.
+   *	Ssend the remaining ("countdown") time to the client.
+   *	When gamestate changes to countdown, transmit list of actors.
+   *	Modify opcode switch case for player move packet; move request should just set moveto
+   *	Before infinite loop loops (ln **?), call updatePosition(), check for collisions, process them
+   *		using processCollision (verify return value in case of win -- if so set gamestate to win
+		transmit gameover win, exit loop, terminate thread), transmit new location & health
+	Transmit game over / loss when gamestate changes to game over.
    */
 package rpgserver;
 

@@ -4,6 +4,14 @@
  * University Game Server running on port 1234.
  */
 
+/**
+ * TODO:  
+ * 	Modifiy infinite loop (ln 41) to only loop for 20 seconds after the last client connects,
+		then initiate 10 second countdown, set game state to countdown, do not acept more clients
+ *	Wait for all other threads to terminate before exiting/restarting
+ *
+ */
+ 
 package rpgserver;
 
 import java.net.*;
@@ -30,13 +38,6 @@ public class Main {
             ServerSocket srvr = new ServerSocket(1234);
             System.out.println("Server started. Listening on port 1234");
 
-/**
- * TODO:  
- * 	Modifiy infinite loop to only loop for 30 seconds after the last client connects.
- *	Store the time remaining in  global variable that all clients will have access to.
- *	**ClientHandler should also be updated to push this countdown after the game maps are sent.
- *
- */
             while (true) {
                 //Accept incoming connections.
                 Socket client = srvr.accept();		//[S.N.001]

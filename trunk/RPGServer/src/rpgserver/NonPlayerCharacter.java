@@ -4,6 +4,12 @@
  * controlled actors.
  */
 
+/** 
+  *  TODO	
+  *	Update players with random location to use GameMap's getRandomMapPoint()
+  *	Add nextDirection enum {VERTICAL(-1), HORIZONTAL(1)}
+  */
+ 
 package rpgserver;
 
 /**

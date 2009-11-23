@@ -4,6 +4,12 @@
  *				Functions to handle all game events.
  */
 
+/**
+  *  TODO
+  *	In function setState, do not create self actor, but rather wait to do so until
+  *		actor list is transmitted during final countdown.
+  */
+ 
 package rpgclient;
 import javax.swing.*;
 import java.awt.*;

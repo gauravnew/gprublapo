@@ -3,6 +3,13 @@
  * and open the template in the editor.
  */
 
+/**
+  *  TODO
+  *	Implement Runnable
+  *	Infinite loop: iterate through all movable NPC.  If position == moveto, generate new 
+  *	position & toggle nextDirection. Then call Actor's updatePosition() function.
+  */
+ 
 package rpgserver;
 
 import java.util.*;
