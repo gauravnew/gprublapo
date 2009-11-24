@@ -31,6 +31,9 @@ public class Main {
     public static void main(String[] args) {
 
         cDBEngine = new GlobalGameDatabase();
+        cGameLogic = new GlobalGameLogic();
+
+        new Thread(cGameLogic).start();
 
         try {
 

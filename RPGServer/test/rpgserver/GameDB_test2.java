@@ -3,7 +3,7 @@ package rpgserver;
 import java.util.*;
 
 
-public class GameDB_test {
+public class GameDB_test2 {
 	
 	//this class is a testbed for testing the GlobalGame Database
 	public static void main(String[] args){

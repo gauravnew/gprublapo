@@ -88,6 +88,10 @@ public class Actor implements Comparable {
 
     }
 
+    Actor(int ActorID) {
+        actorID = ActorID;
+    }
+
     @Override
     public int compareTo(Object a) {
         return ((Actor)a).actorID - actorID;
