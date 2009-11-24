@@ -18,7 +18,7 @@ package rpgserver;
  *
  * @author Gaurav
  */
-public class Actor {
+public class Actor implements Comparable {
 
     public Integer actorID;
     public int type;
@@ -39,6 +39,20 @@ public class Actor {
         speed = 0;
         lastmovetime = 0;
         name = "default";
+        
+    }
+
+    @Override
+    public int compareTo(Object a) {
+        return ((Actor)a).actorID - actorID;
+    }
+
+    @Override
+    public boolean equals(Object a) {
+        return actorID == ((Actor)a).actorID;
+    }
+
+    public void updatePosition(Actor actor) {
         
     }
     

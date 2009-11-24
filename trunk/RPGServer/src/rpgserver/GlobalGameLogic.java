@@ -20,19 +20,33 @@
  
 package rpgserver;
 
+import java.util.*;
+import java.util.concurrent.*;
+
 /**
  *
  * @author Gaurav
  */
 public class GlobalGameLogic implements Runnable {
 
-    GlobalGameDatabase cDBEngine;
+    GlobalGameDatabase cDBEngine = Main.cDBEngine;
     NPCEngine cNPCEngine;
-    GameMap cMapEngine;
+    GameMap cMapEngine = new GameMap();
     AIEngine cAIEngine;
     
     public void run() {
-
+        while (true) {
+            for(Actor actor : cDBEngine.getHashtableKeys()) {
+                if (!(actor).moveto.equals((actor).position)) {
+                    (actor).position = new Point2D((actor).moveto);
+                    for(Actor other : cDBEngine.getHashtableKeys()) {
+                        if ((other).type == 0) {
+                            ((PlayerCharacter)other).updatePosition(actor);
+                        }
+                    }
+                }
+            }
+        }
     }
     
 }

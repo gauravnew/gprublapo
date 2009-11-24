@@ -29,6 +29,8 @@ public class ClientHandler implements Runnable {
     //Locals.
     private Socket sckClient;
     private Integer myActorID;
+    private NetworkStreamParser netIn;
+    private NetworkStreamWriter netOut;
     
     //Globals
     private GlobalGameDatabase cDBEngine;
@@ -37,6 +39,10 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket c, GlobalGameDatabase dB) {
         sckClient = c;
         cDBEngine = dB;
+    }
+
+    public NetworkStreamWriter getNetworkOutput() {
+        return netOut;
     }
 
     public void setActorID(int actid) {
@@ -63,10 +69,10 @@ public class ClientHandler implements Runnable {
             out = new DataOutputStream(sckClient.getOutputStream());
 
             //Instanciate NetworkStreamParser to manage network input.
-            NetworkStreamParser netIn = new  NetworkStreamParser(in);
+            netIn = new  NetworkStreamParser(in);
 
             //Instanciate NetworkStreamWriter to manage network output.
-            NetworkStreamWriter netOut = new NetworkStreamWriter(out);
+            netOut = new NetworkStreamWriter(out);
 
             //A client has been connected.
             System.out.println("Client Connected from: " + sckClient.getInetAddress());
@@ -98,8 +104,9 @@ public class ClientHandler implements Runnable {
 
                     case 'L'*256 + 'G':		//[S.N.011]
 
-                        System.out.println("NETWORK::Login Recieved.");
-                        cDBEngine.setActorName(myActorID, netIn.getNamefromLogin());
+                        String name = netIn.getNamefromLogin();
+                        System.out.println("NETWORK::Login Recieved from " + name);
+                        cDBEngine.setActorName(myActorID, name);
                         netOut.sendMapImage(new File("data/map.png"));
                         netOut.sendMapData(new File("data/map_dat.png"));
                         break;
@@ -107,8 +114,9 @@ public class ClientHandler implements Runnable {
                     case 'M'*256 + 'V':
                         System.out.println("NETWORK::Player Move");
                         Point2D p = netIn.getActorMove();
-                        cDBEngine.setActorPosition(myActorID, p);
-                        netOut.sendActorMove(0, p);
+                        if (Main.cGameLogic.cMapEngine.getCellType(p) != 0)
+                            cDBEngine.setActorMoveTo(myActorID, p);
+                        
                         break;
 
                     default:

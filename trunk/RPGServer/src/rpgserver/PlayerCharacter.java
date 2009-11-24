@@ -24,4 +24,10 @@ package rpgserver;
 public class PlayerCharacter extends Actor {
 
     ClientHandler client;
+
+    @Override
+    public void updatePosition(Actor actor) {
+        client.getNetworkOutput().sendActorMove(actor.actorID, actor.moveto);
+    }
+
 }

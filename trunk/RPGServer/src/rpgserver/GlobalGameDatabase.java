@@ -11,21 +11,27 @@ import java.util.concurrent.*;
 /**
  * @author Gaurav
  */
-public class GlobalGameDatabase {
+public class GlobalGameDatabase implements Iterable {
 
     //Hashtable to store Actor data.
-    private Hashtable DB;
+    private ConcurrentSkipListSet<Actor> DB;
     //Next available actorID.
     Integer nextActorID;
 
     public GlobalGameDatabase() {
-        DB = new Hashtable();
+        DB = new ConcurrentSkipListSet<Actor>();
         nextActorID = 0xFFFF;
     }
-    
+
+    @Override
+    public synchronized Iterator<Actor> iterator() {
+        return DB.iterator();
+    }
+
+
     //this function get a set of the database's keys
-    public synchronized Set getHashtableKeys(){
-    	return DB.keySet();
+    public synchronized ConcurrentSkipListSet<Actor> getHashtableKeys(){
+    	return DB;
     }
 
     //TODO: Complete!
@@ -39,7 +45,8 @@ public class GlobalGameDatabase {
         PlayerCharacter p = new PlayerCharacter();
         p.actorID = nextActorID++;
         p.client = c;
-        DB.put(p.actorID,p);
+        DB.add(p);
+        //DB.put(p.actorID,p);
 
         return p.actorID.intValue();
 
@@ -54,7 +61,8 @@ public class GlobalGameDatabase {
 
         NonPlayerCharacter np = new NonPlayerCharacter(type);
         np.actorID = nextActorID++;
-        DB.put(np.actorID, np);
+        DB.add(np);
+        //DB.put(np.actorID, np);
 
         return np.actorID.intValue();
         
@@ -63,7 +71,8 @@ public class GlobalGameDatabase {
 
         NonPlayerCharacter np = new NonPlayerCharacter(type, mapPos);
         np.actorID = nextActorID++;
-        DB.put(np.actorID, np);
+        DB.add(np);
+        //DB.put(np.actorID, np);
 
         return np.actorID.intValue();
         
@@ -75,19 +84,21 @@ public class GlobalGameDatabase {
     //return true always.
     public synchronized boolean deleteActor(Integer ActorID) {
     	
+        Actor temp = new Actor();
+        temp.actorID = ActorID;
     	//if the actor exists in the hashtable
     	//System.out.println("The DB contains the object with the key? " + DB.contains(ActorID));
-    	if(DB.containsKey(ActorID)){
+    	if(DB.contains(temp)){
     		//System.out.println("Size before delete: " + DB.size());
     		System.out.println("The DB contains the key " + ActorID);
-    		DB.remove(ActorID); //remove the key and the corresponding value(actor) from the hashtable
+    		DB.remove(temp); //remove the key and the corresponding value(actor) from the hashtable
     		//System.out.println("Size after delete: " + DB.size());
-    		System.out.println("The DB still contains the key? " + DB.containsKey(ActorID));
+    		System.out.println("The DB still contains the key? " + DB.contains(temp));
     		return true;
     	}
     	
-    	System.out.println("The DB contains the key? " + DB.containsKey(ActorID));
-    	System.out.println("The DB contains the object with the key?? " + DB.contains(ActorID));
+    	System.out.println("The DB contains the key? " + DB.contains(temp));
+    	System.out.println("The DB contains the object with the key?? " + DB.contains(temp));
         return false;
         
     }
@@ -97,7 +108,16 @@ public class GlobalGameDatabase {
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized Point2D getActorPosition(Integer ActorID) {
         
-    	Actor a = (Actor) DB.get(ActorID);
+        Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+        } else {
+            a = null;
+        }
     	return a.position; //return the actor's position
     }
 
@@ -106,8 +126,17 @@ public class GlobalGameDatabase {
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized Point2D getActorMoveTo(Integer ActorID) {
     	
-    	Actor a = (Actor) DB.get(ActorID); //get the actor with the ActorID  from the hashtable
-
+        Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+        } else {
+            a = null;
+        }
+        
     	return a.moveto;
     }
 
@@ -116,8 +145,16 @@ public class GlobalGameDatabase {
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized float getActorSpeed(Integer ActorID) {
     	
-    	Actor a = (Actor) DB.get(ActorID); //get the actor with the ActorID  from the hashtable
-
+        Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+        } else {
+            a = null;
+        }
     	return a.speed;
     }
 
@@ -127,8 +164,19 @@ public class GlobalGameDatabase {
     //basically, it returns the 'status' variable of the
     //actor &(bitwise and) with the argument flag.
     public synchronized int getActorStatusFlags(Integer ActorID, int flag) {
-    	Actor a = (Actor) DB.get(ActorID);
-        int stat = a.status;
+    	Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        int stat = 0;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+            stat = a.status;
+        } else {
+            a = null;
+        }
+        
     	return (stat & flag);
     }
 
@@ -136,7 +184,17 @@ public class GlobalGameDatabase {
     //This function returns the type of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized int getActorType(Integer ActorID) {
-    	Actor a = (Actor) DB.get(ActorID);
+        
+        Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+        } else {
+            a = null;
+        }
     	return a.type;
     }
 
@@ -144,24 +202,54 @@ public class GlobalGameDatabase {
     //This function sets the position of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized void setActorPosition(Integer ActorID, Point2D p) {
-    	Actor a = (Actor) DB.get(ActorID);
-    	a.position = p;
+        
+        Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+            a.position = p;
+        } else {
+            a = null;
+        }
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
     //This function sets the moveto of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized void setActorMoveTo(Integer ActorID, Point2D p) {
-    	Actor a = (Actor) DB.get(ActorID);
-    	a.moveto = p;
+    	Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+            a.moveto = p;
+        } else {
+            a = null;
+        }
+    	
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
     //This function sets the speed of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized void setActorSpeed(Integer ActorID, float s) {
-    	Actor a = (Actor) DB.get(ActorID);
-    	a.speed = s;
+    	Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+            a.speed = s;
+        } else {
+            a = null;
+        }
+    	
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
@@ -173,20 +261,43 @@ public class GlobalGameDatabase {
     //If the state is true then set the actor's 'status' to
     //status = status | flag; (bitwise or)
     public synchronized void setActorStatusFlag(Integer ActorID, int flag, boolean state) {
-    	Actor a = (Actor) DB.get(ActorID);
-    	if(state)
-    		a.status = a.status|flag;
-    	else
-    		a.status = a.status&(~flag);
+    	Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+            if(state)
+                    a.status = a.status|flag;
+            else
+                    a.status = a.status&(~flag);
+        } else {
+            a = null;
+        }
+    	
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
     //This function sets the type of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized void setActorType(Integer ActorID, int type) {
-    	Actor a = (Actor) DB.get(ActorID);
-    	a.type = type;
+    	Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+            a.type = type;
+        } else {
+            a = null;
+        }
+    	
     }
+
+    //TODO: Previously existing keys may be deleted and should not be returned.
+    //=========================================================================
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
     //This function returns an array of the actorID's of all the
@@ -204,7 +315,7 @@ public class GlobalGameDatabase {
     	//this while loop will test the current presence of all possible keys that were in the hashtable at some point
     	while(counter>=0xFFFF){
  //   		System.out.println("Testing if the DB contains key: " + lastKey);
-    		if(DB.containsKey(lastKey)){ //if the hashtable has the key...
+    		if(DB.contains(lastKey)){ //if the hashtable has the key...
     			keyArray[indx] = lastKey; //assign the key
  //   			System.out.println("The DB contains the key: " + lastKey + " that was placed into keyArray[" + indx+"]");
     			indx--; //next index going in reverse
@@ -220,8 +331,18 @@ public class GlobalGameDatabase {
     //sets the name of the actor with the
     //given actorID.
     public synchronized void setActorName(Integer ActorID, String name) {
-    	Actor a = (Actor) DB.get(ActorID);
-    	a.name = name;
+    	Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+            a.name = name;
+        } else {
+            a = null;
+        }
+    	
     }
     
 }

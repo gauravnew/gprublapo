@@ -49,7 +49,14 @@ public class ActorEngine {
 
     public synchronized Actor getActor(int actorID) {
         try {
-            return actors.ceiling(new Actor(actorID,0,"NA"));
+            Actor a = new Actor(actorID);
+            if (actors.floor(a).equals(a)) {
+                return actors.floor(a);
+            } else {
+                Actor newact = new Actor(actorID,0,"Default");
+                addActor(newact);
+                return newact;
+            }
         } catch (Exception e) {
             return null;
         }
