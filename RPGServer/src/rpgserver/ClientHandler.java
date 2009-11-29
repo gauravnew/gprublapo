@@ -10,8 +10,11 @@
    *	Modify opcode switch case for player move packet; move request should just set moveto
    *	Before infinite loop loops (ln **?), call updatePosition(), check for collisions, process them
    *		using processCollision (verify return value in case of win -- if so set gamestate to win
-		transmit gameover win, exit loop, terminate thread), transmit new location & health
-	Transmit game over / loss when gamestate changes to game over.
+   *		transmit gameover win, exit loop, terminate thread), transmit new location & health
+   *	Transmit game over / loss when gamestate changes to game over.
+   *	Add datamember PlayerCharacter myCharacter
+   *	Update setActorID to grab myCharacter from GlobalGameDatabase
+   *	Transmit other visible players' locations when they move (each loop)
    */
 package rpgserver;
 
