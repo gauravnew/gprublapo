@@ -1,4 +1,9 @@
 MAP FILE FORMAT:
 ================
 
-...
+Map Image -> map.png : This image is displayed on the screen.
+Map Data -> map_data.png : This image is used to determine the properties of a cell with the following color code.
+
+	Black: Unwalkable
+	White: Walkable
+	Red: Door
