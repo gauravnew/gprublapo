@@ -1,46 +1,82 @@
 Main===============================================================================
+datamember GlobalGameDatabase cDBEngine
+datamember GlobalGameLogic cGameLogic
 Main(String [] args)
 
 	public datamember Semaphore================================================
-
+	
 	Point2D====================================================================
 	datamember float x
 	datamember float y
+	constructor Point2D
+	constrcutor Point2D(float in_X, float in_Y)
+	constructor Point2D(Point2D p)
+	void float getX()
+	void float getY()
+	void float setX()
+	void float setY()
+	void setPosition(float in_X, float in_Y)
 	float getDistance(Point2D other)
-	bool equals(Point2D other)
+	boolean equals(Point2D other)
 	void moveTo(float distance, Point2D towards)
 
 	NonPlayerCharacterEngine===================================================
-	implements Runnable
-	void run()
 	bool loadNPCsFromFile(String filename)
+	void generateNewPosition(Integer actorID)
 
 	GlobalGameLogic============================================================
 	Thread Synchronized access only
 	datamember char [][] map;
 	datamember int mapWidth;
 	datamember int mapHeight;
-	dispatchGlobalMessage(char [])
-	getPlayerNetworkWriter(int ActorID)
-	bool checkWinningCondition()
-	bool loadMapFromFile(String file)
-	Point2D [] getAIFindPath(Point2D start, Point2D end)
-	...
+	datatype GAME_STATE enum {LOGIN_STATE, COUNTDOWN_STATE, INGAME_STATE, GAMEOVER_STATE}
+	datamember GAME_STATE state
+	datamember int countdown
+	datamember GlobalGameDatabase cDBEngine
+	datamember NPCEngine cNPCEngine
+	datamember GameMap cMapEngine
+	datamember String winner
+	void setState(GAMESTATE s)
+	void setCounter(int t)
+	String getWinner()
+	int checkCountdown()
+	GAME_STATE checkState()
+	GlobalGameDatabase getGameDB()
+	GameMap getGameMap()
+	NPCEngine getNPCEngine()
+
+		GameMap================================================================
+		datamember BufferedImage mapData
+		datamember int width
+		datamember int height
+		constructor GameMap()
+		int getCellType(Point2D p)
+		Point2D getRandomMapPoint()
 
 	GlobalGameDB===============================================================
 	Thread Synchronized access only
-	int createNewPlayerCharacter(NetworkStreamWriter out)
-	int createNewNonPlayerCharacter()
-	bool deleteActor(int ActorID)
-	Point2D getActorPosition(int ActorID)
-	float getActorSpeed(int ActorID)
-	int getActorStatusFlags(int ActorID)
-	int getActorType(int ActorID)
-	void setActorPosition(int ActorID, Point2D)
-	void setActorSpeed(int ActorID, float speed)
-	void setActorStatusFlag(int ActorID, int flag, bool state)
-	void setActorType(int ActorID, int type)	
-	int [] getAllPlayerCharacters()
+	datamember ConcurrentSkipListSet<Actor> DB
+	datamember Integer nextActorID
+	constructor GlobalGameDatabase()
+	Iterator<Actor> iterator()
+	ConcurrentSkipListSet<Actor> getHashtableKeys()
+	int createNewPlayerCharacter(ClientHandler c)
+	int createNewNonPlayerCharacter(int type)
+	int createNewNonPlayerCharacter(int type, Point2D mapPos)
+	bool deleteActor(Integer ActorID)
+	Point2D getActorPosition(Integer ActorID)
+	Point2D getActorMoveTo(Integer ActorID)
+	float getActorSpeed(Integer ActorID)
+	int getActorStatusFlags(Integer ActorID)
+	int getActorType(Integer ActorID)
+	void setActorPosition(Integer ActorID, Point2D p)
+	void setActorMoveTo(Integer ActorID, Point2D p)
+	void setActorSpeed(int ActorID, float s)
+	void setActorStatusFlag(int ActorID, int flag, boolean status)
+	void setActorType(Integer ActorID, int type)
+	PlayerCharacter getPlayer(int ActorID)
+	Integer [] getAllPlayerCharacters()
+	void setActorName(Integer ActorID, String name)
 		
 		Actor==============================================================
 		datamember int ActorID
@@ -50,35 +86,64 @@ Main(String [] args)
 		datamember int status
 		datamember float speed
 		datamamber long lastMoveTime
+		datamember String name
+		constructor Actor()
+		int compareTo(Object a)
+		boolean equals(Object a)
+		void updatePosition(Actor actor)
 		
 		PlayerCharacter====================================================
 		derrives Actor
 		datamember NetworkStreamWriter out;
+		datamember int health
+		datamember boolean inBridge
+		datamember int lastClass
+		datamember int[9] classes attended
+		datamember float distFromLastEx
+		datamember boolean sick
+		datamember int credits
+		Integer checkCollision()
+		void processCollision(Integer id)
 		
 
 		NonPlayerCharacter=================================================
 		derrives Actor
+		datamember nextDirection enum {VERTICAL(-1), HORIZONTAL(1)}
 
 	ClientHandler==============================================================
 	implements Runnable
+	datamember Socket sckClient
+	datamember Integer myActorID
+	datamember PlayerCharacter myCharacter
+	datamember NetworkStreamParser netIn
+	datamember NetworkStreamParser netOut
+	datamember GlobalGameDatabase cDBEngine
+	constructor ClientHandler(Socket c, GlobalGameDatabase dB)
+	NetworkStreamWriter getNetworkOutput()
+	void setActorID(int actid)
+	void sendAllCharacters()
 	void run()
 	
 		NetworkStreamParser================================================
 		Thread Synchronized access only
+		datamember DataInputStream netIn
+		constructor NetworkStreamParser(DataInputStream in)
 		int getNextMessageOPCode()
-		int getInt()
-		float getFloat()
-		char [] readString(int len)
-		short getShort()
-		...
+		String getNamefromLogin()
+		Point2D getActorMove
 
 		NetworkStreamWriter================================================
 		Thread Synchronized access only
-		sendRawMessage(char[] message)
+		datamember DataOutputStream netOut
+		constructor NetworkStreamWriter(DataOutputStream out)
 		sendPingReply()
-		sendPortReply(int PORT)
-		sendMaptoClient()
-		sendSetActorPosition(int ActorID, float x, float y)
-		...
+		sendMapImage(File F)
+		sendMapData(File F)
+		sendSetActorMove(int ActorID, Point2D target)
+		sendCredits(int credits)
+		sendHealth(int health)
+		sendEndGame(String winner)
+		sendNewActorData(Integer id)
+		
 		
 	

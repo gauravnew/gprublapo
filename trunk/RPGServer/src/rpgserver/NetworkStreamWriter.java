@@ -10,7 +10,7 @@ package rpgserver;
 /**
    *  TODO:  
    *	Add functions sendHealth(int health)
-   *	Add function sendEndGame(boolean win)
+   *	Add function sendEndGame(String winner)
    *	Add function sendNewActorData(Integer id)
    */
 
