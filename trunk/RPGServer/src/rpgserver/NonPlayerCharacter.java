@@ -58,7 +58,9 @@ public class NonPlayerCharacter extends Actor {
 		if(type<4 || type>24){
 			System.out.println("invalid type");
 		}else{
+			
 			this.type = type; //sets Actor's type to the passed in argument type
+			
 			position = new Point2D();
 	        float x = mapPos.getX();
 	        float y = mapPos.getY();
