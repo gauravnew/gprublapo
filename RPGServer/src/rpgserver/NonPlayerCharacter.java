@@ -23,12 +23,12 @@ public class NonPlayerCharacter extends Actor {
 			System.out.println("invalid type");
 		}else{
 			//random position for any type
-			float randX = (float) Math.random();
-			float randY = (float) Math.random();
+			Point2D randPt =  Main.cGameLogic.cMapEngine.getRandomMapPoint();
+			
 			
 			this.type = type; //sets Actor's type to the passed in argument type
 	        position = new Point2D();
-	        position.setPosition(randX, randY);
+	        position.setPosition(randPt.getX(), randPt.getY());
 	        
 			if(type == 1){
 				//H1N1 - type 1	
