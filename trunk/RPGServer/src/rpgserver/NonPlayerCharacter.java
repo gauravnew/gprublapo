@@ -17,6 +17,15 @@ package rpgserver;
  */
 public class NonPlayerCharacter extends Actor {
 
+	enum RELATIVE_DIRECTION{
+		VERTICAL(-1), HORIZONTAL(1);
+		int data;
+		RELATIVE_DIRECTION(int x){
+			data = x;
+		}
+	}
+	RELATIVE_DIRECTION nextDirection;
+	
 	//non player characters that move or have a random location
 	public NonPlayerCharacter(int type) {
 		if(type<1 || type>4){
