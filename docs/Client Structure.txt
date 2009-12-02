@@ -1,84 +1,178 @@
-Main===============================================================================
+Main===========================================================================
 Main(String [] args)
 
 	public datamember Semaphore================================================
 
+	CoreGameLogic==============================================================
+		datamember String main_actor_name
+		datatype GAME_STATE {LOGIN_STATE, LOADING_STATE, INGAME_STATE}
+		datamember GAME_STATE state
+		datamember LoginScreen login
+		datamember LoadingScreen loading;
+		datamember GameMap map
+		datamember UIEngine ui
+		dataMember ActorEngine actors
+		constructor CoreGameLogic()
+		ActorEngine getActorEngine()
+		String getMainActorName()
+		void setMainActorName(String name)
+		LoadingScreen getLoadingScreen()
+		boolen checkState(GAME_STATE s)
+		void setState (GAME_STATE s)
+		void processInput()
+		void renderLoop(Graphics g)
+
+		ActorEngine============================================================
+			datamember ConcurrentSkipListSet<Actor> actors
+			datamember int mainActorID
+			constructor ActorEngine()
+			void setMainActor(int id)
+			int getMainActor()
+			int addActor(Actor a)
+			int removeActor(Actor a)
+			Actor getActor(int actorID)
+			void renderAll(Graphics g, Point2D center)
+			
+				Actor==========================================================
+					datamember Integer actorID;
+					datamember int type;
+					datamember Point2D position;
+					datamember int direction;
+					datamember int frame;
+					datamember Point2D moveto;
+					datamember int status;
+					datamember float speed;
+					datamember long lastmovetime;
+					datamember String name;
+					datamember AnimatedSprite[] sprite;
+					datatype DIRECTION {FRONT(0), LEFT(1), BACK(2), RIGHT(3)}
+					constructor Actor(int ID, int nType, String sName)
+					constructor Actor(int Actor ID)
+					int compareTo(Object a)
+					boolean equals(Object a)
+					boolean isMoving()
+					void render(Graphics g, Point2D center)
+					
+					AnimatedSprite=============================================
+					datamember BufferedImage [] imageList
+					datamember float current_frame
+					datamember int num_frames
+					constructor AnimatedSprite(String sprite_name, int frame_count)
+					BufferedImage getDefaultFrame()
+					BufferedImage animate(float distance)
+
+		GameMap================================================================
+			datamember BufferedImage mapImage
+			datamember BufferedImage mapData
+			datamember boolean hidden
+			datamember Point2D location
+			constructor GameMap()
+			void setLookAt(Point2D p)
+			Point2D getLookAt()
+			Point2D getMapCoordinates()
+			int getCellType(Point2D p)
+			void render(Graphics g)
+		
+		LoadingScreen==========================================================
+			datamember final int MAX
+			datamember int percentage
+			datamember boolean hidden
+			constructor LoadingScreen()
+			void hide()
+			void show()
+			void inc()
+			void dec()
+			void incBy(int val)
+			void reset()
+			float getPercent()
+			void render(Graphics g)
+			
+		LoginScreen============================================================
+			datamember BufferedImage backgroundImage
+			datamember Panel panel
+			datamember final int width
+			datamember final int height
+			datamember boolean hidden
+			datamember TextField ip
+			datamember TextField user
+			datamember JButton login
+			constructor LoginScreen()
+			String getIP()
+			String getName()
+			void hide()
+			void show()
+			void finalize()
+			void destory()
+			void render(Graphis g)
+			
+			ButttonListener====================================================
+				implements ActionListener
+				constructor ButtonListener
+				void actionPerformed(ActionEvent e)
+		
+		UIEngine===============================================================
+			datamember BufferedImage topBar
+			datamember String playerName
+			datamember String countDown
+			datamember long lastTime
+			constructor UIEngine()
+			void setPlayerName(Stringname)
+			void decrementCount()
+			void render(Grapics g)
+	
 	Point2D====================================================================
-	datamember float x
-	datamember float y
-	float getDistance(Point2D other)
-	bool equals(Point2D other)
-	void moveTo(float distance, Point2D towards)
-
-	NonPlayerCharacterEngine===================================================
-	implements Runnable
-	void run()
-	bool loadNPCsFromFile(String filename)
-
-	GlobalGameLogic============================================================
-	Thread Synchronized access only
-	datamember char [][] map;
-	datamember int mapWidth;
-	datamember int mapHeight;
-	dispatchGlobalMessage(char [])
-	getPlayerNetworkWriter(int ActorID)
-	bool checkWinningCondition()
-	bool loadMapFromFile(String file)
-	Point2D [] getAIFindPath(Point2D start, Point2D end)
-	...
-
-	GlobalGameDB===============================================================
-	Thread Synchronized access only
-	int createNewPlayerCharacter(NetworkStreamWriter out)
-	int createNewNonPlayerCharacter()
-	bool deleteActor(int ActorID)
-	Point2D getActorPosition(int ActorID)
-	float getActorSpeed(int ActorID)
-	int getActorStatusFlags(int ActorID)
-	int getActorType(int ActorID)
-	void setActorPosition(int ActorID, Point2D)
-	void setActorSpeed(int ActorID, float speed)
-	void setActorStatusFlag(int ActorID, int flag, bool state)
-	void setActorType(int ActorID, int type)	
-	int [] getAllPlayerCharacters()
-		
-		Actor==============================================================
-		datamember int ActorID
-		datamember int type
-		datamember Point2D position
-		datamember Point2D moveto
-		datamember int status
-		datamember float speed
-		datamamber long lastMoveTime
-		
-		PlayerCharacter====================================================
-		derrives Actor
-		datamember NetworkStreamWriter out;
-		
-
-		NonPlayerCharacter=================================================
-		derrives Actor
-
-	ClientHandler==============================================================
-	implements Runnable
-	void run()
+		datamember float x
+		datamember float y
+		constructor Point2D
+		constrcutor Point2D(float in_X, float in_Y)
+		constructor Point2D(Point2D p)
+		void float getX()
+		void float getY()
+		void float setX()
+		void float setY()
+		void setPosition(float in_X, float in_Y)
+		float getDistance(Point2D other)
+		float getMinDistance(Point2D other)
+		boolean equals(Point2D other)
+		boolean sameCell(Point2D other)
+		void moveTo(float distance, Point2D towards)
 	
-		NetworkStreamParser================================================
-		Thread Synchronized access only
-		int getNextMessageOPCode()
-		int getInt()
-		float getFloat()
-		char [] readString(int len)
-		short getShort()
-		...
-
-		NetworkStreamWriter================================================
-		Thread Synchronized access only
-		sendRawMessage(char[] message)
-		sendPingReply()
-		sendPortReply(int PORT)
-		sendMaptoClient()
-		sendSetActorPosition(int ActorID, float x, float y)
-		...
-		
+	XCanvas====================================================================
+		datamember MouseEvent mouse
+		datamember KeyEvent key
+		datamember Image offImage
+		datamember Graphics bufferGraphics
+		constructor XCanvas
+		void update(Graphics g)
+		void paint(Graphics g)
 	
+	NetworkEngine==============================================================
+		implements Runnable
+		datamember NetworkStreamWriter out
+		datamember NetworkStreamParser in
+		datamember String ServerIP
+		datamebmer Socket sckServer
+		void setServerIP(String ip)
+		NetworkStreamWriter getNetworkOutput()
+		boolean connectToServer()
+		void finalize()
+		void run()
+		
+			NetworkStreamParser================================================
+				datamember DataInputStream netIn
+				constructor NetworkStreamParser(DataInputStream in)
+				int getNextMessageOpCode()
+				void getMapImage()
+				void getMapData()
+				Point2D getActorMove(Integer id)
+				int getHealth()
+				int getCredits()
+				String getWinner()
+				Actor readActorInfo()
+				
+			NetworkStreamWriter================================================
+				datamember DataOutputStream netOut
+				constructor NetworkStreamWEriter(DataOutputStream out)
+				void sendLoginPacket(String name)
+				void sendPing()
+				void sendActorMove(Point2D target)

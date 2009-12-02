@@ -43,6 +43,7 @@ Main(String [] args)
 	String getWinner()
 	int checkCountdown()
 	GAME_STATE checkState()
+	boolean checkState(GAME_STATE s)
 	GlobalGameDatabase getGameDB()
 	GameMap getGameMap()
 	NPCEngine getNPCEngine()
@@ -105,6 +106,7 @@ Main(String [] args)
 		datamember int lastClass
 		datamember int[9] classes attended
 		datamember float distFromLastEx
+		datamember float distTrav
 		datamember boolean sick
 		datamember int credits
 		Integer checkCollision()
