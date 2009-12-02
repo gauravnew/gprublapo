@@ -9,7 +9,8 @@
   *  TODO
   *	Create updatePosition() function which updates the actor's position based upon current
   *	position, moveto position and time elapsed.  (See client Actor class render function). 
-  *	This should verify that the point it is about to move to is a valid map point.
+  *	This should verify that the point it is about to move to is a valid map point.  It
+  *	should also update lastmovetime. 
   */
 
 package rpgserver;
