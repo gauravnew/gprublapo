@@ -72,7 +72,15 @@ public class PlayerCharacter extends Actor {
 
     @Override
     public void updatePosition(Actor actor) {
-        client.getNetworkOutput().sendActorMove(actor.actorID, actor.moveto);
+        //distance between the current postition and the moveto postion
+    	float dist = actor.position.getDistance(actor.moveto);
+    	 
+    	client.getNetworkOutput().sendActorMove(actor.actorID, actor.moveto); //update the position of player
+    	
+    	this.distFromLastEx += dist; //add the distance moved to the counter
+    	if(this.distFromLastEx > 200) // if the distance is far enough
+    		this.distFromLastEx = 0; //set the counter to zero
+        
     }
     
     void updateSpeed(){
