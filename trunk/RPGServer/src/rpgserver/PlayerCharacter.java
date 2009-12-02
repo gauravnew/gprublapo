@@ -17,6 +17,9 @@
  
 package rpgserver;
 
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentSkipListSet;
+
 /**
  *
  * @author Gaurav
@@ -37,6 +40,8 @@ public class PlayerCharacter extends Actor {
 	
 	float distFromLastEx; //distance from last exercise and/or eat
     
+	Point2D bridgeStart;
+	
 	boolean inBridge; //if the player is in the bridge circuit;
 	boolean sick; //if the player is sick (true if sick, false otherwise)
 
@@ -52,6 +57,8 @@ public class PlayerCharacter extends Actor {
 		
 		distFromLastEx = (float)0.0; //distance from last exercise and/or eat
 		
+		bridgeStart = new Point2D(-1, -1); //initial position of the bridge
+		
 		inBridge = false;
 		sick = false;
 		
@@ -60,9 +67,21 @@ public class PlayerCharacter extends Actor {
 	}
 	
 	Integer checkCollision(){
-		//reference a list of charecters
 		//every time the character moves, it checks the collision
-		return null;
+		//get the list of all the possible characters
+		ConcurrentSkipListSet<Actor> actors = Main.cDBEngine.getHashtableKeys();
+		Iterator<Actor> actItr = actors.iterator();
+		//for each character in the list
+		while(actItr.hasNext()){
+			Actor temp = actItr.next();
+			//check if my moveto position (or current position?) == to characters (temp) current position
+			if(this.moveto.equals(temp.position)){ //if yes
+				return temp.actorID; // return the ID of the collided character
+			}	
+		}
+		
+		//if by this point we didn't return... return null;
+		return null; //return the ID of the character this actor collided with
 		
 	}
 	
