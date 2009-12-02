@@ -11,7 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- *
+ * TODO
+ *	implement generateNewPosition(Integer id) which both generates and sets
+ *		a new moveto position for the given id based on direction.
  * @author Jacob
  */
 public class NPCEngine {

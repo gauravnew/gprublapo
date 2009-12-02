@@ -62,9 +62,9 @@ public class GlobalGameDatabase implements Iterable {
     //Sets its actorID to the next available actorID.
     //Puts the 'NonPlayerCharacter' in the HashTable 'DB'
     //Returns the actorID of the new actor.
-    public synchronized int createNewNonPlayerCharacter(int type) {
+    public synchronized int createNewNonPlayerCharacter(int type, int direction) {
 
-        NonPlayerCharacter np = new NonPlayerCharacter(type);
+        NonPlayerCharacter np = new NonPlayerCharacter(type, direction);
         np.actorID = nextActorID++;
         DB.add(np);
         //DB.put(np.actorID, np);

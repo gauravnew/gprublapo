@@ -17,7 +17,9 @@ Main(String [] args)
 	void float setY()
 	void setPosition(float in_X, float in_Y)
 	float getDistance(Point2D other)
+	float getMinDistance(Point2D other)
 	boolean equals(Point2D other)
+	boolean sameCell(Point2D other)
 	void moveTo(float distance, Point2D towards)
 
 	NonPlayerCharacterEngine===================================================
@@ -52,6 +54,8 @@ Main(String [] args)
 		constructor GameMap()
 		int getCellType(Point2D p)
 		Point2D getRandomMapPoint()
+		Point2D getRandomHorizontal(Point2D p)
+		Point2D getRandomVertical(Point2D p)
 
 	GlobalGameDB===============================================================
 	Thread Synchronized access only
@@ -94,9 +98,10 @@ Main(String [] args)
 		
 		PlayerCharacter====================================================
 		derrives Actor
-		datamember NetworkStreamWriter out;
+		datamember NetworkStreamWriter out
 		datamember int health
 		datamember boolean inBridge
+		datamember Point2D bridgeStart
 		datamember int lastClass
 		datamember int[9] classes attended
 		datamember float distFromLastEx
@@ -108,6 +113,8 @@ Main(String [] args)
 
 		NonPlayerCharacter=================================================
 		derrives Actor
+		constructor NonPlayerCharacter(int type, int direction)
+		constructor NonPlayerCharacter(int type, Point2D pos)
 		datamember nextDirection enum {VERTICAL(-1), HORIZONTAL(1)}
 
 	ClientHandler==============================================================
