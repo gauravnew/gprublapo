@@ -17,7 +17,9 @@ public class XCanvas extends Panel {
 	//Data and data accessing functions
     private MouseEvent mouse;
     private KeyEvent key;
-
+    Image offImage;
+    Graphics bufferGraphics;
+    
     public synchronized void setKey(KeyEvent evt) {
         key = evt;
     }
@@ -70,7 +72,10 @@ public class XCanvas extends Panel {
 
     @Override
     public void paint(Graphics g) {
-        Main.coreLogic.renderLoop(g);
+    	offImage = createImage(this.getWidth(), this.getHeight());
+    	bufferGraphics = offImage.getGraphics();
+    	Main.coreLogic.renderLoop(bufferGraphics);
+    	g.drawImage(offImage,0,0,this);
     }
 }
 
