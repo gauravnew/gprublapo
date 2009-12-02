@@ -54,7 +54,7 @@ public class NonPlayerCharacter extends Actor {
 			}
 			
 			//default for all types
-			moveto = new Point2D();
+			moveto = position;
 	        status = 0;
 	        lastmovetime = 0;
 		}
@@ -143,7 +143,7 @@ public class NonPlayerCharacter extends Actor {
 			
 			//default for all types
 			speed = 0;
-			moveto = new Point2D();
+			moveto = position;
 	        status = 0;
 	        lastmovetime = 0;
 		}
