@@ -107,10 +107,11 @@ Main(String [] args)
 		datamember int[9] classes attended
 		datamember float distFromLastEx
 		datamember float distTrav
+		datamember float distFromLastCollision
 		datamember boolean sick
 		datamember int credits
 		Integer checkCollision()
-		void processCollision(Integer id)
+		String processCollision(Integer id)
 		
 
 		NonPlayerCharacter=================================================

@@ -34,17 +34,18 @@ Main(String [] args)
 			void renderAll(Graphics g, Point2D center)
 			
 				Actor==========================================================
-					datamember Integer actorID;
-					datamember int type;
-					datamember Point2D position;
-					datamember int direction;
-					datamember int frame;
-					datamember Point2D moveto;
-					datamember int status;
-					datamember float speed;
-					datamember long lastmovetime;
-					datamember String name;
-					datamember AnimatedSprite[] sprite;
+					datamember Integer actorID
+					datamember int type
+					datamember Point2D position
+					datamember int direction
+					datamember int frame
+					datamember float speed
+					datamember int health
+					datamember int credits
+					datamember Point2D moveto
+					datamember long lastmovetime
+					datamember String name
+					datamember AnimatedSprite[] sprite
 					datatype DIRECTION {FRONT(0), LEFT(1), BACK(2), RIGHT(3)}
 					constructor Actor(int ID, int nType, String sName)
 					constructor Actor(int Actor ID)
@@ -167,8 +168,11 @@ Main(String [] args)
 				Point2D getActorMove(Integer id)
 				int getHealth()
 				int getCredits()
+				float getSpeed()
 				String getWinner()
 				Actor readActorInfo()
+				String getMessage()
+				String getLastClass()
 				
 			NetworkStreamWriter================================================
 				datamember DataOutputStream netOut
