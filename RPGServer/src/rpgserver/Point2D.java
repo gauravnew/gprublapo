@@ -7,7 +7,7 @@
 
 /**
   *  TODO
-  *	Implemnt function moveTo.  (Copy from client side)
+  * Implement function moveTo.  (Copy from client side) **Completed ? By Jacob 11:40 p.m. 12/2**
   */  
 
 package rpgserver;
@@ -85,8 +85,25 @@ public class Point2D {
 
     }
 
-    public void moveTo(float distance, Point2D towards) {
-        //TODO: Implement this function.
-        //Scale dx and dy by (distance / getDistance(this,towards))
+    public int moveTo(float distance, Point2D towards, int direction) {
+        float k = distance/getDistance(towards);
+        if (k >= 1) {
+            x = towards.x;
+            y = towards.y;
+            return direction;
+        } else {
+            x += (towards.x-x)*k;
+            y += (towards.y-y)*k;
+            if ( x > towards.x )
+                return 1;
+            else if ( x < towards.x )
+                return 3;
+            else if (y < towards.y )
+                return 0;
+            else if (y > towards.y )
+                return 2;
+        }
+        return direction;
     }
+
 }
