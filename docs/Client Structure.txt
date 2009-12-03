@@ -12,6 +12,7 @@ Main(String [] args)
 		datamember GameMap map
 		datamember UIEngine ui
 		dataMember ActorEngine actors
+		dataMember Point2D moveReq
 		constructor CoreGameLogic()
 		ActorEngine getActorEngine()
 		String getMainActorName()

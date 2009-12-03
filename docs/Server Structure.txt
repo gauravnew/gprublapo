@@ -152,6 +152,8 @@ Main(String [] args)
 		sendSetActorMove(int ActorID, Point2D target)
 		sendCredits(int credits)
 		sendHealth(int health)
+		sendMessage(String msg)
+		sendLastClass(String msg)
 		sendEndGame(String winner)
 		sendNewActorData(Integer id)
 		

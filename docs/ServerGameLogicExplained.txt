@@ -1,0 +1,27 @@
+GlobalGameLogic explained
+"infinite loop"
+	Iterate (a) through list of actors
+		If (a) is NPC
+			If Movable (type 1,2,3)
+				if moveto==position
+					call NPCEngine's generateNewPosition
+				updatePosition()
+		If (a) is PC
+			if !(moveto==position)
+				updatePosition()
+				if checkCollision
+					if processCollision returns gameover
+						set winner
+						change gamestate
+						break from loop
+					transmit health, credits, last class attended
+				transmit position
+				Iterate (b) through list of actors
+					If (b) is PC
+						if (a) & (b) within 25 cells of each other using Point2D's getMinDistance
+							transmit (a)'s position to (b)
+							
+Iterate (c) through list of actors
+	If PC
+		transmit gameover with winner name
+Terminate
