@@ -34,8 +34,8 @@ public class Actor implements Comparable {
 
         actorID = 0;
         type = 0;
-        position = new Point2D();
-        moveto = new Point2D();
+        position = new Point2D(40,20);
+        moveto = new Point2D(40,20);
         status = 0;
         speed = 0;
         lastmovetime = 0;
@@ -53,11 +53,26 @@ public class Actor implements Comparable {
         return actorID == ((Actor)a).actorID;
     }
 
-    public void updatePosition(Actor actor) {
+    public void updatePosition(/*Actor actor*/) {
         //this function updates the actors current position based on moveTo position and time elapsed.
-        
+
     	//when was the last time the actor moved?
-    	if(actor.lastmovetime == 0){
+    	if(lastmovetime == 0){
+    		//if this is the first time the actor is moving, the actor will not move at this calculation -- will move next calc.
+    		lastmovetime = System.nanoTime(); //if the actor didn't move, the last time it moved is NOW
+    	}
+    	
+    	//distance = time*speed
+    	long timeElapsed = lastmovetime - System.nanoTime(); // how much time has passed between the last time actor moved and NOW
+    	
+    	float dist = timeElapsed/50000000*speed; //distance
+    	position.moveTo(dist, moveto); //change actor position
+    	
+    	lastmovetime = System.nanoTime(); //set the last time the actor moved to the system time.
+     }
+    
+    /*		
+ *     	if(actor.lastmovetime == 0){
     		//if this is the first time the actor is moving, the actor will not move at this calculation -- will move next calc.
     		actor.lastmovetime = System.nanoTime(); //if the actor didn't move, the last time it moved is NOW
     	}
@@ -69,6 +84,6 @@ public class Actor implements Comparable {
     	actor.position.moveTo(dist, actor.moveto); //change actor position
     	
     	actor.lastmovetime = System.nanoTime(); //set the last time the actor moved to the system time.
-     }
     
+ */
 }

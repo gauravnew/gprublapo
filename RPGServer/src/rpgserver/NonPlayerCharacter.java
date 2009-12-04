@@ -27,14 +27,14 @@ public class NonPlayerCharacter extends Actor {
 	RELATIVE_DIRECTION nextDirection;
 	
 	//non player characters that move or have a random location
-	public NonPlayerCharacter(int type) {
+	public NonPlayerCharacter(int type, int dir) {
 		if(type<1 || type>4){
 			System.out.println("invalid type");
 		}else{
 			//random position for any type
 			Point2D randPt =  Main.cGameLogic.cMapEngine.getRandomMapPoint();
 			
-			
+			this.nextDirection.data = dir;
 			this.type = type; //sets Actor's type to the passed in argument type
 	        position = new Point2D();
 	        position.setPosition(randPt.getX(), randPt.getY());
