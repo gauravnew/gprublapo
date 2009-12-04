@@ -18,6 +18,7 @@
 package rpgserver;
 
 import java.util.Iterator;
+import java.util.Random;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
@@ -39,9 +40,10 @@ public class PlayerCharacter extends Actor {
 	int credits; //how many credits the player currently
 	
 	float distFromLastEx; //distance from last exercise and/or eat
-    float distTrav;
-    float distFromLastCollision;
-    
+
+	float distTrav; //distance the characters move
+	float distFromLastCollision; //distance the character moved from the last collision;
+	
 	Point2D bridgeStart;
 	
 	boolean inBridge; //if the player is in the bridge circuit;
@@ -55,13 +57,14 @@ public class PlayerCharacter extends Actor {
 		classesAttended = new int[NUM_CLASSES];
 		
 		health = 100; //starting health
-		lastClass = 0;
+		lastClass = -1;
 		credits = 0;
 		
 		distFromLastEx = (float)0.0; //distance from last exercise and/or eat
-		distFromLastCollision= (float)0.0;
-		distTrav = (float)0.0;
-		
+
+		distTrav = (float) 0.0;; //distance the characters move
+		distFromLastCollision = (float) 0.0; //distance the character moved from the last collision;
+
 		bridgeStart = new Point2D(-1, -1); //initial position of the bridge
 		
 		inBridge = false;
@@ -89,20 +92,135 @@ public class PlayerCharacter extends Actor {
 		return null; //return the ID of the character this actor collided with
 		
 	}
-	
+
+	//processing collisions with various objects
+
 	String processCollision(Integer id){
-		System.out.println("Process collision with " + id.intValue() + ", of type " + Main.cDBEngine.getActorType(id));
-		return "in the works";
+
 		// id of the thing this character is colliding with and change the health and speed accordingly
+		String collisionString = "No collision";
+		int actorType = Main.cDBEngine.getActorType(id); //type of the actor I am colliding with
+		
+		if(actorType == 0) {// if interaction is with another player
+			 collisionString = "Interacted with another player"; //do nothing
+		}
+		if(actorType == 1){ // H1N1
+			if(sick)
+				 // do nothing
+			this.sick = true;
+			this.speed = 0.1f; // really slow...
+			collisionString = "Interacted with H1N1!";
+		}
+		if(actorType == 2){ // Professors
+			this.health -= 5;
+			if(this.health<0)
+				this.health=0; //health can't be bellow zero
+			collisionString = "Interacted with a professor!";
+		}
+		if(actorType == 3){ // Manholes
+			Random randGen = new Random();
+			int chance = randGen.nextInt(12);
+			if(chance<2){ //sclarite
+				this.health +=25; // is there a cap on the amount of health points you can get?
+				collisionString = "Interacted with Sclarite!";
+			}
+			else{ //silberite
+				this.health -= 15;
+				if(this.health<0)
+					this.health=0; //health can't be bellow zero
+				this.credits -=2;
+				if(this.health<0)
+					this.credits=0; //credits can't be bellow zero
+				collisionString = "Interacted with Silberite!";
+			}
+			
+		}
+		if(actorType >=4 && actorType <= 8){ //Cranberry Farms, Einstein's Bagels, Jamba Juice, Loose Leafs, or Subway
+			if(!sick && this.distFromLastEx>200){ //if I am not sick and walked far enough
+				this.health += 20;
+				this.distFromLastEx = 0; //reset distance counter
+			}
+			collisionString = "You just Ate and replenished yourself!";
+			
+		}
+		if(actorType >=9 && actorType <= 11){ //Panda Express, Papa John's or Starbucks
+			if(!sick && this.distFromLastEx>200){ //if I am not sick and walked far enough
+				this.health += 10;
+				this.distFromLastEx = 0; //reset distance counter
+			}
+			collisionString = "You just Ate and replenished yourself!";
+		}
+		if(actorType >= 12 && actorType <= 13){ //Dunkin Donuts or Store 24
+			if(!sick && this.distFromLastEx>200){ //if I am not sick and walked far enough
+				this.health += 5;
+				this.distFromLastEx = 0; //reset distance counter
+			}
+			collisionString = "You just Ate and replenished yourself!";
+		}
+		if(actorType == 14){ //FitRec
+			if(!sick && this.distFromLastEx>200){ //if I am not sick and walked far enough
+				this.health += 15;
+				this.distFromLastEx = 0; //reset distance counter
+			}
+			collisionString = "You just went to FitRec!";
+		}
+		if(actorType == 15){ //Student Health Services
+			if(sick) //if im sick...
+				this.sick = false; //im cured!
+			collisionString = "You just went to Student Health Services!";
+		}
+		if(actorType >= 16 && actorType <=24){ //Classrooms
+			if(!sick){ //if i am not sick...
+				int currClass = actorType - 16; // current class
+				if(currClass != this.lastClass) //if this is not the last class attended
+					this.classesAttended[currClass] ++;
+				if(this.classesAttended[currClass] == 2) //if attended this class twice
+					this.credits += 4;
+			}
+		}
+		if(actorType == 25){ //Bridge circuit
+			if(!this.sick){ //if im not sick
+				//enter the bridge circuit
+
+				if(!this.inBridge){ // inBridge = false
+					this.inBridge = true;
+					this.bridgeStart = this.position;
+					this.speed = 1.5f; // Very very fast!
+					 
+				}
+				//exit the bridge circuit
+				if(this.inBridge) { //if in bridge circuit
+					if(!this.bridgeStart.equals(this.position) && this.distFromLastEx>200 ){ // and exit not where enter and walked far enough
+						this.health +=25;
+						this.distFromLastEx = 0; //reset 
+					}
+					this.inBridge = false; //exit the bridge
+					updateSpeed(); //return speed to normal
+				}
+				// reduce speed down to correct amount
+			}
+		}
+		this.distFromLastCollision = 0;
+		return collisionString;
+	
 	}
 
     @Override
     public void updatePosition(/*Actor actor*/) {
         //distance between the current postition and the moveto postion
+
+    	super.updatePosition(/*actor*/);
+
     	float dist = this.position.getDistance(this.moveto);
     	this.position.moveTo(dist, this.moveto);
+    	
+    	this.distFromLastEx += dist; //add the distance moved to the counter
+    	this.distFromLastCollision += dist;
+    	this.distTrav += dist;
+    	
     	return;
-   /* 	float d = dist;
+  
+    	/* 	float d = dist;
     	Point2D proposed = new Point2D();
     	
 
@@ -137,15 +255,15 @@ public class PlayerCharacter extends Actor {
     	}
     */	
     }
-/*
- *         //distance between the current postition and the moveto postion
+
+    /*
+     *         //distance between the current postition and the moveto postion
+>>>>>>> .r104
     	float dist = actor.position.getDistance(actor.moveto);
-    	 
-    	client.getNetworkOutput().sendActorMove(actor.actorID, actor.moveto); //update the position of player
     	
     	this.distFromLastEx += dist; //add the distance moved to the counter
-    	if(this.distFromLastEx > 200) // if the distance is far enough
-    		this.distFromLastEx = 0; //set the counter to zero
+    	this.distFromLastCollision += dist;
+    	this.distTrav += dist;
         
 
  */
@@ -153,7 +271,9 @@ public class PlayerCharacter extends Actor {
     
     
     void updateSpeed(){
-    	if(this.health<75)
+    	if(this.health>125)
+    		this.speed = 0.8f; //Zippy speed!
+    	if(this.health<=125 && this.health>75)
     		this.speed = 0.5f;//normal speed
     	else if (this.health<=75 && this.health>25)
     		this.speed = 0.3f;//slow speed
