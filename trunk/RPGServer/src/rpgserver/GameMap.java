@@ -66,5 +66,21 @@ public class GameMap {
         return p;
 
     }
+    
+    public Point2D getRandomHorizontal(Point2D p) {
+    	Point2D d;
+    	do {
+    		d = new Point2D((int)Math.random()*width, p.getY());
+    	} while (getCellType(d)!=1);
+    	return d;
+    }
+
+    public Point2D getRandomVertical(Point2D p) {
+    	Point2D d;
+    	do {
+    		d = new Point2D(p.getX(), (int)Math.random()*height);
+    	} while (getCellType(d)!=1);
+    	return d;
+    }
 
 }

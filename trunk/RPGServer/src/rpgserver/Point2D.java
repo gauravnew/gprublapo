@@ -85,25 +85,22 @@ public class Point2D {
 
     }
 
-    public int moveTo(float distance, Point2D towards, int direction) {
+    public void moveTo(float distance, Point2D towards) {
         float k = distance/getDistance(towards);
         if (k >= 1) {
             x = towards.x;
             y = towards.y;
-            return direction;
         } else {
             x += (towards.x-x)*k;
             y += (towards.y-y)*k;
-            if ( x > towards.x )
-                return 1;
-            else if ( x < towards.x )
-                return 3;
-            else if (y < towards.y )
-                return 0;
-            else if (y > towards.y )
-                return 2;
-        }
-        return direction;
-    }
 
+        }
+        return;
+    }
+    
+    public float getMinDistance(Point2D p){
+    	float distX = Math.abs(p.getX() - x);
+    	float distY = Math.abs(p.getY() - y);
+    	if (distX<distY) return distX; else return distY;
+    }
 }

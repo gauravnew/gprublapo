@@ -30,7 +30,7 @@ import java.util.*;
 public class ClientHandler implements Runnable {
 
     //Locals.
-    private Socket sckClient;
+    public Socket sckClient;
     private Integer myActorID;
     private NetworkStreamParser netIn;
     private NetworkStreamWriter netOut;
@@ -76,6 +76,7 @@ public class ClientHandler implements Runnable {
 
             //Instanciate NetworkStreamWriter to manage network output.
             netOut = new NetworkStreamWriter(out);
+            cDBEngine.setPlayerOutputStream(myActorID, netOut);
 
             //A client has been connected.
             System.out.println("Client Connected from: " + sckClient.getInetAddress());
@@ -112,10 +113,11 @@ public class ClientHandler implements Runnable {
                         cDBEngine.setActorName(myActorID, name);
                         netOut.sendMapImage(new File("data/map.png"));
                         netOut.sendMapData(new File("data/map_dat.png"));
+                        netOut.sendActorMove(0, new Point2D(40,20));
                         break;
 
                     case 'M'*256 + 'V':
-                        System.out.println("NETWORK::Player Move");
+                        System.out.println("NETWORK::Player Move" + myActorID.intValue());
                         Point2D p = netIn.getActorMove();
                         if (Main.cGameLogic.cMapEngine.getCellType(p) != 0)
                             cDBEngine.setActorMoveTo(myActorID, p);
@@ -138,7 +140,6 @@ public class ClientHandler implements Runnable {
         } catch (Exception e) {
 
             //An error has been encountered.
-            System.out.println("Error, closing client thread." +  e);
             return;
 
         }

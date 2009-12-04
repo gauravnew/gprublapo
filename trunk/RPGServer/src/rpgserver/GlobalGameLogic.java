@@ -26,6 +26,7 @@
  
 package rpgserver;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -35,7 +36,7 @@ import java.util.concurrent.*;
  */
 public class GlobalGameLogic implements Runnable {
 
-    public enum GAME_STATE { login, countdown, ingame, gameover }
+    public enum GAME_STATE { LOGIN, COUNTDOWN, INGAME, GAMEOVER }
     
     GlobalGameDatabase cDBEngine = Main.cDBEngine;
     NPCEngine cNPCEngine;
@@ -44,57 +45,89 @@ public class GlobalGameLogic implements Runnable {
     int countdown;
     GAME_STATE state;
     String winner;
+            
     
     public void run() {
+        Integer tempID;
+        PlayerCharacter tempChar;
+        String msg;
+ forever:	//so that break statement will leave this loop
         while (true) {
             for(Actor actor : cDBEngine.getHashtableKeys()) {
-                if (!(actor).moveto.equals((actor).position)) {
+            	if (actor.type < 4 && actor.type > 0) {
+            		if (actor.moveto.equals(actor.position)) cNPCEngine.generateNewPosition(actor.actorID);
+            		actor.updatePosition();
+            	}
+            	if(actor.type==0){
+            		tempChar=(PlayerCharacter)actor;
+            		if (!(tempChar.moveto.equals(tempChar.position))) {
+            			tempChar.updatePosition();
+            			tempChar.out.sendActorMove(0, tempChar.position);
+            			
+            			if((tempID=tempChar.checkCollision()) != null) {
+            				msg = tempChar.processCollision(tempID);
+            				
+            				tempChar.out.sendMessage(msg);
+            				if (msg.equals(new String("You Win"))) break forever;
+            				
+            				if (cDBEngine.getActorType(tempID) > 16 && cDBEngine.getActorType(tempID) < 26)
+            					tempChar.out.sendLastClass(msg.substring(9));
+            				
+            				for(Actor otherID : cDBEngine.getHashtableKeys()){
+            					if (otherID.type == 0) {
+	            					PlayerCharacter other = (PlayerCharacter)otherID;
+	            					if (!(tempChar.equals(other))) 
+	            						if(tempChar.position.getMinDistance(other.position) < 26)
+	            							other.out.sendActorMove(tempChar.actorID, tempChar.position);
+            					}
+            				}
+            			}
+            		}
+            	}
+            }
+        }
+        
+        for(Actor actor : cDBEngine.getHashtableKeys()) {
+        	if(actor.type==0){
+        		tempChar = (PlayerCharacter)actor;
+        		tempChar.out.sendGameOver(winner);
+        		try {
+					tempChar.client.sckClient.close();
+				} catch (IOException e) {}
+        	}
+        }
+        return;
+    }
+    
+/*
+ *                if (!(actor).moveto.equals((actor).position)) {
                     (actor).position = new Point2D((actor).moveto);
                     for(Actor other : cDBEngine.getHashtableKeys()) {
                         if ((other).type == 0) {
                             ((PlayerCharacter)other).updatePosition(actor);
                         }
                     }
-                }
-            }
-        }
-    }
+                } 
+ *
+ */
     
-          
-    public void setState(GAME_STATE state){
-        //TODO
-    }
     
-    public void setCounter(int t){
-        //TODO
-    }
+    public void setState(GAME_STATE s){state = s;}
     
-    public void checkCountdown(){
-        //TODO
-    }
+    public void setCounter(int t){countdown = t;}
     
-    public void checkState(){
-        //TODO
-    }
+    public int checkCountdown(){return countdown;}
     
-    public void getGameDB(){
-        //TODO
-    }
+    public GAME_STATE checkState(){return state;}
+
+    public boolean checkState(GAME_STATE s){return (state==s);}
     
-    public void getGameMap(){
-        //TODO
-    }
+    public GlobalGameDatabase getGameDB(){return cDBEngine;}
     
-    public void getNPCEngine(){
-        //TODO
-    }
+    public GameMap getGameMap(){return cMapEngine;}
     
-    public void getAIEngine(){
-        //TODO
-    }
+    public NPCEngine getNPCEngine(){return cNPCEngine;}
     
-    public void getWinner(){
-        //TODO
-    }
+    public String getWinner(){return winner;}
     
 }

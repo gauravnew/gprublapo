@@ -350,4 +350,24 @@ public class GlobalGameDatabase implements Iterable {
     	
     }
     
+    public synchronized PlayerCharacter getPlayer(Integer id) {
+    	for (Actor a : this.getHashtableKeys())
+    		if (a.actorID.equals(id)) return (PlayerCharacter)a;
+    	return null;
+    }
+    
+    public synchronized NonPlayerCharacter getNonPlayer(Integer id){
+    	for (Actor a : this.getHashtableKeys())
+    		if (a.actorID.equals(id)) return (NonPlayerCharacter)a;
+    	return null;
+    }
+
+    public synchronized void setPlayerOutputStream(Integer id, NetworkStreamWriter o){
+    	Actor temp = new Actor();
+    	temp.actorID = id;
+    	if (DB.contains(temp)){
+    		PlayerCharacter a = (PlayerCharacter) DB.floor(temp);
+    		a.out = o;
+    	}
+    }
 }

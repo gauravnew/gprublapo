@@ -107,5 +107,16 @@ public class NetworkStreamWriter {
 
         }
     }
+    
+    public synchronized void sendMessage(String msg){
+    	//TODO Implement function to write msg with message opcode
+    }
+    
+    public synchronized void sendLastClass(String msg){
+    	//TODO Implement function to write msg with lastclass opcode
+    }
 
+    public synchronized void sendGameOver(String winner) {
+    	//TODO Implement function to write winner with game over opcode
+    }
 }

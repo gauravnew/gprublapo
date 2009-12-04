@@ -39,6 +39,8 @@ public class PlayerCharacter extends Actor {
 	int credits; //how many credits the player currently
 	
 	float distFromLastEx; //distance from last exercise and/or eat
+    float distTrav;
+    float distFromLastCollision;
     
 	Point2D bridgeStart;
 	
@@ -47,6 +49,7 @@ public class PlayerCharacter extends Actor {
 
 	//constructor -- initializes the class datamembers
 	PlayerCharacter(){
+		super();
 		this.type = 0;
 		
 		classesAttended = new int[NUM_CLASSES];
@@ -56,6 +59,8 @@ public class PlayerCharacter extends Actor {
 		credits = 0;
 		
 		distFromLastEx = (float)0.0; //distance from last exercise and/or eat
+		distFromLastCollision= (float)0.0;
+		distTrav = (float)0.0;
 		
 		bridgeStart = new Point2D(-1, -1); //initial position of the bridge
 		
@@ -85,13 +90,54 @@ public class PlayerCharacter extends Actor {
 		
 	}
 	
-	void processCollision(Integer id){
+	String processCollision(Integer id){
+		return new String ("ToBeImplemented" + id.intValue());
 		// id of the thing this character is colliding with and change the health and speed accordingly
 	}
 
     @Override
-    public void updatePosition(Actor actor) {
+    public void updatePosition(/*Actor actor*/) {
         //distance between the current postition and the moveto postion
+    	float dist = this.position.getDistance(this.moveto);
+    	this.position.moveTo(dist, this.moveto);
+    	return;
+   /* 	float d = dist;
+    	Point2D proposed = new Point2D();
+    	
+
+    	float dX = this.moveto.getX() - this.position.getX();
+    	float dY = this.moveto.getY() - this.position.getY();
+    	if(d>0) {
+    		if(d < dX){
+	    		d-=dX;
+		    	proposed.setX(this.position.getX() + dX);
+	    	}
+	    	else {
+	    		proposed.setX(this.moveto.getX());
+	    		d = 0;
+	    	}
+    	}
+    	if(d>0){
+	    	if (d < dY){
+	    		d-=dY;
+	    		proposed.setY(this.position.getY() + dY);
+	    	}
+	    	else {
+	    		proposed.setY(this.moveto.getY());
+	    		d=0;
+	    	}
+    	}
+
+    	if(Main.cGameLogic.getGameMap().getCellType(proposed) != 0) {
+    		this.position.setPosition(proposed.getX(), proposed.getY());
+	    	this.distFromLastEx += dist; //add the distance moved to the counter
+	    	this.distTrav += dist;
+	    	this.distFromLastCollision += dist;
+    	}
+    */	
+    }
+/*
+ *         //distance between the current postition and the moveto postion
     	float dist = actor.position.getDistance(actor.moveto);
     	 
     	client.getNetworkOutput().sendActorMove(actor.actorID, actor.moveto); //update the position of player
@@ -100,7 +146,10 @@ public class PlayerCharacter extends Actor {
     	if(this.distFromLastEx > 200) // if the distance is far enough
     		this.distFromLastEx = 0; //set the counter to zero
         
-    }
+
+ */
+    
+    
     
     void updateSpeed(){
     	if(this.health<75)

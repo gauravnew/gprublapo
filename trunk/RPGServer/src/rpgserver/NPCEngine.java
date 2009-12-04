@@ -34,13 +34,15 @@ public class NPCEngine {
         try {
         BufferedReader in = new BufferedReader(new FileReader(filename));
         String str;
+        int dir = 1;
         while ((str = in.readLine()) != null) {
             type = Integer.parseInt(str.substring(0, 4));
             x = Integer.parseInt(str.substring(5, 7));
             y = Integer.parseInt(str.substring(8, 10));
             Point2D position = new Point2D((float)x, (float)y);
             name = str.substring(11);
-            int actorID = db.createNewNonPlayerCharacter(type);
+            int actorID = db.createNewNonPlayerCharacter(type, dir);
+            dir*=-1;
             db.setActorPosition(actorID, position);
             db.setActorName(actorID, name);
         }
@@ -48,6 +50,10 @@ public class NPCEngine {
         } catch (IOException e) {
         }
         
+    }
+    
+    public void generateNewPosition(Integer id) {
+
     }
     
 }
