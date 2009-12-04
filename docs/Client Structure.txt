@@ -166,7 +166,7 @@ Main(String [] args)
 				int getNextMessageOpCode()
 				void getMapImage()
 				void getMapData()
-				Point2D getActorMove(Integer id)
+				movePkt getActorMove()
 				int getHealth()
 				int getCredits()
 				float getSpeed()
@@ -181,3 +181,8 @@ Main(String [] args)
 				void sendLoginPacket(String name)
 				void sendPing()
 				void sendActorMove(Point2D target)
+				
+	movePkt========================================================================
+		datamember Integer id
+		datamember Point2D pos
+		constructor (Integer i, Point2D p)
