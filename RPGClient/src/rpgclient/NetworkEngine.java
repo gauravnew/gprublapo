@@ -105,11 +105,12 @@ public class NetworkEngine implements Runnable {
                             break;
 						//Case Move Actor
                         case 'M'*256 + 'V':
-
-                            System.out.println("NETWORK::Move Packet.");
-                            Integer id = new Integer(0);
-                            Point2D target = in.getActorMove(id);
-                            Main.getGameLogic().getActorEngine().getActor(id.intValue()).moveto = target;
+                            movePkt pk = in.getActorMove();
+                            Integer id = pk.id;
+                            Point2D target = pk.pos;
+                            System.out.println("NETWORK::Move Packet. " + id.intValue() + " " + target.getX() + " " + target.getY());
+                            try{Main.getGameLogic().getActorEngine().getActor(id.intValue()).moveto = target;}
+                            catch (Exception e){}
                             break;
                             
                         default:
@@ -124,7 +125,7 @@ public class NetworkEngine implements Runnable {
             }
 
             } catch (Exception e) {
-                System.out.println("Network Error");
+                System.out.println("Network Error " + e);
                 return;
             }
 

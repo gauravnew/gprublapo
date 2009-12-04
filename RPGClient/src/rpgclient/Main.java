@@ -86,3 +86,12 @@ public class Main extends Frame {
     }
 
 }
+
+final class movePkt {
+	public Integer id;
+	public Point2D pos;
+	movePkt(Integer i, Point2D p){
+		id = new Integer(i); pos = new Point2D(p);
+	}
+
+}

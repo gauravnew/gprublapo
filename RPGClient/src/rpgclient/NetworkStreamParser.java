@@ -99,20 +99,22 @@ public class NetworkStreamParser {
         }
     }
 
-    public synchronized Point2D getActorMove(Integer id) {
+    public synchronized movePkt getActorMove() {
 
         try {
 
-            id = netIn.readInt();
+            Integer id = new Integer(netIn.readInt());
             float x = netIn.readFloat();
             float y = netIn.readFloat();
-            return new Point2D (x,y);
+            return new movePkt(id, new Point2D (x,y));
         
         } catch (Exception e) {
-            return null;
+            System.out.println("GetActorMove " + e);
+        	return null;
         }
 
     }
 
 
 }
+
