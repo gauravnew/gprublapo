@@ -10,6 +10,8 @@ import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import rpgserver.NonPlayerCharacter.RELATIVE_DIRECTION;
+
 /**
  * TODO
  *	implement generateNewPosition(Integer id) which both generates and sets
@@ -53,7 +55,16 @@ public class NPCEngine {
     }
     
     public void generateNewPosition(Integer id) {
-
+    	GlobalGameDatabase db = Main.cGameLogic.getGameDB();
+    	GameMap map = Main.cGameLogic.getGameMap();
+    	NonPlayerCharacter moveMe = db.getNonPlayer(id);
+    	Point2D newTarget;
+    	if(moveMe.nextDirection==RELATIVE_DIRECTION.HORIZONTAL)
+			newTarget = map.getRandomHorizontal(moveMe.position);
+    	else
+			newTarget = map.getRandomVertical(moveMe.position);
+    	moveMe.nextDirection.data*=-1;
+    	db.setActorMoveTo(id, newTarget);
     }
     
 }
