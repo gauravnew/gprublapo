@@ -163,6 +163,23 @@ public class GlobalGameDatabase implements Iterable {
     	return a.speed;
     }
 
+    //TODO: Complete? (by Anastasia Vashkevich -- 11/15/09 6:30PM)
+    //This function returns the name of the actor
+    //in the HashTable 'DB' which has the given ActorID.
+    public synchronized String getActorName(Integer ActorID) {
+    	
+        Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (DB.contains(temp)) {
+            a = (Actor) DB.floor(temp);
+        } else {
+            a = null;
+        }
+    	return a.name;
+    }
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
     //This function returns a status flag of the actor
     //in the HashTable 'DB' which has the given ActorID.
