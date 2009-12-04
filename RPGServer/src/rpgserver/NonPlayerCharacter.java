@@ -27,7 +27,9 @@ public class NonPlayerCharacter extends Actor {
 	RELATIVE_DIRECTION nextDirection = RELATIVE_DIRECTION.VERTICAL;
 	
 	//non player characters that move or have a random location
+
 	public NonPlayerCharacter(int type, int dir) {
+
 		if(type<1 || type>4){
 			System.out.println("invalid type");
 		}else{
@@ -86,10 +88,10 @@ public class NonPlayerCharacter extends Actor {
 				//Jamba Juice - type 6
 		        name = "Jamba Juice";
 			}else if(type == 7){
-				//Man hole - type 7
+				//Loose Leafs - type 7
 		        name = "Loose Leafs";
 			}else if(type == 8){
-				//Loose Leafs - type 8
+				//Subway - type 8
 		        name = "Subway";
 			}else if(type == 9){
 				//Panda Express - type 9
@@ -139,6 +141,12 @@ public class NonPlayerCharacter extends Actor {
 			}else if(type == 24){
 				//CS511 - type 24
 		        name = "CS511";
+			}else if(type == 25){
+				//Bridge Circuit
+				name = "Bridge Circuit";
+			}else if (type == 26){
+				//Agganis Areana
+				name = "Agganis";
 			}
 			
 			//default for all types
