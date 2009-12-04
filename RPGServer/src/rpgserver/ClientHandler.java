@@ -32,6 +32,7 @@ public class ClientHandler implements Runnable {
     //Locals.
     public Socket sckClient;
     private Integer myActorID;
+    private PlayerCharacter myCharacter;
     private NetworkStreamParser netIn;
     private NetworkStreamWriter netOut;
     
@@ -50,6 +51,7 @@ public class ClientHandler implements Runnable {
 
     public void setActorID(int actid) {
         myActorID = actid;
+        myCharacter = cDBEngine.getPlayer(actid);
     }
 
     //Class entry-point.
@@ -71,10 +73,10 @@ public class ClientHandler implements Runnable {
             //Get output stream.
             out = new DataOutputStream(sckClient.getOutputStream());
 
-            //Instanciate NetworkStreamParser to manage network input.
+            //Instantiate NetworkStreamParser to manage network input.
             netIn = new  NetworkStreamParser(in);
 
-            //Instanciate NetworkStreamWriter to manage network output.
+            //Instantiate NetworkStreamWriter to manage network output.
             netOut = new NetworkStreamWriter(out);
             cDBEngine.setPlayerOutputStream(myActorID, netOut);
 
