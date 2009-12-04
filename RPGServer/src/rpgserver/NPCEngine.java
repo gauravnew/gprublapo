@@ -5,10 +5,12 @@
 
 package rpgserver;
 
-import java.io.BufferedReader;
+/*import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+*/
+import java.io.*;
 
 import rpgserver.NonPlayerCharacter.RELATIVE_DIRECTION;
 
@@ -20,13 +22,13 @@ import rpgserver.NonPlayerCharacter.RELATIVE_DIRECTION;
  */
 public class NPCEngine {
     
+	public NPCEngine() {};
     
     //Reads each line individually from a file listing NPCs of the format
-    //1234:56:78:Name, where 1234 is the character's type, 56 and 78 are
-    //the character's x and y positions respectively, and Name is the
-    //character's name, and creates a new NPC using these values.
+    //type:x:y:Name, where type, x, y are all ints, 3 digits, and name is optional.
     //(completed by Jacob Hampton, 11/17, at 12:15 AM)
-    public void loadNPCFromFile(String filename, GlobalGameDatabase db) {
+	//(modified by Lincoln Waller 12/4
+    public void loadNPCsFromFile(String filename, GlobalGameDatabase db) {
         
         int type = 0000;
         int x = 0;
@@ -36,22 +38,36 @@ public class NPCEngine {
         try {
         BufferedReader in = new BufferedReader(new FileReader(filename));
         String str;
-        int dir = 1;
         while ((str = in.readLine()) != null) {
-            type = Integer.parseInt(str.substring(0, 4));
-            x = Integer.parseInt(str.substring(5, 7));
-            y = Integer.parseInt(str.substring(8, 10));
+            type = Integer.parseInt(str.substring(0, 3));
+            x = Integer.parseInt(str.substring(4, 7));
+            y = Integer.parseInt(str.substring(8, 11));
             Point2D position = new Point2D((float)x, (float)y);
-            name = str.substring(11);
-            int actorID = db.createNewNonPlayerCharacter(type, dir);
-            dir*=-1;
+            int actorID = db.createNewNonPlayerCharacter(type, new Point2D(x,y));
             db.setActorPosition(actorID, position);
-            db.setActorName(actorID, name);
+            if(str.length() > 11) {
+            	name = str.substring(12);
+            	db.setActorName(actorID, name);
+            }
+            System.out.println("loaded character: " + type + " at " + x + " " + y);
         }
         in.close();
         } catch (IOException e) {
+        	System.out.println("NPC Load error: " + e);
         }
         
+    }
+    
+    public void generateRandomCharacters(GlobalGameDatabase db) {
+    	//10 manhole, 10 prof, 5 H1N1
+    	int dir = 1;
+    	for(int i=0;i<10;i++) 
+    		{db.createNewNonPlayerCharacter(1, dir); dir*=-1;}
+    	for(int i=0;i<5;i++) 
+    		{db.createNewNonPlayerCharacter(2, dir); dir*=-1;}
+    	for(int i=0;i<10;i++) 
+    		{db.createNewNonPlayerCharacter(3, dir); dir*=-1;}
+    	
     }
     
     public void generateNewPosition(Integer id) {

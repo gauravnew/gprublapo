@@ -24,7 +24,7 @@ public class NonPlayerCharacter extends Actor {
 			data = x;
 		}
 	}
-	RELATIVE_DIRECTION nextDirection;
+	RELATIVE_DIRECTION nextDirection = RELATIVE_DIRECTION.VERTICAL;
 	
 	//non player characters that move or have a random location
 	public NonPlayerCharacter(int type, int dir) {

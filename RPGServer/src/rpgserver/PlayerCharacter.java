@@ -80,7 +80,7 @@ public class PlayerCharacter extends Actor {
 		while(actItr.hasNext()){
 			Actor temp = actItr.next();
 			//check if my moveto position (or current position?) == to characters (temp) current position
-			if(this.moveto.equals(temp.position)){ //if yes
+			if(!(this.actorID.equals(temp.actorID)) && this.position.sameCell(temp.position)){ //if yes
 				return temp.actorID; // return the ID of the collided character
 			}	
 		}
@@ -91,7 +91,8 @@ public class PlayerCharacter extends Actor {
 	}
 	
 	String processCollision(Integer id){
-		return new String ("ToBeImplemented" + id.intValue());
+		System.out.println("Process collision with " + id.intValue() + ", of type " + Main.cDBEngine.getActorType(id));
+		return "in the works";
 		// id of the thing this character is colliding with and change the health and speed accordingly
 	}
 

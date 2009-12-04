@@ -39,9 +39,8 @@ public class GlobalGameLogic implements Runnable {
     public enum GAME_STATE { LOGIN, COUNTDOWN, INGAME, GAMEOVER }
     
     GlobalGameDatabase cDBEngine = Main.cDBEngine;
-    NPCEngine cNPCEngine;
+    NPCEngine cNPCEngine = new NPCEngine();
     GameMap cMapEngine = new GameMap();
-    AIEngine cAIEngine;
     int countdown;
     GAME_STATE state;
     String winner;
@@ -51,12 +50,14 @@ public class GlobalGameLogic implements Runnable {
         Integer tempID;
         PlayerCharacter tempChar;
         String msg;
+        cNPCEngine.loadNPCsFromFile("data/npcs.txt", cDBEngine);
+        cNPCEngine.generateRandomCharacters(cDBEngine);
  forever:	//so that break statement will leave this loop
         while (true) {
             for(Actor actor : cDBEngine.getHashtableKeys()) {
             	if (actor.type < 4 && actor.type > 0) {
-            		if (actor.moveto.equals(actor.position)) cNPCEngine.generateNewPosition(actor.actorID);
-            		actor.updatePosition();
+            		//if (actor.moveto.equals(actor.position)) cNPCEngine.generateNewPosition(actor.actorID);
+            		//actor.updatePosition();
             	}
             	if(actor.type==0){
             		tempChar=(PlayerCharacter)actor;

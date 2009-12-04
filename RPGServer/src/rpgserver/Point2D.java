@@ -103,4 +103,9 @@ public class Point2D {
     	float distY = Math.abs(p.getY() - y);
     	if (distX<distY) return distX; else return distY;
     }
+    
+    public boolean sameCell(Point2D p){
+    	if((int)x == (int)p.getX() && (int)y == (int)p.getY()) return true;
+    	else return false;
+    }
 }
