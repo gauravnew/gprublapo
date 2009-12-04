@@ -11,7 +11,7 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
-
+import java.awt.image.BufferedImage;
 /**
  *
  * @author Gaurav
@@ -45,8 +45,8 @@ public class GameMap {
         switch (c) {
             case 0xFFFFFFFF:
                 return 1;
-            case 0xFF000000:
-                return 0;
+            case 0xFFFF0000:
+                return 1;
             default:
                 return 0;
         }
@@ -59,7 +59,7 @@ public class GameMap {
 
         do {
 
-            p = new Point2D((int)Math.random()*width, (int)Math.random()*height);
+            p = new Point2D((int)(Math.random()*width), (int)(Math.random()*height));
 
         } while (getCellType(p) != 1);
         
