@@ -207,7 +207,7 @@ public class PlayerCharacter extends Actor {
     public void updatePosition(/*Actor actor*/) {
         //distance between the current postition and the moveto postion
 
-    	super.updatePosition(/*actor*/);
+//  	super.updatePosition(/*actor*/);
 
     	float dist = this.position.getDistance(this.moveto);
     	this.position.moveTo(dist, this.moveto);
@@ -216,9 +216,9 @@ public class PlayerCharacter extends Actor {
     	this.distFromLastCollision += dist;
     	this.distTrav += dist;
     	
-    	return;
+//    	return;
   
-    	/* 	float d = dist;
+    	float d = dist;
     	Point2D proposed = new Point2D();
     	
 
@@ -251,23 +251,22 @@ public class PlayerCharacter extends Actor {
 	    	this.distTrav += dist;
 	    	this.distFromLastCollision += dist;
     	}
-    */	
-    }
-
-    /*
-     *         //distance between the current postition and the moveto postion
->>>>>>> .r104
-    	float dist = actor.position.getDistance(actor.moveto);
     	
-    	this.distFromLastEx += dist; //add the distance moved to the counter
-    	this.distFromLastCollision += dist;
-    	this.distTrav += dist;
-        
-
- */
+    	//updating health
+    	if(distTrav>100){
+    		this.health -=5; //reduce health
+    		updateSpeed(); //update speed based on new health
+    		distTrav = 0;
+    	}
+    	return;
+    }
     
     void updateSpeed(){
-    	if(!sick || !inBridge){
+    	if(sick){
+    		this.speed = 0.1f;
+    	}else if(inBridge && !sick){ //if Im health and in Bridge circuit
+    		this.speed = 1.5f;
+    	}else{
 	    	if(this.health>125)
 	    		this.speed = 0.8f; //Zippy speed!
 	    	if(this.health<=125 && this.health>75)
@@ -278,10 +277,6 @@ public class PlayerCharacter extends Actor {
 	    		this.speed = 0.1f;//very slow speed
 	    	else if (this.health<0) //error check
 	    		System.out.println("Invalid Health");//health can never be less than 0...
-    	}else if(sick){
-    		this.speed = 0.1f;
-    	}else if(inBridge){
-    		this.speed = 1.5f;
     	}
     }
 
