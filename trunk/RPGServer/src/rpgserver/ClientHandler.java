@@ -53,6 +53,22 @@ public class ClientHandler implements Runnable {
         myActorID = actid;
         myCharacter = cDBEngine.getPlayer(actid);
     }
+    
+    public void sendAllCharacter(){
+    	//game database
+    	ConcurrentSkipListSet<Actor> gameDB = Main.cDBEngine.getHashtableKeys();
+    	//game iterator
+    	Iterator<Actor> itr = gameDB.iterator();
+    	
+    	//Appropriate characters: other players(type 0), H1N1 (type 1), Manhole(type 3)
+    	//iterate through all the actors
+    	while(itr.hasNext()){
+    		Actor temp = itr.next();
+    		if(temp.type == 0 || temp.type == 1 || temp.type == 3){
+    			sendNewActorData(temp.actorID, temp.type, temp.name, temp.position);
+    		}
+    	}
+    }
 
     //Class entry-point.
     public void run() {
