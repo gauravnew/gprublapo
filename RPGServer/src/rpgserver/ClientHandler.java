@@ -65,7 +65,7 @@ public class ClientHandler implements Runnable {
     	while(itr.hasNext()){
     		Actor temp = itr.next();
     		if(temp.type == 0 || temp.type == 1 || temp.type == 3){
-    			sendNewActorData(temp.actorID, temp.type, temp.name, temp.position);
+    			netOut.sendNewActorData(temp.actorID.intValue(), temp.type, temp.name, temp.position);
     		}
     	}
     }
