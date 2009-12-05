@@ -102,11 +102,9 @@ public class PlayerCharacter extends Actor {
 		int actorType = Main.cDBEngine.getActorType(id); //type of the actor I am colliding with
 		
 		if(actorType == 0) {// if interaction is with another player
-			 collisionString = "Interacted with another player"; //do nothing
+			 collisionString = ""; //do nothing
 		}
 		if(actorType == 1){ // H1N1
-			if(sick)
-				 // do nothing
 			this.sick = true;
 			this.speed = 0.1f; // really slow...
 			collisionString = "Interacted with H1N1!";
@@ -165,8 +163,7 @@ public class PlayerCharacter extends Actor {
 			collisionString = "You just went to FitRec!";
 		}
 		if(actorType == 15){ //Student Health Services
-			if(sick) //if im sick...
-				this.sick = false; //im cured!
+			this.sick = false; //im cured!
 			collisionString = "You just went to Student Health Services!";
 		}
 		if(actorType >= 16 && actorType <=24){ //Classrooms
@@ -190,7 +187,7 @@ public class PlayerCharacter extends Actor {
 				}
 				//exit the bridge circuit
 				if(this.inBridge) { //if in bridge circuit
-					if(!this.bridgeStart.equals(this.position) && this.distFromLastEx>200 ){ // and exit not where enter and walked far enough
+					if(!this.bridgeStart.sameCell(this.position) && this.distFromLastEx>200 ){ // and exit not where enter and walked far enough
 						this.health +=25;
 						this.distFromLastEx = 0; //reset 
 					}
@@ -201,6 +198,7 @@ public class PlayerCharacter extends Actor {
 			}
 		}
 		this.distFromLastCollision = 0;
+		updateSpeed();
 		return collisionString;
 	
 	}
@@ -268,19 +266,23 @@ public class PlayerCharacter extends Actor {
 
  */
     
-    
-    
     void updateSpeed(){
-    	if(this.health>125)
-    		this.speed = 0.8f; //Zippy speed!
-    	if(this.health<=125 && this.health>75)
-    		this.speed = 0.5f;//normal speed
-    	else if (this.health<=75 && this.health>25)
-    		this.speed = 0.3f;//slow speed
-    	else if (this.health<=25)
-    		this.speed = 0.1f;//very slow speed
-    	else if (this.health<0) //error check
-    		System.out.println("Invalid Health");//health can never be less than 0...
+    	if(!sick || !inBridge){
+	    	if(this.health>125)
+	    		this.speed = 0.8f; //Zippy speed!
+	    	if(this.health<=125 && this.health>75)
+	    		this.speed = 0.5f;//normal speed
+	    	else if (this.health<=75 && this.health>25)
+	    		this.speed = 0.3f;//slow speed
+	    	else if (this.health<=25)
+	    		this.speed = 0.1f;//very slow speed
+	    	else if (this.health<0) //error check
+	    		System.out.println("Invalid Health");//health can never be less than 0...
+    	}else if(sick){
+    		this.speed = 0.1f;
+    	}else if(inBridge){
+    		this.speed = 1.5f;
+    	}
     }
 
 }
