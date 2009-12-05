@@ -119,4 +119,10 @@ public class NetworkStreamWriter {
     public synchronized void sendGameOver(String winner) {
     	//TODO Implement function to write winner with game over opcode
     }
+    
+    public synchronized void sendNewActorData(int id, int type, String name, Point2D position){
+    	float x = position.getX();
+    	float y = position.getY();
+    	//TODO implement remainder of function to write actor info with proper opcode
+    }
 }
