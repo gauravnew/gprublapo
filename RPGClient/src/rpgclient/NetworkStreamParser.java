@@ -115,6 +115,53 @@ public class NetworkStreamParser {
 
     }
 
+    public synchronized String getMessage(){
+    	try{
+    		return netIn.readUTF();
+    	}
+    	catch(Exception e){
+    		return null;
+    	}
+    }
+
+    public synchronized String getLastClass(){
+    	try{
+    		return netIn.readUTF();
+    	}
+    	catch(Exception e){
+    		return null;
+    	}    	
+    }
+
+    public synchronized String getGameOver(){
+    	try{
+    		return netIn.readUTF();
+    	}
+    	catch(Exception e){
+    		return null;
+    	}
+    }
+    
+    public synchronized Actor getNewActorData() {
+    	float x, y;
+    	String name;
+    	Actor newCharacter = new Actor();
+    	try{
+    		newCharacter.actorID = new Integer(netIn.readInt());
+    		newCharacter.type = netIn.readInt();
+    		x = netIn.readFloat();
+    		y = netIn.readFloat();
+    		newCharacter.position = new Point2D(x,y);
+    		newCharacter.moveto = new Point2D(x,y);
+    		newCharacter.speed = netIn.readFloat();
+    		name = netIn.readUTF();
+    		System.out.println(name);
+    		newCharacter.name = name;
+    	}
+    	catch (Exception e) { System.out.println("Network Error getNewActorData");}
+    	
+    	return newCharacter;
+    }
 
 }
 

@@ -62,6 +62,37 @@ public class ActorEngine {
         }
     }
 
+    public synchronized void setActorMoveTo(Integer ActorID, Point2D p) {
+    	Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (actors.contains(temp)) {
+            a = (Actor) actors.floor(temp);
+            a.moveto = p;
+        } else {
+            a = null;
+        }
+    	
+    }
+    
+    public synchronized void setActorPosition(Integer ActorID, Point2D p){
+    	Actor temp = new Actor();
+        temp.actorID = ActorID;
+        
+        Actor a;
+        
+        if (actors.contains(temp)) {
+            a = (Actor) actors.floor(temp);
+            a.position = p;
+            a.moveto = p;
+        } else {
+            a = null;
+        }
+    	
+    }
+    
     public void renderAll(Graphics g, Point2D center) {
         try {
             for (Actor a : actors)

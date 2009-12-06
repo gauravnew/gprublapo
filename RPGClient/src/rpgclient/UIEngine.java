@@ -51,6 +51,7 @@ public class UIEngine {
         g.drawImage(topBar, 10, 10, null);
         g.setColor(Color.black);
         g.drawString(playerName, 95, 41);
+        g.drawString(Main.getGameLogic().getMessage(), 98, 73);
         g.setColor(Color.red);
 
         if (!countDown.equals("00")) {

@@ -54,13 +54,15 @@ public class GameMap {
     }
 
     public int getCellType(Point2D p) {
-        int c = mapData.getRGB((int)(p.getX()*16+8), (int)(p.getY()*16+8));
+    	if (p.getX()<0 | p.getX() > (Main.width-1)) return 0;
+    	if (p.getY()<0 | p.getY() > (Main.height-1)) return 0;
+    	int c = mapData.getRGB((int)(p.getX()*16+8), (int)(p.getY()*16+8));
 
         switch (c) {
             case 0xFFFFFFFF:
                 return 1;
-            case 0xFF000000:
-                return 0;
+            case 0xFFFF0000:
+                return 1;
             default:
                 return 0;
         }
