@@ -40,7 +40,9 @@ public class GameMap {
 	
 	//Return the type of the point on the map, based upon its color.
     public int getCellType(Point2D p) {
-        int c = mapData.getRGB((int)(p.getX()*16+8), (int)(p.getY()*16+8));
+    	if(p.getX()<0 | p.getX() > (width-1)) return 0;
+    	if(p.getY()<0 | p.getY() > (height-1)) return 0;
+    	int c = mapData.getRGB((int)(p.getX()*16+8), (int)(p.getY()*16+8));
 
         switch (c) {
             case 0xFFFFFFFF:
@@ -70,7 +72,7 @@ public class GameMap {
     public Point2D getRandomHorizontal(Point2D p) {
     	Point2D d;
     	do {
-    		d = new Point2D((int)Math.random()*width, p.getY());
+    		d = new Point2D((int)(Math.random()*20)-10+p.getX(), p.getY());
     	} while (getCellType(d)!=1);
     	return d;
     }
@@ -78,7 +80,7 @@ public class GameMap {
     public Point2D getRandomVertical(Point2D p) {
     	Point2D d;
     	do {
-    		d = new Point2D(p.getX(), (int)Math.random()*height);
+    		d = new Point2D(p.getX(), (int)(Math.random()*20)-10 + p.getY());
     	} while (getCellType(d)!=1);
     	return d;
     }

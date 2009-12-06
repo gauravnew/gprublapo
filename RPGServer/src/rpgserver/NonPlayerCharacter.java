@@ -44,7 +44,7 @@ public class NonPlayerCharacter extends Actor {
 			if(type == 1){
 				//H1N1 - type 1	
 		        name = "H1N1";
-		        speed = (float) 0.2;
+		        speed = (float) 0.1;
 			}else if(type == 2){
 				//Professors - type 2
 		        name = "Professor";
@@ -66,7 +66,7 @@ public class NonPlayerCharacter extends Actor {
 	//non player characters that are part of the map(classrooms, food buildings...)
 	public NonPlayerCharacter(int type, Point2D mapPos){
 
-		if(type<4 || type>24){
+		if(type<4 || type>27){
 			System.out.println("invalid type");
 		}else{
 			
@@ -147,6 +147,10 @@ public class NonPlayerCharacter extends Actor {
 			}else if (type == 26){
 				//Agganis Areana
 				name = "Agganis";
+			}
+			else if(type == 27){
+				//Teleport
+				name = "Teleport";
 			}
 			
 			//default for all types

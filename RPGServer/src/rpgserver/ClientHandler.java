@@ -23,6 +23,8 @@ import java.util.concurrent.*;
 import java.io.*;
 import java.util.*;
 
+import rpgserver.GlobalGameLogic.GAME_STATE;
+
 /**
  * ClientHandler class
  * @author gm
@@ -64,9 +66,10 @@ public class ClientHandler implements Runnable {
     	//iterate through all the actors
     	while(itr.hasNext()){
     		Actor temp = itr.next();
-    		if(temp.type == 0 || temp.type == 1 || temp.type == 3){
-    			netOut.sendNewActorData(temp.actorID.intValue(), temp.type, temp.name, temp.position);
-    		}
+    		if (!temp.equals(myCharacter))
+	    		if(temp.type == 0 || temp.type == 1 || temp.type == 3){
+	    			netOut.sendNewActorData(temp.actorID.intValue(), temp.type, temp.speed, temp.name, temp.position);
+	    		}
     	}
     }
 
@@ -99,6 +102,8 @@ public class ClientHandler implements Runnable {
             //A client has been connected.
             System.out.println("Client Connected from: " + sckClient.getInetAddress());
 
+            Main.cGameLogic.setState(GAME_STATE.INGAME);
+            
             //Client's loop until connection is closed.
             while (true) {
 
@@ -131,7 +136,8 @@ public class ClientHandler implements Runnable {
                         cDBEngine.setActorName(myActorID, name);
                         netOut.sendMapImage(new File("data/map.png"));
                         netOut.sendMapData(new File("data/map_dat.png"));
-                        netOut.sendActorMove(0, new Point2D(40,20));
+                        netOut.sendTeleport(0, new Point2D(40,20));
+                        this.sendAllCharacter();
                         break;
 
                     case 'M'*256 + 'V':

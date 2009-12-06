@@ -53,7 +53,7 @@ public class Actor implements Comparable {
         return actorID == ((Actor)a).actorID;
     }
 
-    public void updatePosition(/*Actor actor*/) {
+    public boolean updatePosition(/*Actor actor*/) {
         //this function updates the actors current position based on moveTo position and time elapsed.
 
     	//when was the last time the actor moved?
@@ -63,12 +63,20 @@ public class Actor implements Comparable {
     	}
     	
     	//distance = time*speed
-    	long timeElapsed = lastmovetime - System.nanoTime(); // how much time has passed between the last time actor moved and NOW
-    	
+    	long timeElapsed = System.nanoTime() - lastmovetime; // how much time has passed between the last time actor moved and NOW
     	float dist = timeElapsed/50000000*speed; //distance
-    	position.moveTo(dist, moveto); //change actor position
-    	
-    	lastmovetime = System.nanoTime(); //set the last time the actor moved to the system time.
+    	Point2D proposed = new Point2D(position);
+    	if (dist >= 1){
+    		proposed.moveTo(dist, moveto); //change actor position
+    		if (Main.cGameLogic.getGameMap().getCellType(proposed) == 1)
+    			position.moveTo(dist,moveto);
+    		else 
+    			moveto.setPosition(position.getX(), position.getY());
+    		lastmovetime = System.nanoTime(); //set the last time the actor moved to the system time.
+        	return true;
+    	}
+    	else
+    		return false;
      }
     
     /*		

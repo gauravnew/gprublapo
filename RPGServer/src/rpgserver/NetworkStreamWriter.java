@@ -109,20 +109,66 @@ public class NetworkStreamWriter {
     }
     
     public synchronized void sendMessage(String msg){
-    	//TODO Implement function to write msg with message opcode
+    	try{
+    		netOut.writeShort('M'*256 + 'G');
+	    	netOut.writeUTF(msg);
+	    	netOut.flush();
+    	}
+    	catch(Exception e) { System.out.println("Server Error sendMEssage");}
     }
     
     public synchronized void sendLastClass(String msg){
+    	try{
+    		netOut.writeShort('L'*256 + 'C');
+    		netOut.writeUTF(msg);
+    		netOut.flush();
+    	}
+    	catch (Exception e) {System.out.println("Server Error sendLastClass");}
     	//TODO Implement function to write msg with lastclass opcode
     }
 
     public synchronized void sendGameOver(String winner) {
+    	try{
+    		netOut.writeShort('G'*256 + 'O');
+    		netOut.writeUTF(winner);
+    		netOut.flush();
+    	}
+    	catch (Exception e) {System.out.println("Server Error sendGameOver");}
     	//TODO Implement function to write winner with game over opcode
     }
     
-    public synchronized void sendNewActorData(int id, int type, String name, Point2D position){
+    public synchronized void sendTeleport(int actorID, Point2D target){
+        try {
+
+            netOut.writeShort('T'*256 + 'L');
+            netOut.writeInt(actorID);
+            netOut.writeFloat(target.getX());
+            netOut.writeFloat(target.getY());
+
+            netOut.flush();
+
+        } catch(Exception e) {
+
+            System.out.println("Server Error.");
+
+        }    	
+    }
+    
+    public synchronized void sendNewActorData(int id, int type, float speed, String name, Point2D position){
     	float x = position.getX();
     	float y = position.getY();
+    	try{
+    		netOut.writeShort('N'*256 + 'A');
+    		netOut.writeInt(id);
+    		netOut.writeInt(type);
+    		netOut.writeFloat(x);
+    		netOut.writeFloat(y);
+    		netOut.writeFloat(speed);
+    		netOut.writeUTF(name);
+    		netOut.flush();
+    	}
+    	catch (Exception e) {System.out.println("Server Error sendNewActorData");}
+
     	//TODO implement remainder of function to write actor info with proper opcode
     }
 }
