@@ -47,42 +47,59 @@ public class GlobalGameLogic implements Runnable {
             
     
     public void run() {
+    	state = GAME_STATE.LOGIN;
         Integer tempID;
         PlayerCharacter tempChar;
         String msg;
         cNPCEngine.loadNPCsFromFile("data/npcs.txt", cDBEngine);
         cNPCEngine.generateRandomCharacters(cDBEngine);
- forever:	//so that break statement will leave this loop
+
+        while (state!=GAME_STATE.INGAME);
+        
+        forever:	//so that break statement will leave this loop
         while (true) {
             for(Actor actor : cDBEngine.getHashtableKeys()) {
-            	if (actor.type < 4 && actor.type > 0) {
-            		//if (actor.moveto.equals(actor.position)) cNPCEngine.generateNewPosition(actor.actorID);
-            		//actor.updatePosition();
-            	}
+            	if (actor.type == 1 | actor.type == 2) {
+            		if (actor.moveto.equals(actor.position)) {
+            			cNPCEngine.generateNewPosition(actor.actorID);
+            		}
+            		
+        			if(actor.updatePosition() && actor.type==1){
+            			for(Actor otherID : cDBEngine.getHashtableKeys()){
+	    					if (otherID.type == 0) {
+	        					PlayerCharacter other = (PlayerCharacter)otherID;
+	       						if(actor.position.getMinDistance(other.position) < 26)
+	       							try{other.out.sendActorMove(actor.actorID, actor.position);}
+	       							catch(Exception e) {;}
+	    					}
+            			}
+        			}
+
+            	} 
             	if(actor.type==0){
             		tempChar=(PlayerCharacter)actor;
             		if (!(tempChar.moveto.equals(tempChar.position))) {
             			tempChar.updatePosition();
-            			tempChar.out.sendActorMove(0, tempChar.position);
-            			
             			if((tempID=tempChar.checkCollision()) != null) {
             				msg = tempChar.processCollision(tempID);
-            				
             				tempChar.out.sendMessage(msg);
             				if (msg.equals(new String("You Win"))) break forever;
+            				if (msg.equals(new String("Teleport"))) tempChar.out.sendTeleport(0, tempChar.position);
             				
             				if (cDBEngine.getActorType(tempID) > 16 && cDBEngine.getActorType(tempID) < 26)
             					tempChar.out.sendLastClass(msg.substring(9));
-            				
-            				for(Actor otherID : cDBEngine.getHashtableKeys()){
-            					if (otherID.type == 0) {
-	            					PlayerCharacter other = (PlayerCharacter)otherID;
-	            					if (!(tempChar.equals(other))) 
-	            						if(tempChar.position.getMinDistance(other.position) < 26)
-	            							other.out.sendActorMove(tempChar.actorID, tempChar.position);
-            					}
-            				}
             			}
+           				for(Actor otherID : cDBEngine.getHashtableKeys()){
+           					if (otherID.type == 0) {
+            					PlayerCharacter other = (PlayerCharacter)otherID;
+            					if (!(tempChar.equals(other))) {
+            						if(tempChar.position.getMinDistance(other.position) < 26)
+            							other.out.sendActorMove(tempChar.actorID, tempChar.position);
+            					}
+            					else tempChar.out.sendActorMove(0, tempChar.position);
+
+           					}
+           				}
             		}
             	}
             }

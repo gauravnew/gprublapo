@@ -75,11 +75,14 @@ public class NPCEngine {
     	GameMap map = Main.cGameLogic.getGameMap();
     	NonPlayerCharacter moveMe = db.getNonPlayer(id);
     	Point2D newTarget;
-    	if(moveMe.nextDirection==RELATIVE_DIRECTION.HORIZONTAL)
-			newTarget = map.getRandomHorizontal(moveMe.position);
-    	else
+    	if(moveMe.nextDirection==RELATIVE_DIRECTION.HORIZONTAL){
+    		newTarget = map.getRandomHorizontal(moveMe.position);
+    		moveMe.nextDirection=RELATIVE_DIRECTION.VERTICAL;
+    	}
+    	else{
 			newTarget = map.getRandomVertical(moveMe.position);
-    	moveMe.nextDirection.data*=-1;
+			moveMe.nextDirection=RELATIVE_DIRECTION.HORIZONTAL;
+    	}
     	db.setActorMoveTo(id, newTarget);
     }
     
