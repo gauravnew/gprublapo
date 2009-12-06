@@ -73,7 +73,9 @@ public class NetworkEngine implements Runnable {
             out.sendLoginPacket(Main.getGameLogic().getMainActorName());
 
             while(true) {
-
+            	int id;
+            	Point2D target;
+            	movePkt pk;
                 int opcode;
 
 				//read next message and process by opcode
@@ -105,14 +107,35 @@ public class NetworkEngine implements Runnable {
                             break;
 						//Case Move Actor
                         case 'M'*256 + 'V':
-                            movePkt pk = in.getActorMove();
-                            Integer id = pk.id;
-                            Point2D target = pk.pos;
-                            System.out.println("NETWORK::Move Packet. " + id.intValue() + " " + target.getX() + " " + target.getY());
-                            try{Main.getGameLogic().getActorEngine().getActor(id.intValue()).moveto = target;}
-                            catch (Exception e){}
+                            pk = in.getActorMove();
+                            id = pk.id.intValue();
+                            target = pk.pos;
+                            System.out.println("NETWORK::Move Packet. " + id + " " + target.getX() + " " + target.getY());
+                            try{Main.getGameLogic().getActorEngine().setActorMoveTo(id, target);}
+                            catch (Exception e){System.out.println(e);}
                             break;
-                            
+                        //Case New Actor Data
+                        case 'N'*256 + 'A':
+                        	Main.getGameLogic().getActorEngine().addActor(in.getNewActorData());
+                            break;
+                        case 'M'*256 + 'G':
+                        	Main.getGameLogic().setMessage(in.getMessage());
+                            break;
+                        case 'L'*256 + 'C':
+                        	Main.getGameLogic().setLastClass(in.getLastClass());
+                        	break;
+                        case 'G'*256 + 'O':
+                        	Main.getGameLogic().state=GAME_STATE.LOGIN_STATE;
+                        	Main.getGameLogic().setWinner(in.getGameOver());
+                        	break;
+                        case 'T'*256 + 'L':
+                            pk = in.getActorMove();
+                            id = pk.id.intValue();
+                            target = pk.pos;
+                            System.out.println("NETWORK::Move Packet. " + id + " " + target.getX() + " " + target.getY());
+                            try{Main.getGameLogic().getActorEngine().setActorPosition(id, target);}
+                            catch (Exception e){System.out.println(e);}
+                            break;
                         default:
 
                             //Unknown packet, disconnect and return.

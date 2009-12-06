@@ -32,6 +32,9 @@ public class CoreGameLogic {
     GameMap map;
     UIEngine ui;
     ActorEngine actors;
+    String message;
+    String lastClass;
+    String winner;
 
     public ActorEngine getActorEngine() {
         return actors;
@@ -40,14 +43,33 @@ public class CoreGameLogic {
     public String getMainActorName() {
         return main_actor_name;
     }
+    
+    public void setMessage(String s){
+    	message = new String(s);
+    }
+    
+    public String getMessage(){return message;}
+    
+    public void setLastClass(String s){
+    	lastClass = new String(s);
+    }
+    
+    public String getLastClass(){return lastClass;}
 
     public void setMainActorName(String name) {
         main_actor_name = name;
     }
 
+    public void setWinner(String s){
+    	winner = new String (s);
+    }
+    public String getWinner(){return winner;} 
+    
     CoreGameLogic() {
         login = new LoginScreen();
         state = GAME_STATE.LOGIN_STATE;
+        winner = null;
+        message = new String ("New game");
     }
 
     public synchronized LoadingScreen getLoadingScreen() {
