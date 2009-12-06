@@ -59,7 +59,7 @@ public class PlayerCharacter extends Actor {
 		health = 100; //starting health
 		lastClass = -1;
 		credits = 0;
-		
+		speed=1;
 		distFromLastEx = (float)0.0; //distance from last exercise and/or eat
 
 		distTrav = (float) 0.0;; //distance the characters move
@@ -83,7 +83,7 @@ public class PlayerCharacter extends Actor {
 		while(actItr.hasNext()){
 			Actor temp = actItr.next();
 			//check if my moveto position (or current position?) == to characters (temp) current position
-			if(!(this.actorID.equals(temp.actorID)) && this.position.sameCell(temp.position)){ //if yes
+			if(!(this.actorID.equals(temp.actorID)) && this.position.sameCell(temp.position) && this.distFromLastCollision>=1){ //if yes
 				return temp.actorID; // return the ID of the collided character
 			}	
 		}
@@ -137,30 +137,30 @@ public class PlayerCharacter extends Actor {
 			if(!sick && this.distFromLastEx>200){ //if I am not sick and walked far enough
 				this.health += 20;
 				this.distFromLastEx = 0; //reset distance counter
+				collisionString = "You just Ate and replenished yourself!";
 			}
-			collisionString = "You just Ate and replenished yourself!";
 			
 		}
 		if(actorType >=9 && actorType <= 11){ //Panda Express, Papa John's or Starbucks
 			if(!sick && this.distFromLastEx>200){ //if I am not sick and walked far enough
 				this.health += 10;
 				this.distFromLastEx = 0; //reset distance counter
+				collisionString = "You just Ate and replenished yourself!";
 			}
-			collisionString = "You just Ate and replenished yourself!";
 		}
 		if(actorType >= 12 && actorType <= 13){ //Dunkin Donuts or Store 24
 			if(!sick && this.distFromLastEx>200){ //if I am not sick and walked far enough
 				this.health += 5;
 				this.distFromLastEx = 0; //reset distance counter
+				collisionString = "You just Ate and replenished yourself!";
 			}
-			collisionString = "You just Ate and replenished yourself!";
 		}
 		if(actorType == 14){ //FitRec
 			if(!sick && this.distFromLastEx>200){ //if I am not sick and walked far enough
 				this.health += 15;
 				this.distFromLastEx = 0; //reset distance counter
+				collisionString = "You just went to FitRec!";
 			}
-			collisionString = "You just went to FitRec!";
 		}
 		if(actorType == 15){ //Student Health Services
 			this.sick = false; //im cured!
@@ -178,7 +178,7 @@ public class PlayerCharacter extends Actor {
 		if(actorType == 25){ //Bridge circuit
 			if(!this.sick){ //if im not sick
 				//enter the bridge circuit
-
+				collisionString = "Bridge Circuit";
 				if(!this.inBridge){ // inBridge = false
 					this.inBridge = true;
 					this.bridgeStart = this.position;
@@ -197,6 +197,15 @@ public class PlayerCharacter extends Actor {
 				// reduce speed down to correct amount
 			}
 		}
+		
+		if(actorType==27){ //Teleport
+			float x = Float.parseFloat(Main.cDBEngine.getActorName(id).substring(0,3));
+			float y = Float.parseFloat(Main.cDBEngine.getActorName(id).substring(4));
+			this.position.setPosition(x,y);
+			this.moveto.setPosition(x,y);
+			collisionString = "Teleport";
+		}
+		
 		this.distFromLastCollision = 0;
 		updateSpeed();
 		return collisionString;
@@ -204,21 +213,23 @@ public class PlayerCharacter extends Actor {
 	}
 
     @Override
-    public void updatePosition(/*Actor actor*/) {
-        //distance between the current postition and the moveto postion
+    public boolean updatePosition(/*Actor actor*/) {
+//    	this.position.setPosition(this.moveto.getX(), this.moveto.getY());
+//    	return true;
+    	//distance between the current postition and the moveto postion
 
-//  	super.updatePosition(/*actor*/);
+//    	super.updatePosition(/*actor*/);
 
     	float dist = this.position.getDistance(this.moveto);
-    	this.position.moveTo(dist, this.moveto);
+/*    	this.position.moveTo(dist, this.moveto);
     	
     	this.distFromLastEx += dist; //add the distance moved to the counter
     	this.distFromLastCollision += dist;
     	this.distTrav += dist;
     	
-//    	return;
-  
-    	float d = dist;
+    	return;
+*/  
+   	 	float d = dist;
     	Point2D proposed = new Point2D();
     	
 
@@ -233,8 +244,6 @@ public class PlayerCharacter extends Actor {
 	    		proposed.setX(this.moveto.getX());
 	    		d = 0;
 	    	}
-    	}
-    	if(d>0){
 	    	if (d < dY){
 	    		d-=dY;
 	    		proposed.setY(this.position.getY() + dY);
@@ -250,16 +259,22 @@ public class PlayerCharacter extends Actor {
 	    	this.distFromLastEx += dist; //add the distance moved to the counter
 	    	this.distTrav += dist;
 	    	this.distFromLastCollision += dist;
+	    	return true;
     	}
-    	
-    	//updating health
-    	if(distTrav>100){
-    		this.health -=5; //reduce health
-    		updateSpeed(); //update speed based on new health
-    		distTrav = 0;
-    	}
-    	return;
+    	return false;
     }
+
+    /*
+     *         //distance between the current postition and the moveto postion
+>>>>>>> .r104
+    	float dist = actor.position.getDistance(actor.moveto);
+    	
+    	this.distFromLastEx += dist; //add the distance moved to the counter
+    	this.distFromLastCollision += dist;
+    	this.distTrav += dist;
+        
+
+ */
     
     void updateSpeed(){
     	if(sick){
