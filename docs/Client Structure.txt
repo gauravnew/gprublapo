@@ -2,6 +2,19 @@ Main===========================================================================
 Main(String [] args)
 
 	public datamember Semaphore================================================
+	datamember Xcanvas canvas
+	datamember CoreGameLogic coreLogic
+	datamember NetworkEngine netEngine
+	datamember final int width
+	datamember final int height
+	XCanvas getCanvas()
+	CoreGameLogic getGameLogic()
+	NetworkEngine getNetworkEngine()
+	setNetworkEngine(NetworkEngine n)
+	constructor Main
+	void main(String[] args)
+	void addPanel(Panel p)
+	void removePanel(Panel p)
 
 	CoreGameLogic==============================================================
 		datamember String main_actor_name
@@ -13,10 +26,19 @@ Main(String [] args)
 		datamember UIEngine ui
 		dataMember ActorEngine actors
 		dataMember Point2D moveReq
+		dataMember String message
+		dataMember String lastClass
+		dataMember String winner
 		constructor CoreGameLogic()
 		ActorEngine getActorEngine()
 		String getMainActorName()
+		void setMessage(String s)
+		String getMessage()
+		void setLastClass(String s)
+		String getLastClass()
 		void setMainActorName(String name)
+		void setWinner(String s)
+		String getWinner()
 		LoadingScreen getLoadingScreen()
 		boolen checkState(GAME_STATE s)
 		void setState (GAME_STATE s)
@@ -32,6 +54,8 @@ Main(String [] args)
 			int addActor(Actor a)
 			int removeActor(Actor a)
 			Actor getActor(int actorID)
+			void setActorMoveTo(Integer ActorID, Point2D P)
+			void setActorPosition(Integer ActorID, Point2D p)
 			void renderAll(Graphics g, Point2D center)
 			
 				Actor==========================================================
@@ -130,14 +154,12 @@ Main(String [] args)
 		constructor Point2D(Point2D p)
 		void float getX()
 		void float getY()
-		void float setX()
-		void float setY()
+		void float setX(float in_X)
+		void float setY(float in_Y)
 		void setPosition(float in_X, float in_Y)
 		float getDistance(Point2D other)
-		float getMinDistance(Point2D other)
 		boolean equals(Point2D other)
-		boolean sameCell(Point2D other)
-		void moveTo(float distance, Point2D towards)
+		int moveTo(float distance, Point2D towards)
 	
 	XCanvas====================================================================
 		datamember MouseEvent mouse
@@ -145,6 +167,10 @@ Main(String [] args)
 		datamember Image offImage
 		datamember Graphics bufferGraphics
 		constructor XCanvas
+		void setKey(KeyEvent evt)
+		KeyEvent getKey()
+		void setMouse(MouseEvent evt)
+		MouseEvent getMouse()
 		void update(Graphics g)
 		void paint(Graphics g)
 	
@@ -181,6 +207,7 @@ Main(String [] args)
 				void sendLoginPacket(String name)
 				void sendPing()
 				void sendActorMove(Point2D target)
+				void sendTest(char keyPressed)
 				
 	movePkt========================================================================
 		datamember Integer id

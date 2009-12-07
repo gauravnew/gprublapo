@@ -13,11 +13,11 @@ Main(String [] args)
 	constructor Point2D(Point2D p)
 	void float getX()
 	void float getY()
-	void float setX()
-	void float setY()
+	void float setX(float in_X)
+	void float setY(float in_Y)
 	void setPosition(float in_X, float in_Y)
-	float getDistance(Point2D other)
-	float getMinDistance(Point2D other)
+	float getDistance(Point2D p)
+	float getMinDistance(Point2D p)
 	boolean equals(Point2D other)
 	boolean sameCell(Point2D other)
 	void moveTo(float distance, Point2D towards)
@@ -25,12 +25,11 @@ Main(String [] args)
 	NonPlayerCharacterEngine===================================================
 	bool loadNPCsFromFile(String filename)
 	void generateNewPosition(Integer actorID)
+	void generateRandomCharacters(GlobalGameDatabase db)
 
 	GlobalGameLogic============================================================
 	Thread Synchronized access only
-	datamember char [][] map;
-	datamember int mapWidth;
-	datamember int mapHeight;
+	implements Runnable
 	datatype GAME_STATE enum {LOGIN_STATE, COUNTDOWN_STATE, INGAME_STATE, GAMEOVER_STATE}
 	datamember GAME_STATE state
 	datamember int countdown
@@ -47,6 +46,7 @@ Main(String [] args)
 	GlobalGameDatabase getGameDB()
 	GameMap getGameMap()
 	NPCEngine getNPCEngine()
+	void run()
 
 		GameMap================================================================
 		datamember BufferedImage mapData
@@ -72,6 +72,7 @@ Main(String [] args)
 	Point2D getActorPosition(Integer ActorID)
 	Point2D getActorMoveTo(Integer ActorID)
 	float getActorSpeed(Integer ActorID)
+	String getActorName(Integer ActorID)
 	int getActorStatusFlags(Integer ActorID)
 	int getActorType(Integer ActorID)
 	void setActorPosition(Integer ActorID, Point2D p)
@@ -80,8 +81,10 @@ Main(String [] args)
 	void setActorStatusFlag(int ActorID, int flag, boolean status)
 	void setActorType(Integer ActorID, int type)
 	PlayerCharacter getPlayer(int ActorID)
+	NonPlayerCharacter getNonPlayer(Integer id)
 	Integer [] getAllPlayerCharacters()
 	void setActorName(Integer ActorID, String name)
+	void setPlayerOutputStream
 		
 		Actor==============================================================
 		datamember int ActorID
@@ -95,11 +98,13 @@ Main(String [] args)
 		constructor Actor()
 		int compareTo(Object a)
 		boolean equals(Object a)
-		void updatePosition(Actor actor)
+		boolean updatePosition()
 		
 		PlayerCharacter====================================================
 		derrives Actor
 		datamember NetworkStreamWriter out
+		datamember ClientHandler client
+		datamember final int NUM_CLASSES
 		datamember int health
 		datamember boolean inBridge
 		datamember Point2D bridgeStart
@@ -112,7 +117,8 @@ Main(String [] args)
 		datamember int credits
 		Integer checkCollision()
 		String processCollision(Integer id)
-		
+		boolean updatePositio()
+		void updateSpeed()
 
 		NonPlayerCharacter=================================================
 		derrives Actor
@@ -141,6 +147,7 @@ Main(String [] args)
 		int getNextMessageOPCode()
 		String getNamefromLogin()
 		Point2D getActorMove
+		char getTestCase()
 
 		NetworkStreamWriter================================================
 		Thread Synchronized access only
@@ -154,8 +161,9 @@ Main(String [] args)
 		sendHealth(int health)
 		sendMessage(String msg)
 		sendLastClass(String msg)
-		sendEndGame(String winner)
+		sendGameOver(String winner)
 		sendNewActorData(Integer id)
+		sendTeleport(int actorID, Point2D target)
 		
 		
 	
