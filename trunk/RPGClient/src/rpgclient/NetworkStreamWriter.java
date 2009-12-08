@@ -5,6 +5,8 @@ package rpgclient;
  * Description : This class is to send messages
  * from the server to the client. Each possible message
  * has its own function call.
+ * 
+ * TODO add function void sendTest(char keyPressed)
  */
 
 import java.io.*;
