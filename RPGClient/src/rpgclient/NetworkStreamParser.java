@@ -8,9 +8,10 @@ package rpgclient;
 
  /**
   *  TODO:
-  *	Add function getHealth()
-  *	Add function getGameOverState()
-  *	Add function readActorInfo(Integer id)
+  *	Add function int getHealth()
+  * Add function int getCredits()
+  * Add function float getSpeed()
+  * Add function String getLastClass()
   */ 
  
 
