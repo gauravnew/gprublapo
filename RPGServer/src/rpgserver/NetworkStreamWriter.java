@@ -9,9 +9,8 @@ package rpgserver;
 
 /**
    *  TODO:  
-   *	Add functions sendHealth(int health)
-   *	Add function sendEndGame(String winner)
-   *	Add function sendNewActorData(Integer id)
+   *	Add function sendCredits(int credits)
+   *	Add function sendHealth(int health)
    */
 
 import java.io.*;
@@ -169,6 +168,6 @@ public class NetworkStreamWriter {
     	}
     	catch (Exception e) {System.out.println("Server Error sendNewActorData");}
 
-    	//TODO implement remainder of function to write actor info with proper opcode
     }
+
 }
