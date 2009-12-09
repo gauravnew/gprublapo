@@ -212,4 +212,9 @@ Main(String [] args)
 	movePkt========================================================================
 		datamember Integer id
 		datamember Point2D pos
+		datamember int info
+		datamember float float_dat
 		constructor (Integer i, Point2D p)
+		constructor (Integer i, int x)
+		constructor (Integer i, float y)
+		

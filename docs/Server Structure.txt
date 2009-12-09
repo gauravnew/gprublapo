@@ -157,13 +157,15 @@ Main(String [] args)
 		sendMapImage(File F)
 		sendMapData(File F)
 		sendSetActorMove(int ActorID, Point2D target)
-		sendCredits(int credits)
-		sendHealth(int health)
+		sendCredits(int ActorID, int credits)
+		sendHealth(int ActorID, int health)
+		sendSpeed(int ActorID, float speed)
 		sendMessage(String msg)
 		sendLastClass(String msg)
 		sendGameOver(String winner)
 		sendNewActorData(Integer id)
 		sendTeleport(int actorID, Point2D target)
+		sendCountdown()
 		
 		
 	
