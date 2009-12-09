@@ -54,7 +54,7 @@ public class GlobalGameLogic implements Runnable {
         cNPCEngine.loadNPCsFromFile("data/npcs.txt", cDBEngine);
         cNPCEngine.generateRandomCharacters(cDBEngine);
 
-        while (state!=GAME_STATE.INGAME);
+        while (state!=GAME_STATE.COUNTDOWN);
         
         forever:	//so that break statement will leave this loop
         while (true) {
@@ -76,8 +76,8 @@ public class GlobalGameLogic implements Runnable {
         			}
 
             	} 
-            	if(actor.type==0){
-            		tempChar=(PlayerCharacter)actor;
+            	if(actor.type==0){	//if it's a player character
+            		tempChar=(PlayerCharacter)actor;	//cast it as a player character, gain access to more functions
             		if (!(tempChar.moveto.equals(tempChar.position))) {
             			tempChar.updatePosition();
             			if((tempID=tempChar.checkCollision()) != null) {
