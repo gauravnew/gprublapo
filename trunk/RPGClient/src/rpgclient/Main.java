@@ -90,8 +90,16 @@ public class Main extends Frame {
 final class movePkt {
 	public Integer id;
 	public Point2D pos;
+        public int info;
+        public float float_dat;
 	movePkt(Integer i, Point2D p){
 		id = new Integer(i); pos = new Point2D(p);
 	}
+        movePkt(Integer i, int x) {
+            id = new Integer(i); info = x;
+        }
+        movePkt(Integer i, float y) {
+            id = new Integer(i); float_dat = y;
+        }
 
 }
