@@ -60,7 +60,7 @@ public class PlayerCharacter extends Actor {
 		lastClass = -1;
 		credits = 0;
 		speed=1;
-		distFromLastEx = (float)0.0; //distance from last exercise and/or eat
+		distFromLastEx = (float)200.0; //distance from last exercise and/or eat
 
 		distTrav = (float) 0.0;; //distance the characters move
 		distFromLastCollision = (float) 0.0; //distance the character moved from the last collision;

@@ -102,7 +102,6 @@ public class ClientHandler implements Runnable {
             //A client has been connected.
             System.out.println("Client Connected from: " + sckClient.getInetAddress());
 
-            Main.cGameLogic.setState(GAME_STATE.INGAME);
             
             //Client's loop until connection is closed.
             while (true) {
@@ -137,7 +136,6 @@ public class ClientHandler implements Runnable {
                         netOut.sendMapImage(new File("data/map.png"));
                         netOut.sendMapData(new File("data/map_dat.png"));
                         netOut.sendTeleport(0, new Point2D(40,20));
-                        this.sendAllCharacter();
                         break;
 
                     case 'M'*256 + 'V':

@@ -16,6 +16,8 @@ package rpgserver;
 
 import java.net.*;
 
+import com.sun.jmx.snmp.tasks.ThreadService;
+
 
 /**
  * Program Entry Point
@@ -30,6 +32,9 @@ public class Main {
      */
     public static void main(String[] args) {
 
+    	int port;
+    	if(args.length==1) port=Integer.parseInt(args[0]);
+    	else port=1234;
         cDBEngine = new GlobalGameDatabase();
         cGameLogic = new GlobalGameLogic();
 
@@ -38,11 +43,12 @@ public class Main {
         try {
 
             //Open a network socket at port 1234 and wait for incoming connections.
-            ServerSocket srvr = new ServerSocket(1234);
-            System.out.println("Server started. Listening on port 1234");
+            ServerSocket srvr = new ServerSocket(port);
+            System.out.println("Server started. Listening on port " + port);
 
             while (true) {
                 //Accept incoming connections.
+            	srvr.setSoTimeout(20000);
                 Socket client = srvr.accept();		//[S.N.001]
                 System.out.println("Client connection accepted");
                 
@@ -59,9 +65,10 @@ public class Main {
         } catch (Exception e) {
             
             //A socket error has occoured to print a message.
-            System.out.println("Server error.");
-
+        	//Unless it's a timeout! (Assue this is the case)
+        	
         }
+        //******Start the game here*****
 
     }
 
