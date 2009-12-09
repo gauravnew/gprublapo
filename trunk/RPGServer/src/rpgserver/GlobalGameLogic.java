@@ -29,6 +29,7 @@ package rpgserver;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
+import java.lang.System;
 
 /**
  *
@@ -44,10 +45,9 @@ public class GlobalGameLogic implements Runnable {
     int countdown;
     GAME_STATE state;
     String winner;
-            
     
     public void run() {
-    	state = GAME_STATE.LOGIN;
+     state = GAME_STATE.LOGIN;
         Integer tempID;
         PlayerCharacter tempChar;
         String msg;
@@ -56,63 +56,90 @@ public class GlobalGameLogic implements Runnable {
 
         while (state!=GAME_STATE.COUNTDOWN);
         
-        forever:	//so that break statement will leave this loop
+        // *** Completed by Jacob Hampton, 3:45 P.M. 12/9/09 ***
+        
+        long startTime = java.lang.System.currentTimeMillis();
+        
+        for(Actor actor : cDBEngine.getHashtableKeys()) { 
+             if(actor.type==0){ //if it's a player character
+                 tempChar=(PlayerCharacter)actor; //cast it as a player character, gain access to more functions
+                 //tempChar.out.sendCountdown(); // This line should send the countdown message to each player character.  However, none exists at this time.
+             }
+        }
+        
+        for(Actor actor : cDBEngine.getHashtableKeys()) { 
+             if(actor.type==0){ //if it's a player character
+                 tempChar=(PlayerCharacter)actor; //cast it as a player character, gain access to more functions
+                 //tempChar.out.sendAllCharacters(); // This line should send a message to each player character.  However, the correct method does not exist at this time.
+             }
+        }
+        
+        while (true){
+            if (java.lang.System.currentTimeMillis() >= (startTime + 10000)){ // Make sure at least 10 seconds have passed
+                state = GAME_STATE.INGAME;
+                break; 
+            }
+        }
+        
+        // ******************************************************
+        
+        forever: //so that break statement will leave this loop
         while (true) {
             for(Actor actor : cDBEngine.getHashtableKeys()) {
-            	if (actor.type == 1 | actor.type == 2) {
-            		if (actor.moveto.equals(actor.position)) {
-            			cNPCEngine.generateNewPosition(actor.actorID);
-            		}
-            		
-        			if(actor.updatePosition() && actor.type==1){
-            			for(Actor otherID : cDBEngine.getHashtableKeys()){
-	    					if (otherID.type == 0) {
-	        					PlayerCharacter other = (PlayerCharacter)otherID;
-	       						if(actor.position.getMinDistance(other.position) < 26)
-	       							try{other.out.sendActorMove(actor.actorID, actor.position);}
-	       							catch(Exception e) {;}
-	    					}
-            			}
-        			}
+             if (actor.type == 1 | actor.type == 2) {
+              if (actor.moveto.equals(actor.position)) {
+               cNPCEngine.generateNewPosition(actor.actorID);
+              }
+              
+           if(actor.updatePosition() && actor.type==1){
+               for(Actor otherID : cDBEngine.getHashtableKeys()){
+          if (otherID.type == 0) {
+              PlayerCharacter other = (PlayerCharacter)otherID;
+              if(actor.position.getMinDistance(other.position) < 26)
+               try{other.out.sendActorMove(actor.actorID, actor.position);}
+               catch(Exception e) {;}
+          }
+               }
+           }
 
-            	} 
-            	if(actor.type==0){	//if it's a player character
-            		tempChar=(PlayerCharacter)actor;	//cast it as a player character, gain access to more functions
-            		if (!(tempChar.moveto.equals(tempChar.position))) {
-            			tempChar.updatePosition();
-            			if((tempID=tempChar.checkCollision()) != null) {
-            				msg = tempChar.processCollision(tempID);
-            				tempChar.out.sendMessage(msg);
-            				if (msg.equals(new String("You Win"))) break forever;
-            				if (msg.equals(new String("Teleport"))) tempChar.out.sendTeleport(0, tempChar.position);
-            				
-            				if (cDBEngine.getActorType(tempID) > 16 && cDBEngine.getActorType(tempID) < 26)
-            					tempChar.out.sendLastClass(msg.substring(9));
-            			}
-           				for(Actor otherID : cDBEngine.getHashtableKeys()){
-           					if (otherID.type == 0) {
-            					PlayerCharacter other = (PlayerCharacter)otherID;
-            					if (!(tempChar.equals(other))) {
-            						if(tempChar.position.getMinDistance(other.position) < 26)
-            							other.out.sendActorMove(tempChar.actorID, tempChar.position);
-            					}
-            					else tempChar.out.sendActorMove(0, tempChar.position);
+             } 
+             if(actor.type==0){ //if it's a player character
+              tempChar=(PlayerCharacter)actor; //cast it as a player character, gain access to more functions
+              if (!(tempChar.moveto.equals(tempChar.position))) {
+               tempChar.updatePosition();
+               if((tempID=tempChar.checkCollision()) != null) {
+                msg = tempChar.processCollision(tempID);
+                tempChar.out.sendMessage(msg);
+                if (msg.equals(new String("You Win"))) break forever;
+                if (msg.equals(new String("Teleport"))) tempChar.out.sendTeleport(0, tempChar.position);
+                
+                if (cDBEngine.getActorType(tempID) > 16 && cDBEngine.getActorType(tempID) < 26)
+                 tempChar.out.sendLastClass(msg.substring(9));
+               }
+               for(Actor otherID : cDBEngine.getHashtableKeys()){
+                if (otherID.type == 0) {
+                 PlayerCharacter other = (PlayerCharacter)otherID;
+                 if (!(tempChar.equals(other))) {
+                  if(tempChar.position.getMinDistance(other.position) < 26)
+                   other.out.sendActorMove(tempChar.actorID, tempChar.position);
+                 }
+                 else tempChar.out.sendActorMove(0, tempChar.position);
 
-           					}
-           				}
-            		}
-            	}
+                }
+               }
+              }
+             }
             }
         }
         
         for(Actor actor : cDBEngine.getHashtableKeys()) {
-        	if(actor.type==0){
-        		tempChar = (PlayerCharacter)actor;
-        		tempChar.out.sendGameOver(winner);
-        		try {
-					tempChar.client.sckClient.close();
-				} catch (IOException e) {}
-        	}
+         if(actor.type==0){
+          tempChar = (PlayerCharacter)actor;
+          tempChar.out.sendGameOver(winner);
+          try {
+     tempChar.client.sckClient.close();
+    } catch (IOException e) {}
+         }
         }
         return;
     }
