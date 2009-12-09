@@ -36,7 +36,7 @@ public class NetworkEngine implements Runnable {
 
         try {
 
-            sckServer = new Socket(ServerIP,1234);
+            sckServer = new Socket(ServerIP,4321);
 
         } catch (Exception e) {
 

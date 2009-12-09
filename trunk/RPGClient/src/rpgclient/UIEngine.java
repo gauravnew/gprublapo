@@ -20,7 +20,7 @@ public class UIEngine {
 
     private BufferedImage topBar = null;
     private String playerName = null;
-    private String countDown = "00";
+    private String countDown = "10";
     private long lastTime = 0;
 
     public void setPlayerName(String name) {
