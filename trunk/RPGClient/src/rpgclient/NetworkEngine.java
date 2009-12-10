@@ -36,7 +36,7 @@ public class NetworkEngine implements Runnable {
 
         try {
 
-            sckServer = new Socket(ServerIP,4321);
+            sckServer = new Socket(ServerIP,1234);
 
         } catch (Exception e) {
 
@@ -104,6 +104,12 @@ public class NetworkEngine implements Runnable {
                             in.getMapData();		//[C.N.012]
                             Main.coreLogic.getLoadingScreen().incBy(30);
                             Main.coreLogic.setState(GAME_STATE.INGAME_STATE);
+                            Main.coreLogic.ui.setCountDown(30);
+                            break;
+                                                //Case Start Countdown.
+                        case 'C'* 256 + 'D':
+                            int count = in.getCountDown();
+                            Main.coreLogic.ui.setCountDown(count);
                             break;
 						//Case Move Actor
                         case 'M'*256 + 'V':

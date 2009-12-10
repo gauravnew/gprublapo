@@ -136,6 +136,12 @@ public class ClientHandler implements Runnable {
                         netOut.sendMapImage(new File("data/map.png"));
                         netOut.sendMapData(new File("data/map_dat.png"));
                         netOut.sendTeleport(0, new Point2D(40,20));
+                        while(Main.cGameLogic.checkState(GAME_STATE.COUNTDOWN)) {
+                            Thread.sleep(50);
+                            netOut.sendCountDown((int)(30 - (System.currentTimeMillis() - Main.cGameLogic.countdown)/1000));
+                        }
+                        this.sendAllCharacter();
+
                         break;
 
                     case 'M'*256 + 'V':

@@ -170,4 +170,23 @@ public class NetworkStreamWriter {
 
     }
 
+    public synchronized void sendCountDown(int value) {
+
+        try {
+
+            //Write to buffer.
+            netOut.writeShort('C'*256+'D');
+            netOut.writeInt(value);
+
+            //Flush buffer.
+            netOut.flush();
+
+        } catch (Exception e) {
+
+            //Error
+            System.out.println("NetworkStreamWriter : sendCountDown : Server Error.");
+
+        }
+    }
+
 }
