@@ -146,21 +146,26 @@ public class NetworkStreamParser {
     public synchronized Actor getNewActorData() {
     	float x, y;
     	String name;
-    	Actor newCharacter = new Actor();
+    	Actor newCharacter = null;
     	try{
-    		newCharacter.actorID = new Integer(netIn.readInt());
-    		newCharacter.type = netIn.readInt();
+    		int actorID = netIn.readInt();
+    		int type = netIn.readInt();
     		x = netIn.readFloat();
     		y = netIn.readFloat();
-    		newCharacter.position = new Point2D(x,y);
-    		newCharacter.moveto = new Point2D(x,y);
-    		newCharacter.speed = netIn.readFloat();
+    		Point2D position = new Point2D(x,y);
+    		Point2D moveto = new Point2D(x,y);
+    		float speed = netIn.readFloat();
     		name = netIn.readUTF();
     		System.out.println(name);
-    		newCharacter.name = name;
+                newCharacter = new Actor(actorID,type,name);
+                newCharacter.position = position;
+                newCharacter.moveto = moveto;
+                newCharacter.speed = speed;
     	}
     	catch (Exception e) { System.out.println("Network Error getNewActorData");}
-    	
+
+
+
     	return newCharacter;
     }
 

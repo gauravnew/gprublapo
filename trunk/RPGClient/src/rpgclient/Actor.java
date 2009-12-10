@@ -80,11 +80,30 @@ public class Actor implements Comparable {
         frame = 0;
 
         sprite = new AnimatedSprite[4];
+        if (type == 0) {
+            sprite[DIRECTION.FRONT.value] = new AnimatedSprite("data/front",3);
+            sprite[DIRECTION.LEFT.value] = new AnimatedSprite("data/left",3);
+            sprite[DIRECTION.BACK.value] = new AnimatedSprite("data/back",3);
+            sprite[DIRECTION.RIGHT.value] = new AnimatedSprite("data/right",3);
+        } else if (type == 2) {
+            sprite[DIRECTION.FRONT.value] = new AnimatedSprite("data/h1n1",1);
+            sprite[DIRECTION.LEFT.value] = new AnimatedSprite("data/h1n1",1);
+            sprite[DIRECTION.BACK.value] = new AnimatedSprite("data/h1n1",1);
+            sprite[DIRECTION.RIGHT.value] = new AnimatedSprite("data/h1n1",1);
 
-        sprite[DIRECTION.FRONT.value] = new AnimatedSprite("data/front",3);
-        sprite[DIRECTION.LEFT.value] = new AnimatedSprite("data/left",3);
-        sprite[DIRECTION.BACK.value] = new AnimatedSprite("data/back",3);
-        sprite[DIRECTION.RIGHT.value] = new AnimatedSprite("data/right",3);
+        } else if (type == 3) {
+            sprite[DIRECTION.FRONT.value] = new AnimatedSprite("data/manhole",1);
+            sprite[DIRECTION.LEFT.value] = new AnimatedSprite("data/manhole",1);
+            sprite[DIRECTION.BACK.value] = new AnimatedSprite("data/manhole",1);
+            sprite[DIRECTION.RIGHT.value] = new AnimatedSprite("data/manhole",1);
+
+        } else {
+            sprite[DIRECTION.FRONT.value] = new AnimatedSprite("data/h1n1",1);
+            sprite[DIRECTION.LEFT.value] = new AnimatedSprite("data/h1n1",1);
+            sprite[DIRECTION.BACK.value] = new AnimatedSprite("data/h1n1",1);
+            sprite[DIRECTION.RIGHT.value] = new AnimatedSprite("data/h1n1",1);
+
+        }
 
     }
 
