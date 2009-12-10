@@ -5,14 +5,6 @@ package rpgclient;
  * Description : This class parses packets recieved
  * from the server.
  */
-
- /**
-  *  TODO:
-  * Add function int getHealth()
-  * Add function int getCredits()
-  * Add function float getSpeed()
-  * Add function String getLastClass()
-  */ 
  
 
 import java.util.concurrent.*;
@@ -123,6 +115,48 @@ public class NetworkStreamParser {
      catch(Exception e){
       return null;
      }
+    }
+
+    public synchronized int getHealth() {
+
+        try {
+
+            return netIn.readInt();
+
+        } catch (IOException e) {
+
+            return 0;
+
+        }
+
+    }
+
+    public synchronized int getCredits() {
+
+        try {
+
+            return netIn.readInt();
+
+        } catch (IOException e) {
+
+            return 0;
+
+        }
+
+    }
+
+    public synchronized float getSpeed() {
+
+        try {
+
+            return netIn.readFloat();
+
+        } catch (IOException e) {
+
+            return 0;
+
+        }
+
     }
 
     public synchronized String getLastClass(){
