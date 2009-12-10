@@ -40,7 +40,7 @@ public class UIEngine {
 
     //[C.G.002]
     public void render(Graphics g) {
-        g.setColor(Color.white);
+    	g.setColor(Color.white);
         g.fillRect(90, 60, 112, 20);
         g.drawImage(topBar, 10, 10, null);
         g.setColor(Color.black);

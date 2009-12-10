@@ -117,7 +117,7 @@ public class LoginScreen {
 }
 
 //Function for when login button is pushed (This is the only button action available)
-class ButtonListener implements ActionListener {
+class ButtonListener implements ActionListener { //[C.U.004]
 
     ButtonListener() {
     }
