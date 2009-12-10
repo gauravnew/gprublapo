@@ -74,14 +74,14 @@ public class GlobalGameLogic implements Runnable {
         for(Actor actor : cDBEngine.getHashtableKeys()) { 
              if(actor.type==0){ //if it's a player character
                  tempChar=(PlayerCharacter)actor; //cast it as a player character, gain access to more functions
-                 //tempChar.out.sendCountdown(); // This line should send the countdown message to each player character.  However, the correct method does not exist at this time.
+                 tempChar.out.sendCountdown(); // This will trigger a compile error until the method "sendCountdown()" exists in the NetworkStreamWriter class.
              }
         }
         
         for(Actor actor : cDBEngine.getHashtableKeys()) { 
              if(actor.type==0){ //if it's a player character
                  tempChar=(PlayerCharacter)actor; //cast it as a player character, gain access to more functions
-                 //tempChar.out.sendAllCharacters(); // This line should send a message to each player character.  However, the correct method does not exist at this time.
+                 tempChar.client.sendAllCharacter();
              }
         }
         
@@ -134,7 +134,14 @@ public class GlobalGameLogic implements Runnable {
                   if(tempChar.position.getMinDistance(other.position) < 26)
                    other.out.sendActorMove(tempChar.actorID, tempChar.position);
                  }
-                 else tempChar.out.sendActorMove(0, tempChar.position);
+                 else {
+                     tempChar.out.sendActorMove(0, tempChar.position);
+                     // *** Completed by Jacob Hampton, 10:05 P.M. 12/9/09 ***
+                     tempChar.out.sendHealth(tempChar.actorID, tempChar.health);
+                     tempChar.out.sendCredits(tempChar.actorID, tempChar.credits);
+                     tempChar.out.sendSpeed(tempChar.actorID, tempChar.speed);
+                     // ******************************************************
+                 }
 
                 }
                }
