@@ -42,22 +42,33 @@ public class GlobalGameLogic implements Runnable {
     GlobalGameDatabase cDBEngine = Main.cDBEngine;
     NPCEngine cNPCEngine = new NPCEngine();
     GameMap cMapEngine = new GameMap();
-    int countdown;
+    long countdown;
     GAME_STATE state;
     String winner;
     
     public void run() {
-     state = GAME_STATE.LOGIN;
+        state = GAME_STATE.COUNTDOWN;
         Integer tempID;
         PlayerCharacter tempChar;
         String msg;
+
         cNPCEngine.loadNPCsFromFile("data/npcs.txt", cDBEngine);
         cNPCEngine.generateRandomCharacters(cDBEngine);
 
-        while (state!=GAME_STATE.COUNTDOWN);
+        setCounter(System.currentTimeMillis());
+
+        while (System.currentTimeMillis() < checkCountdown() + 30000) {
+            try {
+                Thread.sleep(50);
+            } catch(Exception e) {
+
+            }
+        }
+        state = GAME_STATE.INGAME;
+
         
         // *** Completed by Jacob Hampton, 3:45 P.M. 12/9/09 ***
-        
+/*
         long startTime = java.lang.System.currentTimeMillis();
         
         for(Actor actor : cDBEngine.getHashtableKeys()) { 
@@ -80,7 +91,7 @@ public class GlobalGameLogic implements Runnable {
                 break; 
             }
         }
-        
+  */
         // ******************************************************
         
         forever: //so that break statement will leave this loop
@@ -159,9 +170,9 @@ public class GlobalGameLogic implements Runnable {
     
     public void setState(GAME_STATE s){state = s;}
     
-    public void setCounter(int t){countdown = t;}
+    public synchronized void setCounter(long t){countdown = t;}
     
-    public int checkCountdown(){return countdown;}
+    public synchronized long checkCountdown(){return countdown;}
     
     public GAME_STATE checkState(){return state;}
 

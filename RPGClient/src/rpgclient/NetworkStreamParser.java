@@ -164,5 +164,17 @@ public class NetworkStreamParser {
     	return newCharacter;
     }
 
+    public synchronized int getCountDown() {
+        try {
+            
+            return netIn.readInt();
+
+        } catch (IOException e) {
+
+            return 0;
+
+        }
+    }
+
 }
 

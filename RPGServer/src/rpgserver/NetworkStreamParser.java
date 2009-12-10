@@ -27,6 +27,14 @@ public class NetworkStreamParser {
         
     }
 
+    public synchronized void flushBuffer() {
+        try {
+            netIn.skip(netIn.available());
+        } catch(Exception e) {
+            
+        }
+    }
+
     //Get next 2 byte packet OPCode from the network stream.
     public synchronized int getNextMessageOPCode() {
 

@@ -46,13 +46,15 @@ public class Main {
             ServerSocket srvr = new ServerSocket(port);
             System.out.println("Server started. Listening on port " + port);
 
-            while (true) {
+            while (cGameLogic.state == cGameLogic.state.COUNTDOWN) {
                 //Accept incoming connections.
             	srvr.setSoTimeout(20000);
                 Socket client = srvr.accept();		//[S.N.001]
                 System.out.println("Client connection accepted");
+                if (cGameLogic.state != cGameLogic.state.COUNTDOWN) continue;
                 
                 if (client != null) {
+                    cGameLogic.setCounter(System.currentTimeMillis());
                     ClientHandler cHandler = new ClientHandler(client,cDBEngine);	//[S.N.002]
                     int id = cDBEngine.createNewPlayerCharacter(cHandler);
                     cHandler.setActorID(id);
