@@ -6,8 +6,8 @@
 package rpgserver;
 
 /**
-  *	TODO
-  *		implement 	PlayerCharacter getPlayer(int ActorID)
+  * TODO
+  *  implement  PlayerCharacter getPlayer(int ActorID)
   */
 
 import java.util.*;
@@ -36,7 +36,7 @@ public class GlobalGameDatabase implements Iterable {
 
     //this function get a set of the database's keys
     public synchronized ConcurrentSkipListSet<Actor> getHashtableKeys(){
-    	return DB;
+     return DB;
     }
 
     //TODO: Complete!
@@ -88,22 +88,22 @@ public class GlobalGameDatabase implements Iterable {
     //given actorID from the HashTable 'DB'
     //return true always.
     public synchronized boolean deleteActor(Integer ActorID) {
-    	
+     
         Actor temp = new Actor();
         temp.actorID = ActorID;
-    	//if the actor exists in the hashtable
-    	//System.out.println("The DB contains the object with the key? " + DB.contains(ActorID));
-    	if(DB.contains(temp)){
-    		//System.out.println("Size before delete: " + DB.size());
-    		System.out.println("The DB contains the key " + ActorID);
-    		DB.remove(temp); //remove the key and the corresponding value(actor) from the hashtable
-    		//System.out.println("Size after delete: " + DB.size());
-    		System.out.println("The DB still contains the key? " + DB.contains(temp));
-    		return true;
-    	}
-    	
-    	System.out.println("The DB contains the key? " + DB.contains(temp));
-    	System.out.println("The DB contains the object with the key?? " + DB.contains(temp));
+     //if the actor exists in the hashtable
+     //System.out.println("The DB contains the object with the key? " + DB.contains(ActorID));
+     if(DB.contains(temp)){
+      //System.out.println("Size before delete: " + DB.size());
+      //System.out.println("The DB contains the key " + ActorID);
+      DB.remove(temp); //remove the key and the corresponding value(actor) from the hashtable
+      //System.out.println("Size after delete: " + DB.size());
+      //System.out.println("The DB still contains the key? " + DB.contains(temp));
+      return true;
+     }
+     
+     //System.out.println("The DB contains the key? " + DB.contains(temp));
+     //System.out.println("The DB contains the object with the key?? " + DB.contains(temp));
         return false;
         
     }
@@ -123,14 +123,14 @@ public class GlobalGameDatabase implements Iterable {
         } else {
             a = null;
         }
-    	return a.position; //return the actor's position
+     return a.position; //return the actor's position
     }
 
     //TODO: Complete? (by Anastasia Vashkevich -- 11/15/09 6:30PM)
     //This function returns the moveto of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized Point2D getActorMoveTo(Integer ActorID) {
-    	
+     
         Actor temp = new Actor();
         temp.actorID = ActorID;
         
@@ -142,14 +142,14 @@ public class GlobalGameDatabase implements Iterable {
             a = null;
         }
         
-    	return a.moveto;
+     return a.moveto;
     }
 
     //TODO: Complete? (by Anastasia Vashkevich -- 11/15/09 6:30PM)
     //This function returns the speed of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized float getActorSpeed(Integer ActorID) {
-    	
+     
         Actor temp = new Actor();
         temp.actorID = ActorID;
         
@@ -160,14 +160,14 @@ public class GlobalGameDatabase implements Iterable {
         } else {
             a = null;
         }
-    	return a.speed;
+     return a.speed;
     }
 
     //TODO: Complete? (by Anastasia Vashkevich -- 11/15/09 6:30PM)
     //This function returns the name of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized String getActorName(Integer ActorID) {
-    	
+     
         Actor temp = new Actor();
         temp.actorID = ActorID;
         
@@ -178,7 +178,7 @@ public class GlobalGameDatabase implements Iterable {
         } else {
             a = null;
         }
-    	return a.name;
+     return a.name;
     }
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
     //This function returns a status flag of the actor
@@ -186,7 +186,7 @@ public class GlobalGameDatabase implements Iterable {
     //basically, it returns the 'status' variable of the
     //actor &(bitwise and) with the argument flag.
     public synchronized int getActorStatusFlags(Integer ActorID, int flag) {
-    	Actor temp = new Actor();
+     Actor temp = new Actor();
         temp.actorID = ActorID;
         
         Actor a;
@@ -199,7 +199,7 @@ public class GlobalGameDatabase implements Iterable {
             a = null;
         }
         
-    	return (stat & flag);
+     return (stat & flag);
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
@@ -217,7 +217,7 @@ public class GlobalGameDatabase implements Iterable {
         } else {
             a = null;
         }
-    	return a.type;
+     return a.type;
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
@@ -242,7 +242,7 @@ public class GlobalGameDatabase implements Iterable {
     //This function sets the moveto of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized void setActorMoveTo(Integer ActorID, Point2D p) {
-    	Actor temp = new Actor();
+     Actor temp = new Actor();
         temp.actorID = ActorID;
         
         Actor a;
@@ -253,14 +253,14 @@ public class GlobalGameDatabase implements Iterable {
         } else {
             a = null;
         }
-    	
+     
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
     //This function sets the speed of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized void setActorSpeed(Integer ActorID, float s) {
-    	Actor temp = new Actor();
+     Actor temp = new Actor();
         temp.actorID = ActorID;
         
         Actor a;
@@ -271,7 +271,7 @@ public class GlobalGameDatabase implements Iterable {
         } else {
             a = null;
         }
-    	
+     
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
@@ -283,7 +283,7 @@ public class GlobalGameDatabase implements Iterable {
     //If the state is true then set the actor's 'status' to
     //status = status | flag; (bitwise or)
     public synchronized void setActorStatusFlag(Integer ActorID, int flag, boolean state) {
-    	Actor temp = new Actor();
+     Actor temp = new Actor();
         temp.actorID = ActorID;
         
         Actor a;
@@ -297,14 +297,14 @@ public class GlobalGameDatabase implements Iterable {
         } else {
             a = null;
         }
-    	
+     
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
     //This function sets the type of the actor
     //in the HashTable 'DB' which has the given ActorID.
     public synchronized void setActorType(Integer ActorID, int type) {
-    	Actor temp = new Actor();
+     Actor temp = new Actor();
         temp.actorID = ActorID;
         
         Actor a;
@@ -315,7 +315,7 @@ public class GlobalGameDatabase implements Iterable {
         } else {
             a = null;
         }
-    	
+     
     }
 
     //TODO: Previously existing keys may be deleted and should not be returned.
@@ -326,34 +326,34 @@ public class GlobalGameDatabase implements Iterable {
     //actors in the HashTable
     //This is basically an array of all the 'keys' in the hashtable.
     public synchronized Integer[] getAllPlayerCharacters() {
-    	Integer lastKey = nextActorID-1; //the last key that was input into the hashtable
-    	Integer[] keyArray = new Integer[DB.size()]; // the array of keys that are present in the hashtable
-    	
-    	int indx = DB.size()-1; //size of the hashtable
-    	//counter that goes through all possible keys that might have went into the hashtable at somepoint
-    	//and since than might have been deleted
-    	int counter = nextActorID-1;  
-    	
-    	//this while loop will test the current presence of all possible keys that were in the hashtable at some point
-    	while(counter>=0xFFFF){
- //   		System.out.println("Testing if the DB contains key: " + lastKey);
-    		if(DB.contains(lastKey)){ //if the hashtable has the key...
-    			keyArray[indx] = lastKey; //assign the key
- //   			System.out.println("The DB contains the key: " + lastKey + " that was placed into keyArray[" + indx+"]");
-    			indx--; //next index going in reverse
-    		}
-    		lastKey--; //next key
-    		counter--; //counter
-    	}
-    	
-    	return keyArray; //return the array that contains all the current keys present in the hashtable
+     Integer lastKey = nextActorID-1; //the last key that was input into the hashtable
+     Integer[] keyArray = new Integer[DB.size()]; // the array of keys that are present in the hashtable
+     
+     int indx = DB.size()-1; //size of the hashtable
+     //counter that goes through all possible keys that might have went into the hashtable at somepoint
+     //and since than might have been deleted
+     int counter = nextActorID-1;  
+     
+     //this while loop will test the current presence of all possible keys that were in the hashtable at some point
+     while(counter>=0xFFFF){
+ //     System.out.println("Testing if the DB contains key: " + lastKey);
+      if(DB.contains(lastKey)){ //if the hashtable has the key...
+       keyArray[indx] = lastKey; //assign the key
+ //      System.out.println("The DB contains the key: " + lastKey + " that was placed into keyArray[" + indx+"]");
+       indx--; //next index going in reverse
+      }
+      lastKey--; //next key
+      counter--; //counter
+     }
+     
+     return keyArray; //return the array that contains all the current keys present in the hashtable
     }
 
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)
     //sets the name of the actor with the
     //given actorID.
     public synchronized void setActorName(Integer ActorID, String name) {
-    	Actor temp = new Actor();
+     Actor temp = new Actor();
         temp.actorID = ActorID;
         
         Actor a;
@@ -364,27 +364,27 @@ public class GlobalGameDatabase implements Iterable {
         } else {
             a = null;
         }
-    	
+     
     }
     
     public synchronized PlayerCharacter getPlayer(Integer id) {
-    	for (Actor a : this.getHashtableKeys())
-    		if (a.actorID.equals(id)) return (PlayerCharacter)a;
-    	return null;
+     for (Actor a : this.getHashtableKeys())
+      if (a.actorID.equals(id)) return (PlayerCharacter)a;
+     return null;
     }
     
     public synchronized NonPlayerCharacter getNonPlayer(Integer id){
-    	for (Actor a : this.getHashtableKeys())
-    		if (a.actorID.equals(id)) return (NonPlayerCharacter)a;
-    	return null;
+     for (Actor a : this.getHashtableKeys())
+      if (a.actorID.equals(id)) return (NonPlayerCharacter)a;
+     return null;
     }
 
     public synchronized void setPlayerOutputStream(Integer id, NetworkStreamWriter o){
-    	Actor temp = new Actor();
-    	temp.actorID = id;
-    	if (DB.contains(temp)){
-    		PlayerCharacter a = (PlayerCharacter) DB.floor(temp);
-    		a.out = o;
-    	}
+     Actor temp = new Actor();
+     temp.actorID = id;
+     if (DB.contains(temp)){
+      PlayerCharacter a = (PlayerCharacter) DB.floor(temp);
+      a.out = o;
+     }
     }
 }

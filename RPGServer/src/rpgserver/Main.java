@@ -6,9 +6,9 @@
 
 /**
  * TODO:  
- * 	Modifiy infinite loop (ln 41) to only loop for 20 seconds after the last client connects,
-		then initiate 10 second countdown, set game state to countdown, do not acept more clients
- *	Wait for all other threads to terminate before exiting/restarting
+ *  Modifiy infinite loop (ln 41) to only loop for 20 seconds after the last client connects,
+  then initiate 10 second countdown, set game state to countdown, do not acept more clients
+ * Wait for all other threads to terminate before exiting/restarting
  *
  */
  
@@ -32,9 +32,9 @@ public class Main {
      */
     public static void main(String[] args) {
 
-    	int port;
-    	if(args.length==1) port=Integer.parseInt(args[0]);
-    	else port=1234;
+     int port;
+     if(args.length==1) port=Integer.parseInt(args[0]);
+     else port=1234;
         cDBEngine = new GlobalGameDatabase();
         cGameLogic = new GlobalGameLogic();
 
@@ -44,18 +44,18 @@ public class Main {
 
             //Open a network socket at port 1234 and wait for incoming connections.
             ServerSocket srvr = new ServerSocket(port);
-            System.out.println("Server started. Listening on port " + port);
+            //System.out.println("Server started. Listening on port " + port);
 
             while (cGameLogic.state == cGameLogic.state.COUNTDOWN) {
                 //Accept incoming connections.
-            	srvr.setSoTimeout(20000);
-                Socket client = srvr.accept();		//[S.N.001]
-                System.out.println("Client connection accepted");
+             srvr.setSoTimeout(20000);
+                Socket client = srvr.accept();  //[S.N.001]
+                //System.out.println("Client connection accepted");
                 if (cGameLogic.state != cGameLogic.state.COUNTDOWN) continue;
                 
                 if (client != null) {
                     cGameLogic.setCounter(System.currentTimeMillis());
-                    ClientHandler cHandler = new ClientHandler(client,cDBEngine);	//[S.N.002]
+                    ClientHandler cHandler = new ClientHandler(client,cDBEngine); //[S.N.002]
                     int id = cDBEngine.createNewPlayerCharacter(cHandler);
                     cHandler.setActorID(id);
                     
@@ -67,8 +67,8 @@ public class Main {
         } catch (Exception e) {
             
             //A socket error has occoured to print a message.
-        	//Unless it's a timeout! (Assue this is the case)
-        	
+         //Unless it's a timeout! (Assue this is the case)
+         
         }
         //******Start the game here*****
 

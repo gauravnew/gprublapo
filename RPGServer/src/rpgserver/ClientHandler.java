@@ -4,17 +4,17 @@
  * an independent thread.
  */
 /** TODO
-   *	Modify infinite loop (ln 70) to only allow moves once game has started.
-   *	Ssend the remaining ("countdown") time to the client.
-   *	When gamestate changes to countdown, transmit list of actors.
-   *	Modify opcode switch case for player move packet; move request should just set moveto
-   *	Before infinite loop loops (ln **?), call updatePosition(), check for collisions, process them
-   *		using processCollision (verify return value in case of win -- if so set gamestate to win
-   *		transmit gameover win, exit loop, terminate thread), transmit new location & health
-   *	Transmit game over / loss when gamestate changes to game over.
-   *	Add datamember PlayerCharacter myCharacter
-   *	Update setActorID to grab myCharacter from GlobalGameDatabase
-   *	Transmit other visible players' locations when they move (each loop)
+   * Modify infinite loop (ln 70) to only allow moves once game has started.
+   * Ssend the remaining ("countdown") time to the client.
+   * When gamestate changes to countdown, transmit list of actors.
+   * Modify opcode switch case for player move packet; move request should just set moveto
+   * Before infinite loop loops (ln **?), call updatePosition(), check for collisions, process them
+   *  using processCollision (verify return value in case of win -- if so set gamestate to win
+   *  transmit gameover win, exit loop, terminate thread), transmit new location & health
+   * Transmit game over / loss when gamestate changes to game over.
+   * Add datamember PlayerCharacter myCharacter
+   * Update setActorID to grab myCharacter from GlobalGameDatabase
+   * Transmit other visible players' locations when they move (each loop)
    */
 package rpgserver;
 
@@ -57,20 +57,20 @@ public class ClientHandler implements Runnable {
     }
     
     public void sendAllCharacter(){
-    	//game database
-    	ConcurrentSkipListSet<Actor> gameDB = Main.cDBEngine.getHashtableKeys();
-    	//game iterator
-    	Iterator<Actor> itr = gameDB.iterator();
-    	
-    	//Appropriate characters: other players(type 0), H1N1 (type 1), Manhole(type 3)
-    	//iterate through all the actors
-    	while(itr.hasNext()){
-    		Actor temp = itr.next();
-    		if (!temp.equals(myCharacter))
-	    		if(temp.type == 0 || temp.type == 1 || temp.type == 3){
-	    			netOut.sendNewActorData(temp.actorID.intValue(), temp.type, temp.speed, temp.name, temp.position);
-	    		}
-    	}
+     //game database
+     ConcurrentSkipListSet<Actor> gameDB = Main.cDBEngine.getHashtableKeys();
+     //game iterator
+     Iterator<Actor> itr = gameDB.iterator();
+     
+     //Appropriate characters: other players(type 0), H1N1 (type 1), Manhole(type 3)
+     //iterate through all the actors
+     while(itr.hasNext()){
+      Actor temp = itr.next();
+      if (!temp.equals(myCharacter))
+       if(temp.type == 0 || temp.type == 1 || temp.type == 3){
+        netOut.sendNewActorData(temp.actorID.intValue(), temp.type, temp.speed, temp.name, temp.position);
+       }
+     }
     }
 
     //Class entry-point.
@@ -100,7 +100,7 @@ public class ClientHandler implements Runnable {
             cDBEngine.setPlayerOutputStream(myActorID, netOut);
 
             //A client has been connected.
-            System.out.println("Client Connected from: " + sckClient.getInetAddress());
+            //System.out.println("Client Connected from: " + sckClient.getInetAddress());
 
             
             //Client's loop until connection is closed.
@@ -121,17 +121,17 @@ public class ClientHandler implements Runnable {
                     //[C->S]["PG"] (docs/Network Protocol.txt)
                     case 'P'*256 + 'G':
 
-                        System.out.println("NETWORK::Ping recieved.");
+                        // System.out.println("NETWORK::Ping recieved.");
                         //Send ping reply packet to client.
                         //[S->C]["PG"] (docs/Network Protocol.txt)
                         netOut.sendPingReply();
 
                         break;
 
-                    case 'L'*256 + 'G':		//[S.N.011]
+                    case 'L'*256 + 'G':  //[S.N.011]
 
                         String name = netIn.getNamefromLogin();
-                        System.out.println("NETWORK::Login Recieved from " + name);
+                        // System.out.println("NETWORK::Login Recieved from " + name);
                         cDBEngine.setActorName(myActorID, name);
                         netOut.sendMapImage(new File("data/map.png"));
                         netOut.sendMapData(new File("data/map_dat.png"));
@@ -145,7 +145,7 @@ public class ClientHandler implements Runnable {
                         break;
 
                     case 'M'*256 + 'V':
-                        System.out.println("NETWORK::Player Move" + myActorID.intValue());
+                        // System.out.println("NETWORK::Player Move" + myActorID.intValue());
                         Point2D p = netIn.getActorMove();
                         if (Main.cGameLogic.cMapEngine.getCellType(p) != 0)
                             cDBEngine.setActorMoveTo(myActorID, p);
@@ -156,7 +156,7 @@ public class ClientHandler implements Runnable {
 
                         //Unknown packet, disconnect and return.
                         sckClient.close();
-                        System.out.println("Client connection closed.");
+                        // System.out.println("Client connection closed.");
                         cDBEngine.deleteActor(myActorID);
                         return;
 
