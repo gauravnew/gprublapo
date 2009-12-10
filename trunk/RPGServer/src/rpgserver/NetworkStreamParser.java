@@ -3,7 +3,6 @@
  * Description : This class parses packets recieved
  * from the client.
  */
-
 package rpgserver;
 
 import java.util.concurrent.*;
@@ -24,14 +23,13 @@ public class NetworkStreamParser {
     public NetworkStreamParser(DataInputStream in) {
 
         netIn = in;
-        
+
     }
 
     public synchronized void flushBuffer() {
         try {
             netIn.skip(netIn.available());
-        } catch(Exception e) {
-            
+        } catch (Exception e) {
         }
     }
 
@@ -40,30 +38,29 @@ public class NetworkStreamParser {
 
         try {
 
-        short opcode = 0;
-        //Get opcode.
-        opcode = netIn.readShort();
+            short opcode = 0;
+            //Get opcode.
+            opcode = netIn.readShort();
 
-        return opcode;
+            return opcode;
 
         } catch (IOException e) {
-            
+
             return -1;
 
         }
-        
+
     }
-	
-	//Get data from network stream by data type
-	
+
+    //Get data from network stream by data type
     public synchronized String getNamefromLogin() {
-        byte [] b = new byte[24];
+        byte[] b = new byte[24];
         try {
             netIn.read(b);
         } catch (IOException e) {
             return "Exception";
         }
-        
+
         return new String(b);
     }
 
@@ -73,13 +70,11 @@ public class NetworkStreamParser {
 
             float x = netIn.readFloat();
             float y = netIn.readFloat();
-            return new Point2D (x,y);
+            return new Point2D(x, y);
 
         } catch (Exception e) {
             return null;
         }
 
     }
-
-    
 }

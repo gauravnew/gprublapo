@@ -2,7 +2,6 @@
  * Filename : UIEngine.java
  * Description : Generates the user interface window
  */
-
 package rpgclient;
 
 import java.awt.*;
@@ -39,7 +38,7 @@ public class UIEngine {
         }
     }
 
-	//[C.G.002]
+    //[C.G.002]
     public void render(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(90, 60, 112, 20);
@@ -50,13 +49,12 @@ public class UIEngine {
         g.setColor(Color.red);
 
         if (countDown != 0) {
-            g.setFont(new Font("Tahoma",0,14));
+            g.setFont(new Font("Tahoma", 0, 14));
             g.setColor(Color.gray);
-            g.fillRect(0, Main.height- 50, Main.width, 50);
+            g.fillRect(0, Main.height - 50, Main.width, 50);
             g.setColor(Color.black);
-            g.drawString("The Game will begin in " + countDown + " seconds", 10, Main.height- 32);
+            g.drawString("The Game will begin in " + countDown + " seconds", 10, Main.height - 32);
         }
-        
-    }
 
+    }
 }

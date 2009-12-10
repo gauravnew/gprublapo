@@ -4,7 +4,6 @@
  *  then initates the network connection once vaild
  *  information has been provided by the user.
  */
-
 package rpgclient;
 
 import java.awt.*;
@@ -19,7 +18,7 @@ import javax.swing.*;
  * @author Gaurav
  */
 public class LoginScreen {
-    
+
     private BufferedImage backgoundImage = null;
     private Panel panel = null;
     private final int width = 180;
@@ -37,7 +36,6 @@ public class LoginScreen {
         return user.getText();
     }
 
-
     LoginScreen() {
         try {
 
@@ -48,26 +46,23 @@ public class LoginScreen {
 
             panel.add(new Label("Server IP : "));
 
-            ip = new TextField("127.0.0.1",16) {
+            ip = new TextField("127.0.0.1", 16) {
 
                 @Override
                 public boolean keyDown(Event evt, int key) {
-                    if (
-                            (key >= 'a' && key <= 'z')
-                            || (key >= 'A' && key <= 'Z')
-                            )
+                    if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z')) {
                         return true;
-                    else
+                    } else {
                         return super.keyUp(evt, key);
+                    }
                 }
-
             };
 
             panel.add(ip);
 
             panel.add(new Label("Username : "));
-            
-            user = new TextField("Opal",16);
+
+            user = new TextField("Opal", 16);
             panel.add(user);
 
             login = new JButton("Login");
@@ -75,8 +70,8 @@ public class LoginScreen {
             panel.add(login);
 
             panel.setSize(width, height);
-            panel.setLocation((Main.width/2) - (width/2), (Main.height/2) - (height/2));
-            
+            panel.setLocation((Main.width / 2) - (width / 2), (Main.height / 2) - (height / 2));
+
             backgoundImage = ImageIO.read(new File("data/login-screen.png"));
 
             Main.addPanel(panel);
@@ -119,22 +114,23 @@ public class LoginScreen {
             g.drawImage(backgoundImage, 0, 0, null);
         }
     }
-
 }
 
 //Function for when login button is pushed (This is the only button action available)
 class ButtonListener implements ActionListener {
+
     ButtonListener() {
     }
-	//[C.N.001]
+    //[C.N.001]
+
     public void actionPerformed(ActionEvent e) {
         //if (e.getActionCommand().equals("Login")) {
-        
-            NetworkEngine net = new NetworkEngine();
-            Main.setNetworkEngine(net);
-            Main.coreLogic.setMainActorName(Main.getGameLogic().login.getName());
-            net.setServerIP(Main.getGameLogic().login.getIP());
-            (new Thread(net)).start();
+
+        NetworkEngine net = new NetworkEngine();
+        Main.setNetworkEngine(net);
+        Main.coreLogic.setMainActorName(Main.getGameLogic().login.getName());
+        net.setServerIP(Main.getGameLogic().login.getIP());
+        (new Thread(net)).start();
         //}
     }
 }

@@ -5,8 +5,6 @@ package rpgclient;
  * Description : This class parses packets recieved
  * from the server.
  */
- 
-
 import java.util.concurrent.*;
 import java.util.*;
 import java.util.regex.*;
@@ -33,11 +31,11 @@ public class NetworkStreamParser {
 
         try {
 
-        short opcode = 0;
-        //Get opcode.
-        opcode = netIn.readShort();
+            short opcode = 0;
+            //Get opcode.
+            opcode = netIn.readShort();
 
-        return opcode;
+            return opcode;
 
         } catch (IOException e) {
 
@@ -46,7 +44,8 @@ public class NetworkStreamParser {
         }
 
     }
- //[C.N.013]
+    //[C.N.013]
+
     public synchronized void getMapImage() {
         try {
 
@@ -54,7 +53,7 @@ public class NetworkStreamParser {
 
             len = netIn.readInt();
 
-            byte [] file = new byte [len];
+            byte[] file = new byte[len];
 
             netIn.readFully(file);
 
@@ -68,7 +67,8 @@ public class NetworkStreamParser {
 
         }
     }
- //[C.N.012]
+    //[C.N.012]
+
     public synchronized void getMapData() {
 
         try {
@@ -77,7 +77,7 @@ public class NetworkStreamParser {
 
             len = netIn.readInt();
 
-            byte [] file = new byte [len];
+            byte[] file = new byte[len];
 
             netIn.readFully(file);
 
@@ -99,113 +99,115 @@ public class NetworkStreamParser {
             Integer id = new Integer(netIn.readInt());
             float x = netIn.readFloat();
             float y = netIn.readFloat();
-            return new movePkt(id, new Point2D (x,y));
-        
+            return new movePkt(id, new Point2D(x, y));
+
         } catch (Exception e) {
             System.out.println("GetActorMove " + e);
-         return null;
+            return null;
         }
 
     }
 
-    public synchronized String getMessage(){
-     try{
-      return netIn.readUTF();
-     }
-     catch(Exception e){
-      return null;
-     }
+    public synchronized String getMessage() {
+        try {
+            return netIn.readUTF();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    public synchronized int getHealth() {
+    public synchronized movePkt getHealth() {
 
         try {
-
-            return netIn.readInt();
+            int id = netIn.readInt();
+            int health = netIn.readInt();
+            return new movePkt(id, health);
 
         } catch (IOException e) {
 
-            return 0;
+            return null;
 
         }
 
     }
 
-    public synchronized int getCredits() {
+    public synchronized movePkt getCredits() {
 
         try {
-
-            return netIn.readInt();
+            int id = netIn.readInt();
+            int credits = netIn.readInt();
+            return new movePkt(id, credits);
 
         } catch (IOException e) {
 
-            return 0;
+            return null;
 
         }
 
     }
 
-    public synchronized float getSpeed() {
+    public synchronized movePkt getSpeed() {
 
         try {
 
-            return netIn.readFloat();
+            int id = netIn.readInt();
+            float speed = netIn.readFloat();
+            return new movePkt(id, speed);
 
         } catch (IOException e) {
 
-            return 0;
+            return null;
 
         }
 
     }
 
-    public synchronized String getLastClass(){
-     try{
-      return netIn.readUTF();
-     }
-     catch(Exception e){
-      return null;
-     }     
+    public synchronized String getLastClass() {
+        try {
+            return netIn.readUTF();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    public synchronized String getGameOver(){
-     try{
-      return netIn.readUTF();
-     }
-     catch(Exception e){
-      return null;
-     }
+    public synchronized String getGameOver() {
+        try {
+            return netIn.readUTF();
+        } catch (Exception e) {
+            return null;
+        }
     }
-    
+
     public synchronized Actor getNewActorData() {
-     float x, y;
-     String name;
-     Actor newCharacter = null;
-     try{
-      int actorID = netIn.readInt();
-      int type = netIn.readInt();
-      x = netIn.readFloat();
-      y = netIn.readFloat();
-      Point2D position = new Point2D(x,y);
-      Point2D moveto = new Point2D(x,y);
-      float speed = netIn.readFloat();
-      name = netIn.readUTF();
-      // System.out.println(name);
-                newCharacter = new Actor(actorID,type,name);
-                newCharacter.position = position;
-                newCharacter.moveto = moveto;
-                newCharacter.speed = speed;
-     }
-     catch (Exception e) { System.out.println("Network Error getNewActorData");}
+        float x, y;
+        String name;
+        Actor newCharacter = null;
+        try {
+            int actorID = netIn.readInt();
+            int type = netIn.readInt();
+            x = netIn.readFloat();
+            y = netIn.readFloat();
+            Point2D position = new Point2D(x, y);
+            Point2D moveto = new Point2D(x, y);
+            float speed = netIn.readFloat();
+            name = netIn.readUTF();
+            // System.out.println(name);
+            newCharacter = new Actor(actorID, type, name);
+            newCharacter.position = position;
+            newCharacter.moveto = moveto;
+            newCharacter.speed = speed;
+        } catch (Exception e) {
+            System.out.println("Network Error getNewActorData");
+        }
 
 
 
-     return newCharacter;
+        return newCharacter;
     }
 
     public synchronized int getCountDown() {
         try {
-            
+
             return netIn.readInt();
 
         } catch (IOException e) {
@@ -214,6 +216,5 @@ public class NetworkStreamParser {
 
         }
     }
-
 }
 

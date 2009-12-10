@@ -2,12 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package rpgclient;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
 
 /**
  *
@@ -34,39 +33,40 @@ public class Main extends Frame {
     }
 
     public static synchronized void setNetworkEngine(NetworkEngine n) {
-        if (netEngine == null)
+        if (netEngine == null) {
             netEngine = n;
+        }
     }
-
 
     public Main() {
 
         super("Main");
 
-        addWindowListener(new WindowAdapter()
-        {
+        addWindowListener(new WindowAdapter() {
+
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
-        }
-        );
+        });
 
-        setSize(width,height);
+        setSize(width, height);
         setTitle("BU Multiplayer Race");
         setResizable(false);
-        
+
         canvas = new XCanvas();
         canvas.setLayout(null);
         add(canvas);
-        
+
         coreLogic = new CoreGameLogic();
 
         show();
-		//[C.G.012]
-         while (true)
-             canvas.repaint();
+        //[C.G.012]
+        while (true) {
+            canvas.repaint();
+        }
 
     }
+
     /**
      * @param args the command line arguments
      */
@@ -84,22 +84,27 @@ public class Main extends Frame {
         canvas.remove(p);
         canvas.repaint();
     }
-
 }
 
 final class movePkt {
-	public Integer id;
-	public Point2D pos;
-        public int info;
-        public float float_dat;
-	movePkt(Integer i, Point2D p){
-		id = new Integer(i); pos = new Point2D(p);
-	}
-        movePkt(Integer i, int x) {
-            id = new Integer(i); info = x;
-        }
-        movePkt(Integer i, float y) {
-            id = new Integer(i); float_dat = y;
-        }
 
+    public Integer id;
+    public Point2D pos;
+    public int info;
+    public float float_dat;
+
+    movePkt(Integer i, Point2D p) {
+        id = new Integer(i);
+        pos = new Point2D(p);
+    }
+
+    movePkt(Integer i, int x) {
+        id = new Integer(i);
+        info = x;
+    }
+
+    movePkt(Integer i, float y) {
+        id = new Integer(i);
+        float_dat = y;
+    }
 }

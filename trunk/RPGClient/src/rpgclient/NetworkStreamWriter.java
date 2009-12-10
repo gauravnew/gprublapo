@@ -8,7 +8,6 @@ package rpgclient;
  * 
  * TODO add function void sendTest(char keyPressed)
  */
-
 import java.io.*;
 import java.util.concurrent.*;
 
@@ -16,7 +15,6 @@ import java.util.concurrent.*;
  *
  * @author gm
  */
-
 public class NetworkStreamWriter {
 
     //Network Output stream for a client.
@@ -33,13 +31,13 @@ public class NetworkStreamWriter {
     //[C->S]["LG"][Name - 24 bytes] (docs/Network Protocol.txt)
     public synchronized void sendLoginPacket(String name) {
         try {
-            byte [] b = new byte[24];
+            byte[] b = new byte[24];
 
-            for( int i = 0 ; i < name.getBytes().length ; i ++ ) {
+            for (int i = 0; i < name.getBytes().length; i++) {
                 b[i] = name.getBytes()[i];
             }
 
-            netOut.writeShort('L'*256 + 'G');
+            netOut.writeShort('L' * 256 + 'G');
             netOut.write(b, 0, 24);
             netOut.flush();
 
@@ -56,7 +54,7 @@ public class NetworkStreamWriter {
 
 
             //Write to buffer.
-            netOut.writeShort('P'*256+'G');
+            netOut.writeShort('P' * 256 + 'G');
 
             //Flush buffer.
             netOut.flush();
@@ -68,22 +66,21 @@ public class NetworkStreamWriter {
 
         }
     }
-	//[C.N.022]
+    //[C.N.022]
+
     public synchronized void sendActorMove(Point2D target) {
         try {
 
-            netOut.writeShort('M'*256 + 'V');
+            netOut.writeShort('M' * 256 + 'V');
             netOut.writeFloat(target.getX());
             netOut.writeFloat(target.getY());
-            
+
             netOut.flush();
 
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             System.out.println("Server Error.");
 
         }
     }
-
-
 }
