@@ -2,8 +2,8 @@
  * Filename : UIEngine.java
  * Description : Setup the canvas functions to listen for input and update screen
  */
-
 package rpgclient;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -14,12 +14,12 @@ import java.awt.event.*;
  */
 public class XCanvas extends Panel {
 
-	//Data and data accessing functions
+    //Data and data accessing functions
     private MouseEvent mouse;
     private KeyEvent key;
     Image offImage;
     Graphics bufferGraphics;
-    
+
     public synchronized void setKey(KeyEvent evt) {
         key = evt;
     }
@@ -37,7 +37,7 @@ public class XCanvas extends Panel {
         return mouse;
     }
 
-	//Constructor, setup a mouse and keybord listner
+    //Constructor, setup a mouse and keybord listner
     XCanvas() {
         addMouseListener(new MouseAdapter() {
 
@@ -45,26 +45,24 @@ public class XCanvas extends Panel {
             public void mousePressed(MouseEvent e) {
                 setMouse(e);
             }
-
         });
 
-         addKeyListener(new KeyAdapter() {
+        addKeyListener(new KeyAdapter() {
 
-           @Override
-           public void keyPressed(KeyEvent ke) {
-               setKey(ke);
-           }
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                setKey(ke);
+            }
 
-           @Override
-           public void keyReleased(KeyEvent ke) {
-               setKey(null);
-           }
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                setKey(null);
+            }
         });
 
     }
 
-
-	//Functions to update the screen
+    //Functions to update the screen
     @Override
     public void update(Graphics g) {
         paint(g);
@@ -72,10 +70,10 @@ public class XCanvas extends Panel {
 
     @Override
     public void paint(Graphics g) {
-    	offImage = createImage(this.getWidth(), this.getHeight());
-    	bufferGraphics = offImage.getGraphics();
-    	Main.coreLogic.renderLoop(bufferGraphics);
-    	g.drawImage(offImage,0,0,this);
+        offImage = createImage(this.getWidth(), this.getHeight());
+        bufferGraphics = offImage.getGraphics();
+        Main.coreLogic.renderLoop(bufferGraphics);
+        g.drawImage(offImage, 0, 0, this);
     }
 }
 

@@ -3,9 +3,7 @@
  * Description : Maintains a list of all actors and
  *   establishes functions to manage them.
  */
-
 package rpgclient;
-
 
 import java.util.*;
 import java.awt.*;
@@ -21,13 +19,13 @@ import javax.swing.*;
  * @author Gaurav
  */
 public class ActorEngine {
+
     ConcurrentSkipListSet<Actor> actors;
     private int mainActorID;
 
     ActorEngine() {
-         actors = new ConcurrentSkipListSet<Actor>();
+        actors = new ConcurrentSkipListSet<Actor>();
     }
-
 
     public synchronized void setMainActor(int id) {
         mainActorID = id;
@@ -53,7 +51,7 @@ public class ActorEngine {
             if (actors.floor(a).equals(a)) {
                 return actors.floor(a);
             } else {
-                Actor newact = new Actor(actorID,0,"Default");
+                Actor newact = new Actor(actorID, 0, "Default");
                 addActor(newact);
                 return newact;
             }
@@ -63,26 +61,26 @@ public class ActorEngine {
     }
 
     public synchronized void setActorMoveTo(Integer ActorID, Point2D p) {
-    	Actor temp = new Actor();
+        Actor temp = new Actor();
         temp.actorID = ActorID;
-        
+
         Actor a;
-        
+
         if (actors.contains(temp)) {
             a = (Actor) actors.floor(temp);
             a.moveto = p;
         } else {
             a = null;
         }
-    	
+
     }
-    
-    public synchronized void setActorPosition(Integer ActorID, Point2D p){
-    	Actor temp = new Actor();
+
+    public synchronized void setActorPosition(Integer ActorID, Point2D p) {
+        Actor temp = new Actor();
         temp.actorID = ActorID;
-        
+
         Actor a;
-        
+
         if (actors.contains(temp)) {
             a = (Actor) actors.floor(temp);
             a.position = p;
@@ -90,16 +88,16 @@ public class ActorEngine {
         } else {
             a = null;
         }
-    	
+
     }
-    
+
     public void renderAll(Graphics g, Point2D center) {
         try {
-            for (Actor a : actors)
+            for (Actor a : actors) {
                 a.render(g, center);
+            }
         } catch (Exception e) {
             return;
         }
     }
-
 }

@@ -74,30 +74,35 @@ public class Point2D {
     }
 
     public float getDistance(Point2D p) {
-        
-        if (x != p.x) return Math.abs(p.x - x);
-        if (y != p.y) return Math.abs(p.y - y);
+
+        if (x != p.x) {
+            return Math.abs(p.x - x);
+        }
+        if (y != p.y) {
+            return Math.abs(p.y - y);
+        }
         return 0;
 
     }
 
     public int moveTo(float distance, Point2D towards, int direction) {
-        float k = distance/getDistance(towards);
+        float k = distance / getDistance(towards);
         if (k >= 1) {
             x = towards.x;
             y = towards.y;
             return direction;
         } else {
-            x += (towards.x-x)*k;
-            y += (towards.y-y)*k;
-            if ( x > towards.x )
+            x += (towards.x - x) * k;
+            y += (towards.y - y) * k;
+            if (x > towards.x) {
                 return 1;
-            else if ( x < towards.x )
+            } else if (x < towards.x) {
                 return 3;
-            else if (y < towards.y )
+            } else if (y < towards.y) {
                 return 0;
-            else if (y > towards.y )
+            } else if (y > towards.y) {
                 return 2;
+            }
         }
         return direction;
     }

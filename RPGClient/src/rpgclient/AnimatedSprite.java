@@ -2,7 +2,6 @@
  * Filename : AnimatedSprite.java
  * Description : Maintain data for animated sprites
  */
-
 package rpgclient;
 
 import java.util.*;
@@ -18,15 +17,16 @@ import javax.swing.*;
  * @author Gaurav
  */
 public class AnimatedSprite {
-    BufferedImage [] imageList;
+
+    BufferedImage[] imageList;
     float current_frame = 0;
     int num_frames = 0;
 
     AnimatedSprite(String sprite_name, int frame_count) {
         imageList = new BufferedImage[frame_count];
-        for (int i = 1 ; i <= frame_count ; i ++ ) {
+        for (int i = 1; i <= frame_count; i++) {
             try {
-                imageList[i-1] = (ImageIO.read(new File(sprite_name + i + ".png")));
+                imageList[i - 1] = (ImageIO.read(new File(sprite_name + i + ".png")));
                 num_frames = frame_count;
             } catch (Exception e) {
                 System.out.println("ANIMATED_SPRITE::Failed to load images.");
@@ -39,7 +39,6 @@ public class AnimatedSprite {
     }
 
     public BufferedImage animate(float distance) {
-        return imageList [((int)(num_frames*distance)) % num_frames];
+        return imageList[((int) (num_frames * distance)) % num_frames];
     }
-    
 }
