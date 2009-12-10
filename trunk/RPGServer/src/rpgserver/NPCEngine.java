@@ -62,7 +62,7 @@ public class NPCEngine {
 
     public void generateRandomCharacters(GlobalGameDatabase db) {
         //10 manhole, 10 prof, 5 H1N1
-        int dir = 1;
+        int dir = 1; //[S.D.021]
         for (int i = 0; i < 10; i++) {
             db.createNewNonPlayerCharacter(1, dir);
             dir *= -1;
@@ -83,12 +83,13 @@ public class NPCEngine {
         GameMap map = Main.cGameLogic.getGameMap();
         NonPlayerCharacter moveMe = db.getNonPlayer(id);
         Point2D newTarget;
+        //[S.L.002]
         if (moveMe.nextDirection == RELATIVE_DIRECTION.HORIZONTAL) {
             newTarget = map.getRandomHorizontal(moveMe.position);
-            moveMe.nextDirection = RELATIVE_DIRECTION.VERTICAL;
+            moveMe.nextDirection = RELATIVE_DIRECTION.VERTICAL;	//[S.D.022]
         } else {
             newTarget = map.getRandomVertical(moveMe.position);
-            moveMe.nextDirection = RELATIVE_DIRECTION.HORIZONTAL;
+            moveMe.nextDirection = RELATIVE_DIRECTION.HORIZONTAL; //[S.D.022]
         }
         db.setActorMoveTo(id, newTarget);
     }

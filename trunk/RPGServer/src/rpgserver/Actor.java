@@ -21,7 +21,7 @@ public class Actor implements Comparable {
 
     public Integer actorID;
     public int type;
-    public Point2D position;
+    public Point2D position;	//[S.L.061]
     public Point2D moveto;
     public int status;
     public float speed;

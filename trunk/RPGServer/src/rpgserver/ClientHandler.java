@@ -136,14 +136,14 @@ public class ClientHandler implements Runnable {
                             netOut.sendMapData(new File("data/map_dat.png"));
 
                             //random pt
-                            Point2D randPt = Main.cGameLogic.cMapEngine.getRandomMapPoint();
+                            Point2D randPt = Main.cGameLogic.cMapEngine.getRandomMapPoint(); //[S.L.051]
                             netOut.sendTeleport(0, new Point2D(randPt.getX(), randPt.getY()));
 
                             while (Main.cGameLogic.checkState(GAME_STATE.COUNTDOWN)) {
                                 Thread.sleep(50);
                                 netOut.sendCountDown((int) (30 - (System.currentTimeMillis() - Main.cGameLogic.countdown) / 1000));
                             }
-                            this.sendAllCharacter();
+                            this.sendAllCharacter(); //[S.N.021]
 
                             break;
 
@@ -151,7 +151,7 @@ public class ClientHandler implements Runnable {
                             // System.out.println("NETWORK::Player Move" + myActorID.intValue());
                             Point2D p = netIn.getActorMove();
                             if (Main.cGameLogic.cMapEngine.getCellType(p) != 0) {
-                                cDBEngine.setActorMoveTo(myActorID, p);
+                                cDBEngine.setActorMoveTo(myActorID, p);  //[S.L.063]
                             }
 
                             break;

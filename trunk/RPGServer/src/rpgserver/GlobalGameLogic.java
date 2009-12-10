@@ -52,7 +52,7 @@ public class GlobalGameLogic implements Runnable {
         PlayerCharacter tempChar;
         String msg;
 
-        cNPCEngine.loadNPCsFromFile("data/npcs.txt", cDBEngine);
+        cNPCEngine.loadNPCsFromFile("data/npcs.txt", cDBEngine);  //[S.D.011]
         cNPCEngine.generateRandomCharacters(cDBEngine);
 
         setCounter(System.currentTimeMillis());
@@ -63,7 +63,7 @@ public class GlobalGameLogic implements Runnable {
             } catch (Exception e) {
             }
         }
-        state = GAME_STATE.INGAME;
+        state = GAME_STATE.INGAME; //[S.L.031]
 
 
         // *** Completed by Jacob Hampton, 3:45 P.M. 12/9/09 ***
@@ -94,11 +94,11 @@ public class GlobalGameLogic implements Runnable {
         // ******************************************************
 
         forever: //so that break statement will leave this loop
-        while (true) {
+        while (true) {	//[S.L.021]
             for (Actor actor : cDBEngine.getHashtableKeys()) {
                 if (actor.type == 1 | actor.type == 2) {
                     if (actor.moveto.equals(actor.position)) {
-                        cNPCEngine.generateNewPosition(actor.actorID);
+                        cNPCEngine.generateNewPosition(actor.actorID); //[S.L.001]
                     }
 
                     if (actor.updatePosition() && actor.type == 1) {
@@ -107,7 +107,7 @@ public class GlobalGameLogic implements Runnable {
                                 PlayerCharacter other = (PlayerCharacter) otherID;
                                 if (actor.position.getMinDistance(other.position) < 26) {
                                     try {
-                                        other.out.sendActorMove(actor.actorID, actor.position);
+                                        other.out.sendActorMove(actor.actorID, actor.position); //[S.N.022]
                                     } catch (Exception e) {
                                         ;
                                     }
@@ -120,12 +120,12 @@ public class GlobalGameLogic implements Runnable {
                 if (actor.type == 0) { //if it's a player character
                     tempChar = (PlayerCharacter) actor; //cast it as a player character, gain access to more functions
                     if (!(tempChar.moveto.equals(tempChar.position))) {
-                        tempChar.updatePosition();
+                        tempChar.updatePosition();	//[S.L.062]
                         if ((tempID = tempChar.checkCollision()) != null) {
                             msg = tempChar.processCollision(tempID);
                             tempChar.out.sendMessage(msg);
                             if (msg.equals(new String("You Win"))) {
-                                break forever;
+                                break forever;	//[S.L.041]
                             }
                             if (msg.equals(new String("Teleport"))) {
                                 tempChar.out.sendTeleport(0, tempChar.position);
@@ -140,7 +140,7 @@ public class GlobalGameLogic implements Runnable {
                                 PlayerCharacter other = (PlayerCharacter) otherID;
                                 if (!(tempChar.equals(other))) {
                                     if (tempChar.position.getMinDistance(other.position) < 26) {
-                                        other.out.sendActorMove(tempChar.actorID, tempChar.position);
+                                        other.out.sendActorMove(tempChar.actorID, tempChar.position);  //[S.N.023]
                                     }
                                 } else {
                                     tempChar.out.sendActorMove(0, tempChar.position);
@@ -163,7 +163,7 @@ public class GlobalGameLogic implements Runnable {
                 tempChar = (PlayerCharacter) actor;
                 tempChar.out.sendGameOver(winner);
                 try {
-                    tempChar.client.sckClient.close();
+                    tempChar.client.sckClient.close();	//[S.L.042]
                 } catch (IOException e) {
                 }
             }

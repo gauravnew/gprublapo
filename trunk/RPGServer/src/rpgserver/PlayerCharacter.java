@@ -107,7 +107,7 @@ public class PlayerCharacter extends Actor {
             }
             collisionString = "Interacted with a professor!";
         }
-        if (actorType == 3) { // Manholes
+        if (actorType == 3) { // Manholes [S.L.001]
             Random randGen = new Random();
             int chance = randGen.nextInt(12);
             if (chance < 2) { //sclarite
