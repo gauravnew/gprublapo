@@ -135,7 +135,11 @@ public class ClientHandler implements Runnable {
                         cDBEngine.setActorName(myActorID, name);
                         netOut.sendMapImage(new File("data/map.png"));
                         netOut.sendMapData(new File("data/map_dat.png"));
-                        netOut.sendTeleport(0, new Point2D(40,20));
+                        
+                        //random pt
+                        Point2D randPt = Main.cGameLogic.cMapEngine.getRandomMapPoint();
+                        netOut.sendTeleport(0, new Point2D(randPt.getX(), randPt.getY()));
+                        
                         while(Main.cGameLogic.checkState(GAME_STATE.COUNTDOWN)) {
                             Thread.sleep(50);
                             netOut.sendCountDown((int)(30 - (System.currentTimeMillis() - Main.cGameLogic.countdown)/1000));
