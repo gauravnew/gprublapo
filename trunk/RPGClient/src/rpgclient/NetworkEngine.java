@@ -98,18 +98,18 @@ public class NetworkEngine implements Runnable {
 
                             // System.out.println("NETWORK::Downloading Map Image.");
                             in.getMapImage();  //[C.N.013]
-                            Main.coreLogic.getLoadingScreen().incBy(50);
+                            Main.coreLogic.getLoadingScreen().incBy(50); //[C.U.007]
                             break;
                         //case Map Data
                         case 'M' * 256 + 'D':
 
                             // System.out.println("NETWORK::Downloading Map Data.");
                             in.getMapData();  //[C.N.012]
-                            Main.coreLogic.getLoadingScreen().incBy(30);
+                            Main.coreLogic.getLoadingScreen().incBy(30);  //[C.U.008]
                             Main.coreLogic.setState(GAME_STATE.INGAME_STATE);
                             Main.coreLogic.ui.setCountDown(30);
                             break;
-                        //Case Start Countdown.
+                        //Case Start Countdown. [C.N.031]
                         case 'C' * 256 + 'D':
                             int count = in.getCountDown();
                             Main.coreLogic.ui.setCountDown(count);
@@ -126,7 +126,7 @@ public class NetworkEngine implements Runnable {
                                 System.out.println(e);
                             }
                             break;
-                        //Case New Actor Data
+                        //Case New Actor Data [C.N.041]
                         case 'N' * 256 + 'A':
                             Main.getGameLogic().getActorEngine().addActor(in.getNewActorData());
                             break;
