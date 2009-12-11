@@ -89,7 +89,7 @@ public class PlayerCharacter extends Actor {
     String processCollision(Integer id) {
 
         // id of the thing this character is colliding with and change the health and speed accordingly
-        String collisionString = "No collision";
+        String collisionString = "";
         int actorType = Main.cDBEngine.getActorType(id); //type of the actor I am colliding with
 
         if (actorType == 0) {// if interaction is with another player
@@ -98,31 +98,31 @@ public class PlayerCharacter extends Actor {
         if (actorType == 1) { // H1N1
             this.sick = true;
             this.speed = 0.1f; // really slow...
-            collisionString = "Interacted with H1N1!";
+            collisionString = "You got sick with H1N1!";
         }
         if (actorType == 2) { // Professors
             this.health -= 5;
             if (this.health < 0) {
                 this.health = 0; //health can't be bellow zero
             }
-            collisionString = "Interacted with a professor!";
+            collisionString = "You ran into a professor!";
         }
         if (actorType == 3) { // Manholes [S.L.001]
             Random randGen = new Random();
             int chance = randGen.nextInt(12);
             if (chance < 2) { //sclarite
                 this.health += 25; // is there a cap on the amount of health points you can get?
-                collisionString = "Interacted with Sclarite!";
+                collisionString = "The manhole had Sclarite!";
             } else { //silberite
                 this.health -= 15;
                 if (this.health < 0) {
                     this.health = 0; //health can't be bellow zero
                 }
                 this.credits -= 2;
-                if (this.health < 0) {
+                if (this.credits < 0) {
                     this.credits = 0; //credits can't be bellow zero
                 }
-                collisionString = "Interacted with Silberite!";
+                collisionString = "The manhole had Silberite!";
             }
 
         }
@@ -164,6 +164,7 @@ public class PlayerCharacter extends Actor {
                 int currClass = actorType - 16; // current class 
                 if (currClass != this.lastClass) //if this is not the last class attended [S.L.084]
                 {
+                	collisionString = "You attended class.";
                     this.classesAttended[currClass]++;	//[S.L.085]
                 }
                 if (this.classesAttended[currClass] == 2) //if attended this class twice [S.L.086]
@@ -194,6 +195,14 @@ public class PlayerCharacter extends Actor {
                 // reduce speed down to correct amount
             }
         }
+        
+        if (actorType == 26) {
+        	if(!this.sick){
+        		if(this.credits >= 36)
+        			Main.cGameLogic.winner = this.name;
+        			collisionString = "You Win!";
+        	}
+        }
 
         if (actorType == 27) { //Teleport
             float x = Float.parseFloat(Main.cDBEngine.getActorName(id).substring(0, 3));
@@ -211,21 +220,7 @@ public class PlayerCharacter extends Actor {
 
     @Override
     public boolean updatePosition(/*Actor actor*/) {
-//     this.position.setPosition(this.moveto.getX(), this.moveto.getY());
-//     return true;
-        //distance between the current postition and the moveto postion
-
-//     super.updatePosition(/*actor*/);
-
-        float dist = this.position.getDistance(this.moveto);
-        /*     this.position.moveTo(dist, this.moveto);
-
-        this.distFromLastEx += dist; //add the distance moved to the counter
-        this.distFromLastCollision += dist;
-        this.distTrav += dist;
-
-        return;
-         */
+      float dist = this.position.getDistance(this.moveto);
         float d = dist;
         Point2D proposed = new Point2D();
 
@@ -263,17 +258,6 @@ public class PlayerCharacter extends Actor {
         return false;
     }
 
-    /*
-     *         //distance between the current postition and the moveto postion
-    >>>>>>> .r104
-    float dist = actor.position.getDistance(actor.moveto);
-
-    this.distFromLastEx += dist; //add the distance moved to the counter
-    this.distFromLastCollision += dist;
-    this.distTrav += dist;
-
-
-     */
     void updateSpeed() {
         if (sick) {
             this.speed = 0.1f;

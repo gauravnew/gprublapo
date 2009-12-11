@@ -66,7 +66,7 @@ public class Actor implements Comparable {
         if (dist >= 1) {
             Point2D proposed = new Point2D(position);
             proposed.moveTo(dist, moveto); //change actor position
-            if (Main.cGameLogic.getGameMap().getCellType(proposed) == 1) {
+            if (Main.cGameLogic.getGameMap().getCellType(proposed) != 0) {
                 position.moveTo(dist, moveto);
             } else {
                 moveto.setPosition(position.getX(), position.getY());

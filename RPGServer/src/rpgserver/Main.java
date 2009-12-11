@@ -39,7 +39,8 @@ public class Main {
         cDBEngine = new GlobalGameDatabase();
         cGameLogic = new GlobalGameLogic();
 
-        new Thread(cGameLogic).start();
+        Thread logic = new Thread(cGameLogic);
+        logic.start();
 
         try {
 
@@ -72,6 +73,11 @@ public class Main {
             //Unless it's a timeout! (Assue this is the case)
         }
         //******Start the game here*****
+        try {
+			logic.join();
+		} catch (InterruptedException e) {
+			;
+		}
 
     }
 }

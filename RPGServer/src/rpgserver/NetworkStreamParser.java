@@ -54,14 +54,16 @@ public class NetworkStreamParser {
 
     //Get data from network stream by data type
     public synchronized String getNamefromLogin() {
-        byte[] b = new byte[24];
+        String s;
+    	byte[] b = new byte[24];
         try {
-            netIn.read(b);
+        	s = netIn.readUTF();
+//        	netIn.read(b);
         } catch (IOException e) {
             return "Exception";
         }
 
-        return new String(b);
+        return s; //new String(b);
     }
 
     public synchronized Point2D getActorMove() {

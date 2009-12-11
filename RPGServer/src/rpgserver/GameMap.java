@@ -52,7 +52,7 @@ public class GameMap {
             case 0xFFFFFFFF:
                 return 1;	//[S.D.041]
             case 0xFFFF0000:
-                return 1;	//[S.D.041]
+                return 2;	//[S.D.041]
             default:
                 return 0;	//[S.D.042]
         }
@@ -75,17 +75,23 @@ public class GameMap {
 
     public Point2D getRandomHorizontal(Point2D p) {
         Point2D d;
+        int i=0;
         do {
             d = new Point2D((int) (Math.random() * 20) - 10 + p.getX(), p.getY());
-        } while (getCellType(d) != 1);
+            i++;
+        } while (getCellType(d) != 1 && i < 100);
+        if(i==100) return p;
         return d;
     }
 
     public Point2D getRandomVertical(Point2D p) {
         Point2D d;
+        int i=0;
         do {
             d = new Point2D(p.getX(), (int) (Math.random() * 20) - 10 + p.getY());
-        } while (getCellType(d) != 1);
+            i++;
+        } while (getCellType(d) != 1 && i<100);
+        if(i==100) return p;
         return d;
     }
 }
