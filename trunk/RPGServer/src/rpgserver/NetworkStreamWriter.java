@@ -171,6 +171,22 @@ public class NetworkStreamWriter {
         }
 
     }
+    
+    public synchronized void sendActorInfo(int id, float speed, Point2D position, int health, int credits){
+    	float x = position.getX();
+    	float y = position.getY();
+    	try{
+    		netOut.writeShort('A' * 256 + 'I');
+    		netOut.writeInt(id);
+    		netOut.writeFloat(x);
+    		netOut.writeFloat(y);
+    		netOut.writeInt(health);
+    		netOut.writeInt(credits);
+    		netOut.writeFloat(speed);
+    		netOut.flush();
+    	}
+    	catch(Exception e){System.out.println ("Server Error sendActorInfo");}
+    }
 
     public synchronized void sendCountDown(int value) {
 

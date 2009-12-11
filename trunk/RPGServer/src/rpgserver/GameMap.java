@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
  */
 public class GameMap {
 
-    private BufferedImage mapData = null;
+    private BufferedImage mapData = null;	//[S.D.043]
     private int width = 0;
     private int height = 0;
 
@@ -50,11 +50,11 @@ public class GameMap {
 
         switch (c) {
             case 0xFFFFFFFF:
-                return 1;
+                return 1;	//[S.D.041]
             case 0xFFFF0000:
-                return 1;
+                return 1;	//[S.D.041]
             default:
-                return 0;
+                return 0;	//[S.D.042]
         }
     }
 
