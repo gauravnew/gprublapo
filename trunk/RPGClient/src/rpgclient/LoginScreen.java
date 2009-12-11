@@ -1,4 +1,5 @@
 /*
+
  * Filename : LoginScreen.java
  * Description : Class that creates the login screen and
  *  then initates the network connection once vaild
@@ -27,6 +28,7 @@ public class LoginScreen {
     private TextField ip;
     private TextField user;
     private JButton login;
+    private boolean panelShowing = false;
 
     public String getIP() {
         return ip.getText();
@@ -75,6 +77,7 @@ public class LoginScreen {
             backgoundImage = ImageIO.read(new File("data/login-screen.png"));
 
             Main.addPanel(panel);
+            panelShowing= true;
 
         } catch (Exception e) {
 
@@ -107,11 +110,18 @@ public class LoginScreen {
 
     private void destroy() {
         Main.removePanel(panel);
+        panelShowing = false;
     }
 
     public void render(Graphics g) {
-        if (!hidden) {
+    	if(panelShowing==false) Main.addPanel(panel);
+    	if (!hidden) {
             g.drawImage(backgoundImage, 0, 0, null);
+            if(Main.getGameLogic().getWinner()!=null){
+            	g.setColor(Color.black);
+            	g.setFont(new Font("Arial", Font.BOLD, 30));
+            	g.drawString(Main.getGameLogic().getWinner() + " wins!", 500, 180);
+            }
         }
     }
 }
