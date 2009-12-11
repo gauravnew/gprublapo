@@ -29,15 +29,15 @@ public class PlayerCharacter extends Actor {
     ClientHandler client;
     NetworkStreamWriter out;
     private static final int NUM_CLASSES = 9; //number of classes the player has to attend
-    int[] classesAttended; //array that keeps track of what classes and how many times the classes were attended
+    int[] classesAttended; //array that keeps track of what classes and how many times the classes were attended [S.L.082]
     int health; // can never be less than 0
-    int lastClass; //last class that the player attended
+    int lastClass; //last class that the player attended [S.L.081]
     int credits; //how many credits the player currently
-    float distFromLastEx; //distance from last exercise and/or eat
+    float distFromLastEx; //distance from last exercise and/or eat [S.L.071]
     float distTrav; //distance the characters move
     float distFromLastCollision; //distance the character moved from the last collision;
     Point2D bridgeStart;
-    boolean inBridge; //if the player is in the bridge circuit;
+    boolean inBridge; //if the player is in the bridge circuit;  [S.L.092]
     boolean sick; //if the player is sick (true if sick, false otherwise)
 
     //constructor -- initializes the class datamembers
@@ -128,7 +128,7 @@ public class PlayerCharacter extends Actor {
         }
         if (actorType >= 4 && actorType <= 8) { //Cranberry Farms, Einstein's Bagels, Jamba Juice, Loose Leafs, or Subway
             if (!sick && this.distFromLastEx > 200) { //if I am not sick and walked far enough
-                this.health += 20;
+                this.health += 20;	//[S.L.072]
                 this.distFromLastEx = 0; //reset distance counter
                 collisionString = "You just Ate and replenished yourself!";
             }
@@ -136,21 +136,21 @@ public class PlayerCharacter extends Actor {
         }
         if (actorType >= 9 && actorType <= 11) { //Panda Express, Papa John's or Starbucks
             if (!sick && this.distFromLastEx > 200) { //if I am not sick and walked far enough
-                this.health += 10;
+                this.health += 10;	//[S.L.072]
                 this.distFromLastEx = 0; //reset distance counter
                 collisionString = "You just Ate and replenished yourself!";
             }
         }
         if (actorType >= 12 && actorType <= 13) { //Dunkin Donuts or Store 24
             if (!sick && this.distFromLastEx > 200) { //if I am not sick and walked far enough
-                this.health += 5;
+                this.health += 5;	//[S.L.072]
                 this.distFromLastEx = 0; //reset distance counter
                 collisionString = "You just Ate and replenished yourself!";
             }
         }
         if (actorType == 14) { //FitRec
             if (!sick && this.distFromLastEx > 200) { //if I am not sick and walked far enough
-                this.health += 15;
+                this.health += 15;	//[S.L.072]
                 this.distFromLastEx = 0; //reset distance counter
                 collisionString = "You just went to FitRec!";
             }
@@ -160,15 +160,15 @@ public class PlayerCharacter extends Actor {
             collisionString = "You just went to Student Health Services!";
         }
         if (actorType >= 16 && actorType <= 24) { //Classrooms
-            if (!sick) { //if i am not sick...
-                int currClass = actorType - 16; // current class
-                if (currClass != this.lastClass) //if this is not the last class attended
+            if (!sick) { //if i am not sick...  [S.L.083]
+                int currClass = actorType - 16; // current class 
+                if (currClass != this.lastClass) //if this is not the last class attended [S.L.084]
                 {
-                    this.classesAttended[currClass]++;
+                    this.classesAttended[currClass]++;	//[S.L.085]
                 }
-                if (this.classesAttended[currClass] == 2) //if attended this class twice
+                if (this.classesAttended[currClass] == 2) //if attended this class twice [S.L.086]
                 {
-                    this.credits += 4;
+                    this.credits += 4;	//[S.L.087]
                 }
             }
         }
@@ -177,18 +177,18 @@ public class PlayerCharacter extends Actor {
                 //enter the bridge circuit
                 collisionString = "Bridge Circuit";
                 if (!this.inBridge) { // inBridge = false
-                    this.inBridge = true;
+                    this.inBridge = true;				//[S.L.093]
                     this.bridgeStart = this.position;
                     this.speed = 1.5f; // Very very fast!
 
                 }
                 //exit the bridge circuit
                 if (this.inBridge) { //if in bridge circuit
-                    if (!this.bridgeStart.sameCell(this.position) && this.distFromLastEx > 200) { // and exit not where enter and walked far enough
-                        this.health += 25;
+                    if (!this.bridgeStart.sameCell(this.position) && this.distFromLastEx > 200) { // and exit not where enter and walked far enough [S.L.094]
+                        this.health += 25;	//[S.L.072], [S.L.095]
                         this.distFromLastEx = 0; //reset
                     }
-                    this.inBridge = false; //exit the bridge
+                    this.inBridge = false; //exit the bridge [S.L.096]
                     updateSpeed(); //return speed to normal
                 }
                 // reduce speed down to correct amount
@@ -253,6 +253,10 @@ public class PlayerCharacter extends Actor {
             this.position.setPosition(proposed.getX(), proposed.getY());
             this.distFromLastEx += dist; //add the distance moved to the counter
             this.distTrav += dist;
+            if(this.distTrav>=100) {
+            	this.health-=5;
+            	this.distTrav-=100;
+            }
             this.distFromLastCollision += dist;
             return true;
         }
@@ -275,7 +279,7 @@ public class PlayerCharacter extends Actor {
             this.speed = 0.1f;
         } else if (inBridge && !sick) { //if Im health and in Bridge circuit
             this.speed = 1.5f;
-        } else {
+        } else {		//[S.L.101]
             if (this.health > 125) {
                 this.speed = 0.8f; //Zippy speed!
             }

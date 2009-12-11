@@ -66,7 +66,7 @@ public class ClientHandler implements Runnable {
         while (itr.hasNext()) {
             Actor temp = itr.next();
             if (!temp.equals(myCharacter)) {
-                if (temp.type == 0 || temp.type == 1 || temp.type == 3) {
+                if (temp.type !=2 && temp.type != 25 && temp.type!=27) {
                     netOut.sendNewActorData(temp.actorID.intValue(), temp.type, temp.speed, temp.name, temp.position);
                 }
             }
@@ -138,6 +138,9 @@ public class ClientHandler implements Runnable {
                             //random pt
                             Point2D randPt = Main.cGameLogic.cMapEngine.getRandomMapPoint(); //[S.L.051]
                             netOut.sendTeleport(0, new Point2D(randPt.getX(), randPt.getY()));
+                            netOut.sendCredits(0,0);
+                            netOut.sendHealth(0, 100);
+                            netOut.sendSpeed(0, cDBEngine.getActorSpeed(myActorID));
 
                             while (Main.cGameLogic.checkState(GAME_STATE.COUNTDOWN)) {
                                 Thread.sleep(50);

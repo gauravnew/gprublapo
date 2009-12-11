@@ -53,11 +53,11 @@ public class GlobalGameLogic implements Runnable {
         String msg;
 
         cNPCEngine.loadNPCsFromFile("data/npcs.txt", cDBEngine);  //[S.D.011]
-        cNPCEngine.generateRandomCharacters(cDBEngine);
+        cNPCEngine.generateRandomCharacters(cDBEngine);				//[S.L.111]
 
-        setCounter(System.currentTimeMillis());
+        setCounter(System.currentTimeMillis());		//[S.L.112]
 
-        while (System.currentTimeMillis() < checkCountdown() + 30000) {
+        while (System.currentTimeMillis() < checkCountdown() + 30000) {	//[S.L.113]
             try {
                 Thread.sleep(50);
             } catch (Exception e) {
@@ -140,15 +140,20 @@ public class GlobalGameLogic implements Runnable {
                                 PlayerCharacter other = (PlayerCharacter) otherID;
                                 if (!(tempChar.equals(other))) {
                                     if (tempChar.position.getMinDistance(other.position) < 26) {
-                                        other.out.sendActorMove(tempChar.actorID, tempChar.position);  //[S.N.023]
+/*                                        other.out.sendActorMove(tempChar.actorID, tempChar.position);  //[S.N.023]
+                                        other.out.sendHealth(tempChar.actorID, tempChar.health);  //[S.N.023]
+                                        other.out.sendCredits(tempChar.actorID, tempChar.credits);  //[S.N.023]
+                                        other.out.sendSpeed(tempChar.actorID, tempChar.speed);  //[S.N.023]
+*/										other.out.sendActorInfo(tempChar.actorID, tempChar.speed, tempChar.position, tempChar.health, tempChar.credits);
                                     }
                                 } else {
-                                    tempChar.out.sendActorMove(0, tempChar.position);
+/*                                    tempChar.out.sendActorMove(0, tempChar.position);
                                     // *** Completed by Jacob Hampton, 10:05 P.M. 12/9/09 ***
-                                    tempChar.out.sendHealth(tempChar.actorID, tempChar.health);
-                                    tempChar.out.sendCredits(tempChar.actorID, tempChar.credits);
-                                    tempChar.out.sendSpeed(tempChar.actorID, tempChar.speed);
-                                    // ******************************************************
+                                    tempChar.out.sendHealth(0, tempChar.health);
+                                    tempChar.out.sendCredits(0, tempChar.credits);
+                                    tempChar.out.sendSpeed(0, tempChar.speed);
+*/                                    // ******************************************************
+									other.out.sendActorInfo(0, tempChar.speed, tempChar.position, tempChar.health, tempChar.credits);
                                 }
 
                             }

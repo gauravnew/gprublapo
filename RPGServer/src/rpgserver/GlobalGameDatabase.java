@@ -19,7 +19,7 @@ public class GlobalGameDatabase implements Iterable {
     //Hashtable to store Actor data.
     private ConcurrentSkipListSet<Actor> DB;
     //Next available actorID.
-    Integer nextActorID;
+    Integer nextActorID;	//[S.D.031]
 
     public GlobalGameDatabase() {
         DB = new ConcurrentSkipListSet<Actor>();
@@ -45,7 +45,7 @@ public class GlobalGameDatabase implements Iterable {
     public synchronized int createNewPlayerCharacter(ClientHandler c) {
 
         PlayerCharacter p = new PlayerCharacter();
-        p.actorID = nextActorID++;
+        p.actorID = nextActorID++; //[S.D.032]
         p.client = c;
         p.health = 100;
         DB.add(p);
@@ -63,7 +63,7 @@ public class GlobalGameDatabase implements Iterable {
     public synchronized int createNewNonPlayerCharacter(int type, int direction) {
 
         NonPlayerCharacter np = new NonPlayerCharacter(type, direction);
-        np.actorID = nextActorID++;
+        np.actorID = nextActorID++; //[S.D.032]
         DB.add(np);
         //DB.put(np.actorID, np);
 
@@ -74,7 +74,7 @@ public class GlobalGameDatabase implements Iterable {
     public synchronized int createNewNonPlayerCharacter(int type, Point2D mapPos) {
 
         NonPlayerCharacter np = new NonPlayerCharacter(type, mapPos);
-        np.actorID = nextActorID++;
+        np.actorID = nextActorID++; //[S.D.032]
         DB.add(np);
         //DB.put(np.actorID, np);
 

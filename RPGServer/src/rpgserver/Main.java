@@ -49,7 +49,7 @@ public class Main {
 
             while (cGameLogic.state == cGameLogic.state.COUNTDOWN) {
                 //Accept incoming connections.
-                srvr.setSoTimeout(20000);
+                srvr.setSoTimeout(20000);		//[S.N.031]
                 Socket client = srvr.accept();  //[S.N.001]
                 //System.out.println("Client connection accepted");
                 if (cGameLogic.state != cGameLogic.state.COUNTDOWN) {
@@ -57,7 +57,7 @@ public class Main {
                 }
 
                 if (client != null) {
-                    cGameLogic.setCounter(System.currentTimeMillis());
+                    cGameLogic.setCounter(System.currentTimeMillis());	//[S.L.114]
                     ClientHandler cHandler = new ClientHandler(client, cDBEngine); //[S.N.002]
                     int id = cDBEngine.createNewPlayerCharacter(cHandler);
                     cHandler.setActorID(id);

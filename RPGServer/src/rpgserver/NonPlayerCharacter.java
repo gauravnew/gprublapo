@@ -140,7 +140,7 @@ public class NonPlayerCharacter extends Actor {
             } else if (type == 24) {
                 //CS511 - type 24
                 name = "CS511";
-            } else if (type == 25) {
+            } else if (type == 25) { //[S.L.091]
                 //Bridge Circuit
                 name = "Bridge Circuit";
             } else if (type == 26) {
