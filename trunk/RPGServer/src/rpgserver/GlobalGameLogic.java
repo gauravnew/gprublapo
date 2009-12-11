@@ -47,54 +47,41 @@ public class GlobalGameLogic implements Runnable {
     String winner;
 
     public void run() {
-        state = GAME_STATE.COUNTDOWN;
         Integer tempID;
         PlayerCharacter tempChar;
         String msg;
+        int count;
 
         cNPCEngine.loadNPCsFromFile("data/npcs.txt", cDBEngine);  //[S.D.011]
         cNPCEngine.generateRandomCharacters(cDBEngine);				//[S.L.111]
 
         setCounter(System.currentTimeMillis());		//[S.L.112]
 
-        while (System.currentTimeMillis() < checkCountdown() + 30000) {	//[S.L.113]
+        while (System.currentTimeMillis() < checkCountdown() + 20000) {	//[S.L.113]
             try {
                 Thread.sleep(50);
             } catch (Exception e) {
             }
         }
+        state = GAME_STATE.COUNTDOWN;
+        try {
+            Thread.sleep(50);
+        } catch (Exception e) {
+        }
+        setCounter(System.currentTimeMillis());		//[S.L.112]
+
+        while (System.currentTimeMillis() < checkCountdown() + 10000) {	//[S.L.113]
+            try {
+                Thread.sleep(50);
+            } catch (Exception e) {
+            }
+        }
+        
         state = GAME_STATE.INGAME; //[S.L.031]
-
-
-        // *** Completed by Jacob Hampton, 3:45 P.M. 12/9/09 ***
-/*
-        long startTime = java.lang.System.currentTimeMillis();
-        
-        for(Actor actor : cDBEngine.getHashtableKeys()) { 
-        if(actor.type==0){ //if it's a player character
-        tempChar=(PlayerCharacter)actor; //cast it as a player character, gain access to more functions
-        tempChar.out.sendCountdown(); // This will trigger a compile error until the method "sendCountdown()" exists in the NetworkStreamWriter class.
-        }
-        }
-        
-        for(Actor actor : cDBEngine.getHashtableKeys()) { 
-        if(actor.type==0){ //if it's a player character
-        tempChar=(PlayerCharacter)actor; //cast it as a player character, gain access to more functions
-        tempChar.client.sendAllCharacter();
-        }
-        }
-        
-        while (true){
-        if (java.lang.System.currentTimeMillis() >= (startTime + 10000)){ // Make sure at least 10 seconds have passed
-        state = GAME_STATE.INGAME;
-        break;
-        }
-        }
-         */
-        // ******************************************************
 
         forever: //so that break statement will leave this loop
         while (true) {	//[S.L.021]
+        	count = 0;
             for (Actor actor : cDBEngine.getHashtableKeys()) {
                 if (actor.type == 1 | actor.type == 2) {
                     if (actor.moveto.equals(actor.position)) {
@@ -118,6 +105,7 @@ public class GlobalGameLogic implements Runnable {
 
                 }
                 if (actor.type == 0) { //if it's a player character
+                	count++;
                     tempChar = (PlayerCharacter) actor; //cast it as a player character, gain access to more functions
                     if (!(tempChar.moveto.equals(tempChar.position))) {
                         tempChar.updatePosition();	//[S.L.062]
@@ -160,6 +148,7 @@ public class GlobalGameLogic implements Runnable {
                         }
                     }
                 }
+                if (count==0) break forever;
             }
         }
 
