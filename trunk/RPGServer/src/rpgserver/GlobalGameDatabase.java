@@ -319,6 +319,14 @@ public class GlobalGameDatabase implements Iterable {
 
     }
 
+    public synchronized Actor getActorByType(int type) {
+        for (Actor a: DB) {
+            if (a.type == type)
+                return a;
+        }
+        return null;
+    }
+
     //TODO: Previously existing keys may be deleted and should not be returned.
     //=========================================================================
     //TODO: Complete (by Anastasia Vashkevich -- 11/15/09 10PM)

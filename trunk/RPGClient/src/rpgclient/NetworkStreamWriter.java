@@ -84,4 +84,23 @@ public class NetworkStreamWriter {
 
         }
     }
+
+    public synchronized void sendTestCase(char c) {
+
+        try {
+
+
+            //Write to buffer.
+            netOut.writeShort('T' * 256 + 'S');
+            netOut.writeChar(c);
+            //Flush buffer.
+            netOut.flush();
+
+        } catch (Exception e) {
+
+            //Error
+            System.out.println("Server Error.");
+
+        }
+    }
 }

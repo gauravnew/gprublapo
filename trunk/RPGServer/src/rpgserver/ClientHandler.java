@@ -164,6 +164,20 @@ public class ClientHandler implements Runnable {
                             }
 
                             break;
+                        case 'T' * 256 + 'S':
+                            if (Main.IS_TEST_MODE == 1) {
+                                char code = netIn.getTestCode();
+                                int testCase = Main.cGameLogic.getTestCaseType(code);
+                                if (testCase != -1) {
+                                    Actor act = cDBEngine.getActorByType(testCase);
+                                    if (act != null) {
+                                        netOut.sendTeleport(0, new Point2D (act.position.getX(),act.position.getY()-1));
+                                        cDBEngine.setActorPosition(myActorID, new Point2D (act.position.getX(),act.position.getY()-1));
+                                        cDBEngine.setActorMoveTo(myActorID, new Point2D(act.position));
+                                    }
+                                }
+                            }
+                            break;
 
                         default:
 
