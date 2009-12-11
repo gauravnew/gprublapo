@@ -38,7 +38,8 @@ public class NetworkStreamWriter {
             }
 
             netOut.writeShort('L' * 256 + 'G');
-            netOut.write(b, 0, 24);
+            netOut.writeUTF(name);
+//            netOut.write(b, 0, 24);
             netOut.flush();
 
         } catch (Exception e) {

@@ -158,6 +158,7 @@ public class CoreGameLogic {
 
             loading = null;
             map = null;
+            if(login==null) login = new LoginScreen();
             login.render(g);
 
         } else if (checkState(state.LOADING_STATE)) {

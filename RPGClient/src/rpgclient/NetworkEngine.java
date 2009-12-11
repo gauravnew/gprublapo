@@ -85,7 +85,7 @@ public class NetworkEngine implements Runnable {
                 opcode = in.getNextMessageOPCode();
 
                 if (opcode != 0) {
-                    //[C.N.011]
+                	//[C.N.011]
                     switch (opcode) {
                         //case ping
                         case 'P' * 256 + 'G':
@@ -128,7 +128,7 @@ public class NetworkEngine implements Runnable {
                             break;
                         //Case New Actor Data [C.N.041]
                         case 'N' * 256 + 'A':
-                            Main.getGameLogic().getActorEngine().addActor(in.getNewActorData());
+                        	Main.getGameLogic().getActorEngine().setActorInfo(in.getNewActorData());
                             break;
                         case 'H' * 256 + 'L':
                             pk = in.getHealth();
@@ -171,7 +171,7 @@ public class NetworkEngine implements Runnable {
                             pk = in.getActorMove();
                             id = pk.id.intValue();
                             target = pk.pos;
-                            System.out.println("NETWORK::Move Packet. " + id + " " + target.getX() + " " + target.getY());
+                            //System.out.println("NETWORK::Move Packet. " + id + " " + target.getX() + " " + target.getY());
                             try {
                                 Main.getGameLogic().getActorEngine().setActorPosition(id, target);
                             } catch (Exception e) {
@@ -192,6 +192,7 @@ public class NetworkEngine implements Runnable {
 
                             //Unknown packet, disconnect and return.
                             sckServer.close();
+                            System.out.println(opcode);
                             // System.out.println("Server connection closed.");
                             Main.coreLogic.setState(GAME_STATE.LOGIN_STATE);
                             return;

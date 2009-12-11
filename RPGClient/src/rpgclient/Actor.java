@@ -159,7 +159,7 @@ public class Actor implements Comparable {
         x += (Main.width / 2 - 16);
         y += (Main.height / 2 - 16);
 
-        if (type<3){
+        if (type<4){
 	        if (lastmovetime == 0) {
 	            g.drawImage(sprite[direction].getDefaultFrame(), (int) x, (int) y, null);
 	        } else {

@@ -187,7 +187,7 @@ public class NetworkStreamParser {
         }
     }
 
-    public synchronized Actor getNewActorData() {
+    public synchronized movePkt getNewActorData() {
         float x, y;
         String name;
         Actor newCharacter = null;
@@ -201,17 +201,16 @@ public class NetworkStreamParser {
             float speed = netIn.readFloat();
             name = netIn.readUTF();
             // System.out.println(name);
-            newCharacter = new Actor(actorID, type, name);
-            newCharacter.position = position;
-            newCharacter.moveto = moveto;
-            newCharacter.speed = speed;
+            Main.getGameLogic().getActorEngine().addActor(new Actor(actorID, type, name));
+            Main.getGameLogic().getActorEngine().setActorPosition(actorID, position);
+            return new movePkt(actorID, position, 100, 0, speed);
         } catch (Exception e) {
             System.out.println("Network Error getNewActorData");
         }
 
 
 
-        return newCharacter;
+        return null;
     }
 
     public synchronized int getCountDown() {
