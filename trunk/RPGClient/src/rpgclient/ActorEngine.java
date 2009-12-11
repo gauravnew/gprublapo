@@ -91,6 +91,24 @@ public class ActorEngine {
 
     }
 
+    public synchronized void setActorInfo(movePkt m) {
+        Actor temp = new Actor();
+        temp.actorID = m.id;
+
+        Actor a;
+
+        if (actors.contains(temp)) {
+            a = (Actor) actors.floor(temp);
+            a.moveto = m.pos;
+            a.speed = m.float_dat;
+            a.health = m.info;
+            a.credits = m.info2;
+        } else {
+            a = null;
+        }
+
+    }
+    
     public void renderAll(Graphics g, Point2D center) {
         try {
             for (Actor a : actors) {
