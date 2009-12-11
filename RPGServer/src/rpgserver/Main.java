@@ -14,6 +14,8 @@ package rpgserver;
 
 import java.net.*;
 
+import rpgserver.GlobalGameLogic.GAME_STATE;
+
 import com.sun.jmx.snmp.tasks.ThreadService;
 
 /**
@@ -38,6 +40,7 @@ public class Main {
         }
         cDBEngine = new GlobalGameDatabase();
         cGameLogic = new GlobalGameLogic();
+        cGameLogic.setState(GAME_STATE.LOGIN);
 
         Thread logic = new Thread(cGameLogic);
         logic.start();
@@ -48,14 +51,14 @@ public class Main {
             ServerSocket srvr = new ServerSocket(port);
             //System.out.println("Server started. Listening on port " + port);
 
-            while (cGameLogic.state == cGameLogic.state.COUNTDOWN) {
+            while (cGameLogic.state == cGameLogic.state.LOGIN) {
                 //Accept incoming connections.
                 srvr.setSoTimeout(20000);		//[S.N.031]
                 Socket client = srvr.accept();  //[S.N.001]
                 //System.out.println("Client connection accepted");
-                if (cGameLogic.state != cGameLogic.state.COUNTDOWN) {
-                    continue;
-                }
+//                if (cGameLogic.state != cGameLogic.state.LOGIN) {
+//                    continue;
+//                }
 
                 if (client != null) {
                     cGameLogic.setCounter(System.currentTimeMillis());	//[S.L.114]

@@ -198,9 +198,10 @@ public class PlayerCharacter extends Actor {
         
         if (actorType == 26) {
         	if(!this.sick){
-        		if(this.credits >= 36)
+        		if(this.credits >= 36){
         			Main.cGameLogic.winner = this.name;
         			collisionString = "You Win!";
+        		}
         	}
         }
 

@@ -137,16 +137,22 @@ public class ClientHandler implements Runnable {
 
                             //random pt
                             Point2D randPt = Main.cGameLogic.cMapEngine.getRandomMapPoint(); //[S.L.051]
+                            cDBEngine.setActorMoveTo(myActorID, randPt);
+                            cDBEngine.setActorPosition(myActorID, randPt);
                             netOut.sendTeleport(0, new Point2D(randPt.getX(), randPt.getY()));
                             netOut.sendCredits(0,0);
                             netOut.sendHealth(0, 100);
                             netOut.sendSpeed(0, cDBEngine.getActorSpeed(myActorID));
 
-                            while (Main.cGameLogic.checkState(GAME_STATE.COUNTDOWN)) {
+                            while (Main.cGameLogic.checkState(GAME_STATE.LOGIN)) {
                                 Thread.sleep(50);
                                 netOut.sendCountDown((int) (30 - (System.currentTimeMillis() - Main.cGameLogic.countdown) / 1000));
                             }
                             this.sendAllCharacter(); //[S.N.021]
+                            while (Main.cGameLogic.checkState(GAME_STATE.COUNTDOWN)) {
+                                Thread.sleep(50);
+                                netOut.sendCountDown((int) (10 - (System.currentTimeMillis() - Main.cGameLogic.countdown) / 1000));
+                            }
 
                             break;
 
