@@ -63,6 +63,12 @@ public class Main extends Frame {
         //[C.G.012]
         while (true) {
             canvas.repaint();
+            try {
+				Thread.sleep(100);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         }
 
     }

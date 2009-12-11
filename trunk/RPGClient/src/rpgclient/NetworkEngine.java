@@ -128,7 +128,9 @@ public class NetworkEngine implements Runnable {
                             break;
                         //Case New Actor Data [C.N.041]
                         case 'N' * 256 + 'A':
-                        	Main.getGameLogic().getActorEngine().setActorInfo(in.getNewActorData());
+                        	pk = in.getNewActorData();
+                        	Main.getGameLogic().getActorEngine().setActorInfo(pk);
+                        	Main.getGameLogic().getActorEngine().setActorPosition(pk.id, pk.pos);
                             break;
                         case 'H' * 256 + 'L':
                             pk = in.getHealth();
