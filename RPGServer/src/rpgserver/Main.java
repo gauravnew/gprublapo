@@ -26,6 +26,7 @@ public class Main {
 
     static GlobalGameDatabase cDBEngine;
     static GlobalGameLogic cGameLogic;
+    static int IS_TEST_MODE;
 
     /**
      * @param args the command line arguments
@@ -35,7 +36,9 @@ public class Main {
         int port;
         if (args.length == 1) {
             port = Integer.parseInt(args[0]);
+            IS_TEST_MODE = 1;
         } else {
+            IS_TEST_MODE = 0;
             port = 1234;
         }
         cDBEngine = new GlobalGameDatabase();

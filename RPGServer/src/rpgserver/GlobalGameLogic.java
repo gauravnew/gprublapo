@@ -213,4 +213,36 @@ public class GlobalGameLogic implements Runnable {
     public String getWinner() {
         return winner;
     }
+
+    public int getTestCaseType(char c) {
+        
+        if (c == 'H') return 1;
+        if (c == 'P') return 2;
+        if (c == 'M') return 3;
+        if (c == 'E') return 5;
+        if (c == 'J') return 6;
+        if (c == 'L') return 7;
+        if (c == 'S') return 8;
+        if (c == 'X') return 9;
+        if (c == 'N') return 10;
+        if (c == 'B') return 11;
+        if (c == 'D') return 12;
+        if (c == 'T') return 13;
+        if (c == 'F') return 14;
+        if (c == 'V') return 15;
+        if (c == '1') return 16;
+        if (c == '2') return 17;
+        if (c == '3') return 18;
+        if (c == '4') return 19;
+        if (c == '5') return 20;
+        if (c == '6') return 21;
+        if (c == '7') return 22;
+        if (c == '8') return 23;
+        if (c == '9') return 24;
+        if (c == 'R') return 25;
+        if (c == 'A') return 26;
+
+        return -1;
+    }
+
 }

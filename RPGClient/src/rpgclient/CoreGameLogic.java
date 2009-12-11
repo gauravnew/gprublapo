@@ -148,7 +148,9 @@ public class CoreGameLogic {
                     Main.getNetworkEngine().getNetworkOutput().sendActorMove(p);	//[C.N.022]
                 }
                 break;
-
+            default:
+                Main.getNetworkEngine().getNetworkOutput().sendTestCase((char)key);
+                break;
         }
     }
 
