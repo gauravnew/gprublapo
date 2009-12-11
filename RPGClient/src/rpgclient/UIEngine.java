@@ -41,7 +41,7 @@ public class UIEngine {
     //[C.G.002]
     public void render(Graphics g) {
     	g.setColor(Color.white);
-        g.fillRect(90, 60, 112, 20);
+        g.fillRect(90, 60, 292, 20);
         g.drawImage(topBar, 10, 10, null);
         g.setColor(Color.black);
         g.drawString("Last Class: " + Main.getGameLogic().getLastClass(), 200, 41);

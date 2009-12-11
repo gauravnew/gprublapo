@@ -78,6 +78,7 @@ public class CoreGameLogic {
         state = GAME_STATE.LOGIN_STATE;
         winner = null;
         message = new String("New game");
+        lastClass = "";
     }
 
     public synchronized LoadingScreen getLoadingScreen() {

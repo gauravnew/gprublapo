@@ -83,8 +83,8 @@ public class ActorEngine {
 
         if (actors.contains(temp)) {
             a = (Actor) actors.floor(temp);
-            a.position = p;
-            a.moveto = p;
+            a.position = new Point2D(p);
+            a.moveto = new Point2D(p);
         } else {
             a = null;
         }
@@ -110,10 +110,15 @@ public class ActorEngine {
     }
     
     public void renderAll(Graphics g, Point2D center) {
-        try {
+        int i;
+    	try {
+//        	g.drawString("start Actor Render", 400,400);
             for (Actor a : actors) {
+//            	i = a.actorID.intValue() % 100;
+//            	g.drawString(a.actorID.toString(), (i/10) * 80, (i%10) * 60); 
                 a.render(g, center);
             }
+//            g.drawString(Integer.toString(actors.size()), 500, 500);
         } catch (Exception e) {
             return;
         }
