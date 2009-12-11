@@ -159,10 +159,12 @@ public class Actor implements Comparable {
         x += (Main.width / 2 - 16);
         y += (Main.height / 2 - 16);
 
-        if (lastmovetime == 0) {
-            g.drawImage(sprite[direction].getDefaultFrame(), (int) x, (int) y, null);
-        } else {
-            g.drawImage(sprite[direction].animate(d), (int) x, (int) y, null);
+        if (type<3){
+	        if (lastmovetime == 0) {
+	            g.drawImage(sprite[direction].getDefaultFrame(), (int) x, (int) y, null);
+	        } else {
+	            g.drawImage(sprite[direction].animate(d), (int) x, (int) y, null);
+	        }
         }
 
         if (type == 0) {
@@ -172,9 +174,10 @@ public class Actor implements Comparable {
             g.fillRect((int) x + 1, (int) y + 1, 4, (health / 4));
         }
 
-        if (name != null) {
+        if (name != null && (type<1 || type > 3)) {
             g.setColor(Color.black);
             g.drawString(name, (int) x, (int) y + 37);
+            if (type==0) g.drawString(Integer.toString(credits), (int)x+24, (int)y+16);
         }
 
     }

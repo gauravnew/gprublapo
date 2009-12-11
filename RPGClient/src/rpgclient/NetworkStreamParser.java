@@ -162,6 +162,15 @@ public class NetworkStreamParser {
 
     }
 
+    public synchronized movePkt getActorInfo(){
+    	try{
+    		return new movePkt(netIn.readInt(), new Point2D(netIn.readFloat(), netIn.readFloat()), netIn.readInt(), netIn.readInt(), netIn.readFloat());
+    	}
+    	catch (IOException e) {
+    		return null;
+    	}
+    }
+    
     public synchronized String getLastClass() {
         try {
             return netIn.readUTF();

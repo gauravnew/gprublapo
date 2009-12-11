@@ -176,7 +176,12 @@ public class CoreGameLogic {
                 login = null;
             }
 
-            map.setLookAt(actors.getActor(actors.getMainActor()).position);
+            try{
+            	map.setLookAt(actors.getActor(actors.getMainActor()).position);
+            }
+            catch (Exception e){
+            	map.setLookAt(new Point2D(Main.width, Main.height));
+            }
             map.render(g);
             actors.renderAll(g, map.getLookAt());
             ui.render(g);

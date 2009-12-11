@@ -91,6 +91,8 @@ final class movePkt {
     public Integer id;
     public Point2D pos;
     public int info;
+    public int info2;
+
     public float float_dat;
 
     movePkt(Integer i, Point2D p) {
@@ -106,5 +108,13 @@ final class movePkt {
     movePkt(Integer i, float y) {
         id = new Integer(i);
         float_dat = y;
+    }
+    
+    movePkt(Integer i, Point2D p, int a, int b, float c){
+    	id = new Integer(i);
+    	pos = new Point2D(p);
+    	info = a;
+    	info2 = b;
+    	float_dat = c;
     }
 }

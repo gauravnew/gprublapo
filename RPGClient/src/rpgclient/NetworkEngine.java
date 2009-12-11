@@ -171,13 +171,23 @@ public class NetworkEngine implements Runnable {
                             pk = in.getActorMove();
                             id = pk.id.intValue();
                             target = pk.pos;
-                            // System.out.println("NETWORK::Move Packet. " + id + " " + target.getX() + " " + target.getY());
+                            System.out.println("NETWORK::Move Packet. " + id + " " + target.getX() + " " + target.getY());
                             try {
                                 Main.getGameLogic().getActorEngine().setActorPosition(id, target);
                             } catch (Exception e) {
                                 System.out.println(e);
                             }
                             break;
+                        case 'A' * 256 + 'I':
+                        	pk = in.getActorInfo();
+                        	//System.out.println("NETWORK::AI packet " + pk.id + ", " + pk.info + ", " + pk.info2 + ", " + pk.float_dat + ", " + pk.pos.getX() + ", " + pk.pos.getY());
+                        	Main.getGameLogic().getActorEngine().setActorInfo(pk);
+/*                        	act = Main.getGameLogic().getActorEngine().getActor(pk.id);
+                        	act.health = pk.info;
+                        	act.credits = pk.info2;
+                        	act.speed = pk.float_dat;
+                        	act.moveto = new Point2D(pk.pos);
+*/                        	break;
                         default:
 
                             //Unknown packet, disconnect and return.
