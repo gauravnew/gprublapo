@@ -124,7 +124,7 @@ public class GlobalGameLogic implements Runnable {
                         if ((tempID = tempChar.checkCollision()) != null) {
                             msg = tempChar.processCollision(tempID);
                             tempChar.out.sendMessage(msg);
-                            if (msg.equals(new String("You Win"))) {
+                            if (msg.equals(new String("You Win!"))) {
                                 break forever;	//[S.L.041]
                             }
                             if (msg.equals(new String("Teleport"))) {
@@ -132,7 +132,7 @@ public class GlobalGameLogic implements Runnable {
                             }
 
                             if (cDBEngine.getActorType(tempID) > 16 && cDBEngine.getActorType(tempID) < 26) {
-                                tempChar.out.sendLastClass(msg.substring(9));
+                                tempChar.out.sendLastClass(cDBEngine.getActorName(tempID));
                             }
                         }
                         for (Actor otherID : cDBEngine.getHashtableKeys()) {
@@ -163,6 +163,8 @@ public class GlobalGameLogic implements Runnable {
             }
         }
 
+        System.out.println("Winner: " + winner);
+        
         for (Actor actor : cDBEngine.getHashtableKeys()) {
             if (actor.type == 0) {
                 tempChar = (PlayerCharacter) actor;

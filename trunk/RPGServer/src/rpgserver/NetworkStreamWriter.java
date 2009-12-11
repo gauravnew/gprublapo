@@ -167,7 +167,7 @@ public class NetworkStreamWriter {
             netOut.writeUTF(name);
             netOut.flush();
         } catch (Exception e) {
-            System.out.println("Server Error sendNewActorData");
+            System.out.println("Server Error sendNewActorData " + e);
         }
 
     }
